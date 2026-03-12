@@ -1,0 +1,49 @@
+<div class="flex items-center gap-3">
+  <!-- Download -->
+  <button
+    type="button"
+    class="flex-1 flex items-center justify-center gap-2 bg-primary text-white rounded-2xl py-3.5
+           font-semibold text-sm shadow-lg active:scale-95 transition-all disabled:opacity-60"
+    [disabled]="isDownloading()"
+    (click)="onDownload()"
+  >
+    @if (isDownloading()) {
+      <ion-spinner name="crescent" class="w-4 h-4"></ion-spinner>
+      <span>Saving...</span>
+    } @else {
+      <ion-icon name="download-outline" class="text-lg"></ion-icon>
+      <span>Download</span>
+    }
+  </button>
+
+  <!-- Share -->
+  <button
+    type="button"
+    class="flex-1 flex items-center justify-center gap-2 bg-cream-dark dark:bg-forest
+           text-[#1A1A1A] dark:text-cream rounded-2xl py-3.5 font-semibold text-sm
+           active:scale-95 transition-all disabled:opacity-60"
+    [disabled]="isSharing()"
+    (click)="onShare()"
+  >
+    @if (isSharing()) {
+      <ion-spinner name="crescent" class="w-4 h-4"></ion-spinner>
+      <span>Sharing...</span>
+    } @else {
+      <ion-icon name="share-outline" class="text-lg"></ion-icon>
+      <span>Share</span>
+    }
+  </button>
+
+  <!-- Regenerate (optional) -->
+  @if (showRegenerate) {
+    <button
+      type="button"
+      class="w-12 h-12 flex items-center justify-center bg-cream-dark dark:bg-forest
+             rounded-2xl active:scale-95 transition-transform"
+      (click)="onRegenerate()"
+      title="Regenerate"
+    >
+      <ion-icon name="refresh-outline" class="text-[#8A8A8A] dark:text-cream/60 text-xl"></ion-icon>
+    </button>
+  }
+</div>

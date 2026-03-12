@@ -1,0 +1,7 @@
+{
+  "name": "native",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular-standalone"
+}

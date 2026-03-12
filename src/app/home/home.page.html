@@ -1,0 +1,130 @@
+<ion-content [fullscreen]="true" class="ion-no-padding">
+  <div class="min-h-full bg-cream dark:bg-[#0F1A12] pb-16">
+
+    <!-- ── Sticky Header ── -->
+    <div class="sticky top-0 z-20 bg-cream/97 dark:bg-[#0F1A12]/97 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.05]">
+
+      <!-- Brand Row -->
+      <div class="max-w-7xl mx-auto flex items-center px-5 md:px-10 pt-4 pb-2.5 title-p">
+        <div class="flex-1 min-w-0">
+          <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">{{ 'studio.title' | t }}</h1>
+          <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1 leading-none truncate">{{ 'studio.subtitle' | t }}</p>
+        </div>
+        @if (auth.credits() !== null) {
+          <div class="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-600/25 shrink-0">
+            <ion-icon name="flash-outline" class="text-amber-500 dark:text-amber-400 text-xs shrink-0"></ion-icon>
+            <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 leading-none">{{ auth.credits() }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Feature Quick-Nav -->
+      <div class="overflow-x-auto no-scrollbar px-5 md:px-10 pb-3.5">
+        <div class="flex gap-1.5 w-max md:w-auto md:flex-wrap">
+          @for (feature of features; track feature.id) {
+            <button
+              type="button"
+              class="feature-nav-pill shrink-0"
+              [class.feature-nav-pill--active]="activeFeatureId() === feature.id"
+              [style.--pill-color]="feature.gradientFrom"
+              (click)="scrollToFeature(feature.id)"
+            >
+              <ion-icon [name]="feature.icon" class="text-sm shrink-0"></ion-icon>
+              <span>{{ feature.nameKey | t }}</span>
+              @if (!feature.available) {
+                <span class="nav-soon-dot"></span>
+              }
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- ── Feature Cards ── -->
+    <div class="max-w-7xl mx-auto px-5 md:px-10 flex flex-col gap-6 md:gap-8">
+
+      @for (feature of features; track feature.id; let i = $index) {
+        <div
+          [id]="'feature-' + feature.id"
+          class="feature-section"
+          [class.feature-section--unavailable]="!feature.available"
+        >
+          <div
+            class="feature-card"
+            [class.feature-card--reversed]="i % 2 === 1"
+            (click)="navigate(feature)"
+            [class.feature-card--clickable]="feature.available"
+          >
+
+            <!-- Visual Panel -->
+            <div class="feature-visual" >
+              <img
+                [src]="feature.image"
+                [alt]="feature.nameKey | t"
+                class="feature-visual__img"
+              />
+              <div class="feature-visual__overlay" ></div>
+            </div>
+
+            <!-- Content -->
+            <div class="feature-content">
+              <!-- Status row -->
+              <div class="flex items-center gap-2 mb-4">
+                @if (feature.available) {
+                  <span class="status-badge status-badge--available">
+                    <span class="status-badge__dot"></span>
+                    {{ 'studio.available_badge' | t }}
+                  </span>
+                } @else {
+                  <span class="status-badge status-badge--soon">
+                    <ion-icon name="time-outline" class="text-xs"></ion-icon>
+                    {{ 'studio.coming_soon' | t }}
+                  </span>
+                }
+              </div>
+
+              <!-- Name -->
+              <h3 class="feature-title">{{ feature.nameKey | t }}</h3>
+
+              <!-- Description -->
+              <p class="feature-desc">{{ feature.descKey | t }}</p>
+
+              <!-- Highlights -->
+              <ul class="feature-highlights">
+                @for (h of feature.highlights; track h) {
+                  <li class="highlight-item">
+                    <span class="highlight-dot" [style.background]="feature.gradientFrom"></span>
+                    <span>{{ h | t }}</span>
+                  </li>
+                }
+              </ul>
+
+              <!-- CTA -->
+              @if (feature.available) {
+                <button
+                  type="button"
+                  class="feature-cta"
+                  [style.background]="gradient(feature)"
+                  (click)="$event.stopPropagation(); navigate(feature)"
+                >
+                  {{ 'studio.open_feature' | t }}
+                  <ion-icon name="arrow-forward-outline" class="text-base"></ion-icon>
+                </button>
+              } @else {
+                <div class="feature-cta-soon">
+                  <ion-icon name="lock-closed-outline" class="text-sm"></ion-icon>
+                  {{ 'studio.coming_soon' | t }}
+                </div>
+              }
+            </div>
+
+          </div>
+        </div>
+      }
+
+    </div>
+
+    <!-- ── Bottom padding ── -->
+    <div class="h-8"></div>
+
+  </div>
+</ion-content>

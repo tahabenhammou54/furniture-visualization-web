@@ -1,0 +1,164 @@
+<ion-content [fullscreen]="true" class="ion-no-padding">
+  <div class="min-h-full bg-cream dark:bg-[#0F1A12] pb-12">
+
+    <!-- Header -->
+    <div class="relative pt-safe-top">
+      <div class="flex items-center justify-between px-5 pt-4 pb-2">
+        <div></div>
+        <button
+          type="button"
+          class="w-9 h-9 rounded-full flex items-center justify-center bg-black/5 dark:bg-white/10 text-[#555] dark:text-white/60"
+          (click)="close()"
+        >
+          <ion-icon name="close-outline" class="text-xl"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Hero -->
+      <div class="text-center px-6 pt-4 pb-6">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+             style="background: linear-gradient(135deg, #F97316, #C2410C)">
+          <ion-icon name="star-outline" class="text-2xl text-white"></ion-icon>
+        </div>
+        <h1 class="text-2xl font-bold text-[#1A1A1A] dark:text-cream tracking-tight mb-1">
+          {{ 'sub.title' | t }}
+        </h1>
+        <p class="text-sm text-[#6B7280] dark:text-cream/50">
+          {{ 'sub.subtitle' | t }}
+        </p>
+
+        <!-- Credits indicator for free users -->
+        @if (!isSubscribed) {
+          <div class="inline-flex items-center gap-1.5 mt-3 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-900/20 border border-amber-200/60 dark:border-amber-600/25">
+            <ion-icon name="flash-outline" class="text-amber-500 text-xs"></ion-icon>
+            <span class="text-xs font-medium text-amber-600 dark:text-amber-400">
+              {{ auth.credits() ?? 0 }} {{ 'sub.credits_left' | t }}
+            </span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Plan Cards -->
+    <div class="px-4 flex flex-col gap-3">
+      @for (plan of plans; track plan.id) {
+        <div
+          class="plan-card"
+          [class.plan-card--selected]="selectedPlan() === plan.id"
+          [class.plan-card--popular]="plan.popular"
+          (click)="select(plan.id)"
+        >
+          <!-- Popular badge -->
+          @if (plan.badge) {
+            <div class="plan-popular-badge">{{ plan.badge | t }}</div>
+          }
+
+          <div class="flex items-center gap-4">
+            <!-- Icon -->
+            <div class="plan-icon" [style.background]="plan.gradient">
+              <ion-icon [name]="plan.icon" class="text-white text-lg"></ion-icon>
+            </div>
+
+            <!-- Info -->
+            <div class="flex-1 min-w-0 title-p">
+              <div class="flex items-baseline gap-2 flex-wrap">
+                <span class="text-base font-bold text-[#1A1A1A] dark:text-cream">
+                  {{ plan.nameKey | t }}
+                </span>
+                @if (plan.savings) {
+                  <span class="text-xs font-semibold px-1.5 py-0.5 rounded-full text-white"
+                        [style.background]="plan.color">
+                    {{ plan.savings | t }}
+                  </span>
+                }
+              </div>
+              <div class="flex items-baseline gap-1 mt-0.5">
+                <span class="text-xl font-bold" [style.color]="plan.color">{{ plan.price }}</span>
+              </div>
+              <p class="text-xs text-[#9CA3AF] dark:text-cream/40 mt-0.5">{{ plan.priceSubKey | t }}</p>
+            </div>
+
+            <!-- Radio indicator -->
+            <div class="plan-radio" [class.plan-radio--selected]="selectedPlan() === plan.id"
+                 [style.border-color]="selectedPlan() === plan.id ? plan.color : undefined"
+                 [style.background]="selectedPlan() === plan.id ? plan.color : undefined">
+              @if (selectedPlan() === plan.id) {
+                <ion-icon name="checkmark-circle-outline" class="text-white text-base"></ion-icon>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Feature list (for non-free) -->
+    @if (selectedPlan() !== 'free') {
+      <div class="mx-4 mt-5 p-4 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.06]">
+        <p class="text-xs font-semibold text-[#6B7280] dark:text-cream/50 uppercase tracking-wide mb-3">
+          {{ 'sub.whats_included' | t }}
+        </p>
+        @for (fk of featureKeys; track fk) {
+          <div class="flex items-center gap-2 py-1">
+            <ion-icon name="checkmark-circle-outline" class="text-sm text-emerald-500 shrink-0"></ion-icon>
+            <span class="text-sm text-[#374151] dark:text-cream/80">{{ fk | t }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    @if (selectedPlan() === 'free') {
+      <div class="mx-4 mt-5 p-4 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.05] dark:border-white/[0.06]">
+        <p class="text-xs font-semibold text-[#6B7280] dark:text-cream/50 uppercase tracking-wide mb-3">
+          {{ 'sub.free_includes' | t }}
+        </p>
+        <div class="flex items-center gap-2 py-1">
+          <ion-icon name="checkmark-circle-outline" class="text-sm text-emerald-500 shrink-0"></ion-icon>
+          <span class="text-sm text-[#374151] dark:text-cream/80">{{ 'sub.free.f1' | t }}</span>
+        </div>
+        <div class="flex items-center gap-2 py-1">
+          <ion-icon name="checkmark-circle-outline" class="text-sm text-emerald-500 shrink-0"></ion-icon>
+          <span class="text-sm text-[#374151] dark:text-cream/80">{{ 'sub.free.f2' | t }}</span>
+        </div>
+        <div class="flex items-center gap-2 py-1">
+          <ion-icon name="checkmark-circle-outline" class="text-sm text-emerald-500 shrink-0"></ion-icon>
+          <span class="text-sm text-[#374151] dark:text-cream/80">{{ 'sub.free.f3' | t }}</span>
+        </div>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (error()) {
+      <div class="mx-4 mt-4 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200/60 dark:border-red-600/25">
+        <p class="text-sm text-red-600 dark:text-red-400">{{ error() }}</p>
+      </div>
+    }
+
+    <!-- CTA Button -->
+    <div class="px-4 mt-6">
+      @for (plan of plans; track plan.id) {
+        @if (selectedPlan() === plan.id) {
+          <button
+            type="button"
+            class="w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-2 transition-opacity"
+            [style.background]="plan.gradient"
+            [class.opacity-60]="loading()"
+            [disabled]="loading()"
+            (click)="subscribe()"
+          >
+            @if (loading()) {
+              <span class="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full"></span>
+              {{ 'sub.processing' | t }}
+            } @else {
+              {{ plan.ctaKey | t }}
+            }
+          </button>
+        }
+      }
+
+      <p class="text-center text-xs text-[#9CA3AF] dark:text-cream/30 mt-3">
+        {{ 'sub.terms_hint' | t }}
+      </p>
+    </div>
+
+  </div>
+</ion-content>

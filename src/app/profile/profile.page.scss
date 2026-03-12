@@ -1,0 +1,18 @@
+:host {
+  ion-content {
+    --background: #F5EFE0;
+  }
+  ion-toolbar {
+    --background: #ffffff;
+  }
+}
+
+:host-context(.ion-palette-dark) {
+  ion-content {
+    --background: #0F1A12;
+  }
+  ion-toolbar {
+    --background: #1B3220;
+    --color: #F5EFE0;
+  }
+}

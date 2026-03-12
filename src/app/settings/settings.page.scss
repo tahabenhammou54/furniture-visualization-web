@@ -1,0 +1,27 @@
+:host {
+  ion-content {
+    --background: #F5EFE0;
+  }
+  ion-toolbar {
+    --background: #F5EFE0;
+    --color: #1A1A1A;
+  }
+  ion-toggle {
+    --track-background: #D4C9B0;
+    --track-background-checked: #E8983A;
+    --handle-background: #ffffff;
+  }
+}
+
+:host-context(.ion-palette-dark) {
+  ion-content {
+    --background: #0F1A12;
+  }
+  ion-toolbar {
+    --background: #0F1A12;
+    --color: #F5EFE0;
+  }
+  ion-toggle {
+    --track-background: #2A3D2E;
+  }
+}
