@@ -1,0 +1,125 @@
+<!-- Mode toggle -->
+<div class="flex rounded-full bg-cream-dark dark:bg-forest p-0.5 w-fit mb-4">
+  <button
+    type="button"
+    class="px-3 py-1 rounded-full text-xs font-semibold transition-all"
+    [class]="mode() === 'upload'
+      ? 'bg-white dark:bg-forest-light text-[#1A1A1A] dark:text-cream shadow-sm'
+      : 'text-[#8A8A8A] dark:text-cream/40'"
+    (click)="setMode('upload')"
+  >
+    Upload
+  </button>
+  <button
+    type="button"
+    class="px-3 py-1 rounded-full text-xs font-semibold transition-all"
+    [class]="mode() === 'gallery'
+      ? 'bg-white dark:bg-forest-light text-[#1A1A1A] dark:text-cream shadow-sm'
+      : 'text-[#8A8A8A] dark:text-cream/40'"
+    (click)="setMode('gallery')"
+  >
+    Gallery
+  </button>
+</div>
+
+<!-- Selected items chips -->
+@if (items().length > 0) {
+  <div class="flex flex-wrap gap-2 mb-4">
+    @for (item of items(); track item.id) {
+      <div class="selected-chip">
+        <img [src]="item.previewUrl" [alt]="item.name" class="chip-img" />
+        <span class="chip-name">{{ item.name }}</span>
+        <button type="button" class="chip-remove" (click)="removeItem(item.id)">
+          <app-icon name="close-circle" class="text-base" />
+        </button>
+      </div>
+    }
+  </div>
+}
+
+<!-- Upload mode -->
+@if (mode() === 'upload') {
+  @if (items().length < 5) {
+    <app-photo-picker
+      label="Add a photo"
+      [multiple]="true"
+      (imageSelected)="onPickerFileSelected($event)"
+    />
+  } @else {
+    <div class="flex items-center gap-3 px-4 py-4 rounded-2xl border-2 border-dashed border-cream-dark dark:border-forest-light/30 opacity-50">
+      <app-icon name="images-outline" class="text-2xl text-primary/50" />
+      <span class="text-sm font-medium text-[#8A8A8A] dark:text-cream/40">Maximum 5 items reached</span>
+    </div>
+  }
+  <p class="text-xs text-[#8A8A8A] dark:text-cream/40 mt-2 text-right">{{ items().length }}/5 items</p>
+}
+
+<!-- Gallery mode -->
+@if (mode() === 'gallery') {
+  <!-- Category filter -->
+  <div class="flex gap-2 overflow-x-auto no-scrollbar mb-3 pb-1">
+    @for (f of galleryFilters; track f.id) {
+      <button
+        type="button"
+        class="filter-chip"
+        [class.filter-chip--active]="galleryFilter() === f.id"
+        (click)="galleryFilter.set(f.id)"
+      >
+        {{ f.label }}
+      </button>
+    }
+  </div>
+
+  <div class="grid grid-cols-3 gap-2">
+    @for (preset of filteredPresets; track preset.id) {
+      <button
+        type="button"
+        class="preset-item"
+        [class.preset-item--selected]="isSelected(preset.id)"
+        [disabled]="!isSelected(preset.id) && items().length >= 5"
+        (click)="togglePreset(preset)"
+      >
+        <div class="preset-img-wrap">
+          <img
+            [src]="preset.thumbnailUrl"
+            [alt]="preset.name"
+            class="preset-img"
+            onerror="this.src='assets/icon/favicon.png'"
+          />
+          @if (isSelected(preset.id)) {
+            <div class="preset-check">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+          }
+        </div>
+        <span class="preset-label">{{ preset.name }}</span>
+      </button>
+    }
+  </div>
+}
+
+<!-- Auto-complete toggle -->
+<div class="autocomplete-row mt-4">
+  <div class="flex flex-col gap-0.5">
+    <span class="text-sm font-semibold text-[#1A1A1A] dark:text-cream flex items-center gap-1.5">
+      <app-icon name="sparkles-outline" class="text-primary text-base" />
+      AI Auto-Complete
+    </span>
+    <span class="text-xs text-[#8A8A8A] dark:text-cream/40">
+      AI will suggest extra furniture to complete the room
+    </span>
+  </div>
+
+  <button
+    type="button"
+    class="toggle-btn"
+    [class.toggle-btn--on]="autoComplete"
+    (click)="toggleAutoComplete()"
+    [attr.aria-pressed]="autoComplete"
+  >
+    <span class="toggle-thumb" [class.toggle-thumb--on]="autoComplete"></span>
+  </button>
+</div>

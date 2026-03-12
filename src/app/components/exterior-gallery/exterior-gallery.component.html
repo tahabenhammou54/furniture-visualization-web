@@ -1,0 +1,49 @@
+<!-- Category filter pills -->
+<div class="flex flex-wrap gap-2 overflow-x-auto pb-2 no-scrollbar">
+  @for (filter of filters; track filter.id) {
+    <button
+      type="button"
+      class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all"
+      [class]="activeFilter() === filter.id
+        ? 'bg-primary text-white shadow-sm'
+        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300'"
+      (click)="setFilter(filter.id)"
+    >
+      {{ filter.label }}
+    </button>
+  }
+</div>
+
+<!-- Photo grid -->
+<div class="grid grid-cols-3 gap-2.5 mt-3 max-h-[400px] overflow-y-auto pr-1 no-scrollbar">
+  @for (item of filteredItems; track item.id) {
+    <button
+      type="button"
+      class="relative rounded-xl overflow-hidden aspect-[3/4] active:scale-95 transition-transform"
+      [class.ring-2]="selectedPhotoId === item.id"
+      [class.ring-primary]="selectedPhotoId === item.id"
+      (click)="selectItem(item)"
+    >
+      <img
+        [src]="item.thumbnailUrl"
+        [alt]="item.name"
+        class="w-full h-full object-cover"
+        loading="lazy"
+        onerror="this.src='assets/icon/favicon.png'"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+      @if (selectedPhotoId === item.id) {
+        <div class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+          <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+      }
+
+      <span class="absolute bottom-1.5 left-0 right-0 text-center text-white text-[10px] font-medium px-1">
+        {{ item.name }}
+      </span>
+    </button>
+  }
+</div>

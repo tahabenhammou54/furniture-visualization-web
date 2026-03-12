@@ -1,0 +1,45 @@
+@if (isLoading()) {
+  @if (!inline()) {
+    <!-- Overlay mode -->
+    <div class="loader-backdrop">
+      <div class="loader-card">
+        <div class="rings">
+          <div class="ring ring--outer"></div>
+          <div class="ring ring--mid"></div>
+          <div class="ring ring--inner"></div>
+          <div class="ring-center">
+            <app-icon name="sparkles-outline" />
+          </div>
+        </div>
+        @for (msg of [currentMessage()]; track msg) {
+          <p class="loader-msg">{{ msg }}</p>
+        }
+        <div class="loader-dots">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <!-- Inline mode -->
+    <div class="loader-inline">
+      <div class="rings">
+        <div class="ring ring--outer"></div>
+        <div class="ring ring--mid"></div>
+        <div class="ring ring--inner"></div>
+        <div class="ring-center">
+          <app-icon name="sparkles-outline" />
+        </div>
+      </div>
+      @for (msg of [currentMessage()]; track msg) {
+        <p class="loader-msg">{{ msg }}</p>
+      }
+      <div class="loader-dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  }
+}

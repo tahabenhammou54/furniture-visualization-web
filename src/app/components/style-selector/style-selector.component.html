@@ -1,0 +1,28 @@
+<div class="style-scroll no-scrollbar">
+  @for (style of styles; track style.id) {
+    <button
+      type="button"
+      class="style-card"
+      [class.style-card--active]="selectedStyleId === style.id"
+      (click)="select(style)"
+    >
+      @if (style.previewImgUrl) {
+        <img class="style-swatch style-swatch--img" [src]="style.previewImgUrl" [alt]="style.name" />
+      } @else {
+        <div class="style-swatch {{ style.colorHint }}"></div>
+      }
+      <div class="style-info">
+        <span class="style-name">{{ style.name }}</span>
+        <span class="style-desc">{{ style.description }}</span>
+      </div>
+      @if (selectedStyleId === style.id) {
+        <div class="style-check">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      }
+    </button>
+  }
+</div>

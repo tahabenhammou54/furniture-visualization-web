@@ -1,0 +1,120 @@
+<div class="page-content">
+
+  <!-- ── Sticky Header ── -->
+  <div class="sticky top-0 z-20 bg-cream/97 dark:bg-[#0F1A12]/97 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.05]">
+    <div class="max-w-7xl mx-auto flex items-center gap-3 px-5 md:px-10 pt-4 pb-3 title-p">
+      <button type="button" class="back-btn" (click)="goBack()">
+        <app-icon name="arrow-back-outline" />
+      </button>
+      <div class="flex-1 min-w-0 ">
+        <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">
+          {{ 'gen.detail.title' | t }}
+        </h1>
+        <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1 leading-none">
+          {{ 'gen.detail.subtitle' | t }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="flex items-center justify-center h-64">
+      <span class="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+    </div>
+
+  } @else if (error()) {
+    <div class="flex flex-col items-center justify-center h-64 px-8 text-center">
+      <p class="text-sm text-[#8A8A8A] dark:text-cream/50">{{ error() }}</p>
+    </div>
+
+  } @else if (item()) {
+
+    <!-- Mobile: stacked / Desktop: side-by-side -->
+    <div class="flex flex-col md:flex-row min-h-full animate-fade-in ">
+
+      <!-- ═══ Gallery Column ═══ -->
+      <div class="pt-10 md:flex-1 md:sticky md:top-[73px] md:h-[calc(100vh-73px)] bg-forest flex items-center justify-center p-5 md:p-10">
+        <div class="w-full max-w-2xl">
+          <div
+            class="result-gallery rounded-2xl shadow-xl overflow-hidden"
+            #galleryRef
+            (mousedown)="startSliderDrag($event, galleryRef)"
+            (touchstart)="startSliderDrag($event, galleryRef)"
+          >
+            <img class="gallery-img" [src]="afterUrl()" alt="{{ 'after' | t }}" draggable="false" />
+
+            @if (hasBefore()) {
+              <img
+                class="gallery-img"
+                [src]="beforeUrl()"
+                alt="{{ 'before' | t }}"
+                draggable="false"
+                [style.clip-path]="'inset(0 ' + (100 - sliderPos()) + '% 0 0)'"
+              />
+              <div class="gallery-divider" [style.left]="sliderPos() + '%'">
+                <div class="gallery-handle">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 21 12 15 6"></polyline>
+                    <polyline points="9 6 3 12 9 18"></polyline>
+                  </svg>
+                </div>
+              </div>
+              <span class="gallery-label gallery-label-before">{{ 'before' | t }}</span>
+              <span class="gallery-label gallery-label-after">{{ 'after' | t }}</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ Details Column ═══ -->
+      <div class="bg-cream  dark:bg-[#0F1A12] md:w-[360px] md:overflow-y-auto rounded-t-3xl md:rounded-none -mt-4 md:mt-0 z-10 relative px-5 pt-6 pb-24 md:pt-8 md:pb-8 flex flex-col gap-5 ">
+
+        <!-- Mobile handle -->
+        <div class="w-10 h-1 rounded-full bg-cream-dark dark:bg-forest-light/40 mx-auto md:hidden"></div>
+
+        <!-- Status -->
+        <div class="flex items-center gap-2">
+          @if (item()!.status === 'completed') {
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold">
+              <div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+              {{ 'result.completed' | t }}
+            </span>
+          }
+          @if (item()!.status === 'processing') {
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 text-xs font-medium">
+              <div class="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse"></div>
+              {{ 'result.processing' | t }}
+            </span>
+          }
+        </div>
+
+        <!-- Date -->
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <app-icon name="calendar-outline" class="text-primary text-base" />
+          </div>
+          <div>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/50 font-semibold uppercase tracking-wider">
+              {{ 'gen.detail.date_label' | t }}
+            </p>
+            <p class="text-sm text-[#1A1A1A] dark:text-cream mt-0.5">{{ formatDate(item()!.created_at) }}</p>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="h-px bg-cream-dark dark:bg-forest-light/30"></div>
+
+        <!-- Actions -->
+        <app-result-actions
+          [imageUrl]="afterUrl()"
+          [generationId]="item()!.id"
+          [showRegenerate]="false"
+        />
+
+      </div>
+    </div>
+
+  }
+
+</div>

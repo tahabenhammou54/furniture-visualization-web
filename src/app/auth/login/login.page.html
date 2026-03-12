@@ -1,0 +1,95 @@
+<div class="page-content">
+  <div class="min-h-screen flex flex-col items-center justify-center bg-cream dark:bg-[#0F1A12] px-6 py-safe">
+    <div class="w-full max-w-md flex flex-col animate-slide-up">
+      <div class="flex-1 flex flex-col justify-center">
+
+        <!-- Logo -->
+        <div class="mb-10 text-center">
+          <div class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary/30">
+            <svg class="w-9 h-9 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/>
+              <path d="M3 11v8a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-8"/>
+              <path d="M8 19v-8m8 8v-8"/>
+              <rect x="6" y="11" width="12" height="8" rx="1"/>
+            </svg>
+          </div>
+          <h1 class="text-2xl font-bold text-[#1A1A1A] dark:text-cream tracking-tight">FurnishAI</h1>
+          <p class="text-[#8A8A8A] dark:text-cream/50 text-sm mt-1">{{ 'auth.signin_title' | t }}</p>
+        </div>
+
+        <!-- Form -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
+
+          <!-- Email -->
+          <div>
+            <div class="relative">
+              <app-icon name="mail-outline"                 class="absolute left-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-lg pointer-events-none" />
+              <input
+                formControlName="email"
+                type="email"
+                [placeholder]="'auth.email' | t"
+                autocomplete="email"
+                class="w-full bg-white dark:bg-forest/40 border border-cream-dark dark:border-forest-light/40
+                       rounded-2xl pl-11 pr-4 py-3.5 text-sm text-[#1A1A1A] dark:text-cream
+                       placeholder-[#8A8A8A] dark:placeholder-cream/30
+                       focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+              />
+            </div>
+            @if (emailError) {
+              <p class="text-red-500 text-xs mt-1.5 ml-1">{{ emailError }}</p>
+            }
+          </div>
+
+          <!-- Password -->
+          <div>
+            <div class="relative">
+              <app-icon name="lock-closed-outline"                 class="absolute left-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-lg pointer-events-none" />
+              <input
+                formControlName="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                [placeholder]="'auth.password' | t"
+                autocomplete="current-password"
+                class="w-full bg-white dark:bg-forest/40 border border-cream-dark dark:border-forest-light/40
+                       rounded-2xl pl-11 pr-12 py-3.5 text-sm text-[#1A1A1A] dark:text-cream
+                       placeholder-[#8A8A8A] dark:placeholder-cream/30
+                       focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+              />
+              <button
+                type="button"
+                class="absolute right-4 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 active:text-primary transition-colors"
+                (click)="showPassword.set(!showPassword())"
+              >
+                <app-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" class="text-lg" />
+              </button>
+            </div>
+            @if (passwordError) {
+              <p class="text-red-500 text-xs mt-1.5 ml-1">{{ passwordError }}</p>
+            }
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            [disabled]="isLoading()"
+            class="w-full bg-primary text-white rounded-2xl py-4 font-semibold text-sm
+                   shadow-lg shadow-primary/25 active:scale-[0.98] transition-all mt-2
+                   disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            @if (isLoading()) {
+              <span class="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+              <span>{{ 'auth.signing_in' | t }}</span>
+            } @else {
+              <span>{{ 'auth.signin' | t }}</span>
+            }
+          </button>
+        </form>
+      </div>
+
+      <!-- Register link -->
+      <p class="text-center text-sm text-[#8A8A8A] dark:text-cream/50 pt-8">
+        {{ 'auth.no_account' | t }}
+        <a routerLink="/auth/register" class="text-primary font-semibold ml-1">{{ 'auth.signup' | t }}</a>
+      </p>
+    </div>
+  </div>
+</div>

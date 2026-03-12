@@ -1,0 +1,249 @@
+<div class="page-content">
+  <!-- Header -->
+  <div class="sticky top-0 z-10 bg-cream/97 dark:bg-[#0F1A12]/97 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.05]">
+    <div class="max-w-6xl mx-auto px-5 md:px-10 py-4 title-p">
+      <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">{{ 'settings.title' | t }}</h1>
+      <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1">{{ 'settings.subtitle' | t }}</p>
+    </div>
+  </div>
+
+  <div class="max-w-2xl mx-auto px-5 pb-10 pt-4 flex flex-col gap-5 animate-fade-in">
+
+    <!-- Guest Login Banner -->
+    @if (!auth.token) {
+      <div class="rounded-2xl overflow-hidden" style="background: linear-gradient(135deg, #2D9B6E 0%, #1A5C40 100%);">
+        <div class="flex items-center gap-3 px-4 py-3.5">
+          <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <app-icon name="sparkles-outline" class="text-white text-sm" />
+          </div>
+          <div class="flex-1 min-w-0 title-p">
+            <p class="text-white font-semibold text-[13px] leading-tight">{{ 'guest.banner_title' | t }}</p>
+            <p class="text-white/65 text-[11px] mt-0.5">{{ 'guest.banner_subtitle' | t }}</p>
+          </div>
+          <div class="flex gap-1.5 shrink-0">
+            <button
+              type="button"
+              (click)="goToLogin()"
+              class="px-3 py-1.5 rounded-xl bg-white text-[#1A5C40] text-xs font-semibold active:scale-95 transition-transform"
+            >{{ 'guest.signin' | t }}</button>
+            <button
+              type="button"
+              (click)="goToRegister()"
+              class="px-3 py-1.5 rounded-xl bg-white/20 border border-white/30 text-white text-xs font-semibold active:scale-95 transition-transform"
+            >{{ 'guest.create' | t }}</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Appearance -->
+    <section>
+      <p class="text-xs font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">
+        {{ 'settings.appearance' | t }}
+      </p>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden">
+        <div class="flex items-center px-5 py-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <app-icon name="moon-outline" class="text-primary text-lg" />
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.dark_mode' | t }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 mt-0.5">{{ 'settings.dark_mode_desc' | t }}</p>
+          </div>
+          <input type="checkbox" [checked]="theme.isDark()" (change)="toggleDarkMode()" class="w-5 h-5 rounded accent-primary cursor-pointer">
+        </div>
+      </div>
+    </section>
+
+    <!-- Language -->
+    <section>
+      <p class="text-xs font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">
+        {{ 'settings.language' | t }}
+      </p>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden">
+        <div class="flex items-center px-5 py-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <app-icon name="language-outline" class="text-primary text-lg" />
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.language' | t }}</p>
+          </div>
+          <select
+            [value]="currentLang"
+            (change)="setLanguage($any($event.target).value)"
+            class="text-sm text-[#8A8A8A] dark:text-cream/50 bg-transparent outline-none cursor-pointer"
+          >
+            @for (lang of languages; track lang.code) {
+              <option [value]="lang.code">{{ lang.label }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Image Quality -->
+    <section>
+      <p class="text-xs font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">
+        {{ 'settings.image_quality' | t }}
+      </p>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden">
+        <div class="px-5 py-4 flex items-center mb-1">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <app-icon name="image-outline" class="text-primary text-lg" />
+          </div>
+          <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.output_quality' | t }}</p>
+        </div>
+        <div class="flex gap-2 px-5 pb-4">
+          @for (q of ['low', 'medium', 'high']; track q) {
+            <button
+              type="button"
+              class="flex-1 py-2 rounded-xl text-xs font-semibold transition-all active:scale-95"
+              [class]="imageQuality() === q
+                ? 'bg-primary text-white shadow-sm'
+                : 'bg-cream-dark dark:bg-forest text-[#8A8A8A] dark:text-cream/50'"
+              (click)="onQualityChange($any(q))"
+            >{{ ('settings.' + q) | t }}</button>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Notifications -->
+    <section>
+      <p class="text-xs font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">
+        {{ 'settings.notifications' | t }}
+      </p>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden">
+        <div class="flex items-center px-5 py-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <app-icon name="notifications-outline" class="text-primary text-lg" />
+          </div>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.push_notifications' | t }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 mt-0.5">{{ 'settings.push_desc' | t }}</p>
+          </div>
+          <input type="checkbox" [checked]="notificationsEnabled()" (change)="toggleNotifications()" class="w-5 h-5 rounded accent-primary cursor-pointer">
+        </div>
+      </div>
+    </section>
+
+    <!-- Support -->
+    <section>
+      <p class="text-xs font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">
+        {{ 'settings.support' | t }}
+      </p>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden">
+        <button
+          type="button"
+          class="w-full flex items-center px-5 py-4 active:bg-cream-dark/60 dark:active:bg-forest-light/10 transition-colors"
+          (click)="openReportModal()"
+        >
+          <div class="w-9 h-9 rounded-xl bg-orange-500/10 flex items-center justify-center mr-4">
+            <app-icon name="warning-outline" class="text-orange-500 text-lg" />
+          </div>
+          <div class="flex-1 text-left">
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.report' | t }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 mt-0.5">{{ 'settings.report_desc' | t }}</p>
+          </div>
+          <app-icon name="chevron-forward-outline" class="text-[#8A8A8A] dark:text-cream/40 text-sm" />
+        </button>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section>
+      <p class="text-xs font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">
+        {{ 'settings.about' | t }}
+      </p>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden">
+        <button
+          type="button"
+          class="w-full flex items-center px-5 py-4 border-b border-cream-dark dark:border-forest-light/40 active:bg-cream-dark/60 dark:active:bg-forest-light/10 transition-colors"
+          (click)="openPrivacy()"
+        >
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <app-icon name="shield-checkmark-outline" class="text-primary text-lg" />
+          </div>
+          <p class="flex-1 text-left text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.privacy' | t }}</p>
+          <app-icon name="chevron-forward-outline" class="text-[#8A8A8A] dark:text-cream/40 text-sm" />
+        </button>
+        <div class="flex items-center px-5 py-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <app-icon name="information-circle-outline" class="text-primary text-lg" />
+          </div>
+          <p class="flex-1 text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.version' | t }}</p>
+          <span class="text-sm text-[#8A8A8A] dark:text-cream/40">{{ appVersion }}</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Report Modal -->
+  @if (showReportModal()) {
+    <div class="fixed inset-0 z-50 flex items-end justify-center pb-[72px]" (click)="closeReportModal()">
+      <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+      <div
+        class="relative w-full max-w-2xl bg-white dark:bg-[#0F1A12] rounded-t-3xl px-5 pt-5 pb-8 animate-slide-up"
+        (click)="$event.stopPropagation()"
+      >
+        <!-- Handle -->
+        <div class="w-10 h-1 rounded-full bg-[#D0D0D0] dark:bg-white/20 mx-auto mb-5"></div>
+
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-[16px] font-semibold text-[#1A1A1A] dark:text-cream">{{ 'settings.report_title' | t }}</h2>
+          <button type="button" (click)="closeReportModal()" class="w-8 h-8 rounded-full bg-cream-dark dark:bg-forest flex items-center justify-center">
+            <app-icon name="close-outline" class="text-[#8A8A8A] dark:text-cream/50 text-lg" />
+          </button>
+        </div>
+
+        @if (reportStatus() === 'success') {
+          <!-- Success state -->
+          <div class="flex flex-col items-center gap-3 py-8">
+            <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
+              <app-icon name="checkmark-circle-outline" class="text-primary text-3xl" />
+            </div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream text-center">{{ 'settings.report_success' | t }}</p>
+          </div>
+        } @else {
+          <!-- Form -->
+          <div class="flex flex-col gap-3">
+            <input
+              type="text"
+              [(ngModel)]="reportName"
+              [placeholder]="'settings.report_name' | t"
+              class="w-full px-4 py-3 rounded-xl bg-cream-dark dark:bg-forest border border-transparent focus:border-primary/50 outline-none text-sm text-[#1A1A1A] dark:text-cream placeholder:text-[#B0B0B0] dark:placeholder:text-cream/30 transition-colors"
+            />
+            <input
+              type="email"
+              [(ngModel)]="reportEmail"
+              [placeholder]="'settings.report_email' | t"
+              class="w-full px-4 py-3 rounded-xl bg-cream-dark dark:bg-forest border border-transparent focus:border-primary/50 outline-none text-sm text-[#1A1A1A] dark:text-cream placeholder:text-[#B0B0B0] dark:placeholder:text-cream/30 transition-colors"
+            />
+            <textarea
+              [(ngModel)]="reportMessage"
+              [placeholder]="'settings.report_message' | t"
+              rows="4"
+              class="w-full px-4 py-3 rounded-xl bg-cream-dark dark:bg-forest border border-transparent focus:border-primary/50 outline-none text-sm text-[#1A1A1A] dark:text-cream placeholder:text-[#B0B0B0] dark:placeholder:text-cream/30 transition-colors resize-none"
+            ></textarea>
+
+            @if (reportStatus() === 'error') {
+              <p class="text-xs text-red-500 text-center">{{ 'settings.report_error' | t }}</p>
+            }
+
+            <button
+              type="button"
+              (click)="submitReport()"
+              [disabled]="!reportName || !reportEmail || !reportMessage || reportStatus() === 'sending'"
+              class="w-full py-3.5 rounded-xl bg-primary text-white text-sm font-semibold active:scale-95 transition-all disabled:opacity-50 disabled:scale-100"
+            >
+              {{ (reportStatus() === 'sending' ? 'settings.report_sending' : 'settings.report_send') | t }}
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</div>

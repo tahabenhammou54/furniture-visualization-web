@@ -1,0 +1,239 @@
+// ── Trigger button ────────────────────────────────────────────────────────────
+.add-photo-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 2px dashed var(--ion-color-primary, #2d6a4f);
+  border-opacity: 0.4;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:active {
+    transform: scale(0.98);
+    background: rgba(45, 106, 79, 0.04);
+  }
+
+  .dark & {
+    border-color: rgba(45, 106, 79, 0.35);
+  }
+}
+
+.add-photo-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(45, 106, 79, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .dark & {
+    background: rgba(45, 106, 79, 0.18);
+  }
+}
+
+.add-photo-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1A1A1A;
+
+  .dark & {
+    color: #f0ede8;
+  }
+}
+
+// ── Backdrop ──────────────────────────────────────────────────────────────────
+.picker-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  animation: fadeBackdrop 0.2s ease-out;
+}
+
+@keyframes fadeBackdrop {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// ── Bottom sheet panel ────────────────────────────────────────────────────────
+.picker-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+  background: #ffffff;
+  border-radius: 24px 24px 0 0;
+  padding: 0 0 calc(24px + env(safe-area-inset-bottom));
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.14);
+  animation: slideUpPanel 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+
+  .dark & {
+    background: #1a2e1e;
+  }
+}
+
+@keyframes slideUpPanel {
+  from {
+    transform: translateY(100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// ── Handle bar ────────────────────────────────────────────────────────────────
+.picker-handle-bar {
+  width: 40px;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(0, 0, 0, 0.15);
+  margin: 10px auto 0;
+
+  .dark & {
+    background: rgba(255, 255, 255, 0.2);
+  }
+}
+
+// ── Header ────────────────────────────────────────────────────────────────────
+.picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+}
+
+.picker-header-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1A1A1A;
+
+  .dark & {
+    color: #f0ede8;
+  }
+}
+
+.picker-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  transition: background 0.15s;
+
+  &:active { background: rgba(0, 0, 0, 0.13); }
+
+  .dark & {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ddd;
+  }
+}
+
+// ── Recent section ────────────────────────────────────────────────────────────
+.picker-section {
+  padding: 4px 20px 16px;
+}
+
+.picker-section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8A8A8A;
+  margin-bottom: 10px;
+
+  .dark & {
+    color: rgba(240, 237, 232, 0.5);
+  }
+}
+
+.picker-recents-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.recent-thumb-btn {
+  aspect-ratio: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.15s;
+
+  &:active { transform: scale(0.93); }
+}
+
+.recent-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// ── Action buttons ────────────────────────────────────────────────────────────
+.picker-actions {
+  display: flex;
+  gap: 12px;
+  padding: 4px 20px 0;
+}
+
+.picker-action-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 12px;
+  border-radius: 16px;
+  background: rgba(45, 106, 79, 0.06);
+  transition: all 0.15s;
+
+  &:active {
+    transform: scale(0.96);
+    background: rgba(45, 106, 79, 0.12);
+  }
+
+  .dark & {
+    background: rgba(45, 106, 79, 0.14);
+  }
+
+  ion-icon {
+    color: var(--ion-color-primary, #2d6a4f);
+  }
+}
+
+.picker-action-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(45, 106, 79, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .dark & {
+    background: rgba(45, 106, 79, 0.2);
+  }
+}
+
+.picker-action-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #1A1A1A;
+
+  .dark & {
+    color: #f0ede8;
+  }
+}

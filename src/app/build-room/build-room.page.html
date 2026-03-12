@@ -1,0 +1,272 @@
+<div class="page-content">
+  <div class="min-h-full bg-cream dark:bg-[#0F1A12] pb-16">
+
+    <!-- ── Sticky Header ── -->
+    <div class="sticky top-0 z-20 bg-cream/97 dark:bg-[#0F1A12]/97 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.05]">
+
+      <!-- Title Row -->
+      <div class="max-w-6xl mx-auto flex items-center gap-3 px-5 md:px-10 pt-4 pb-2.5 title-p">
+        <button type="button" class="back-btn" (click)="goToStudio()">
+          <app-icon name="arrow-back-outline" />
+        </button>
+        <div class="flex-1 min-w-0">
+          <h1 class="page-title truncate">{{ 'interior.title' | t }}</h1>
+          <p class="page-subtitle truncate">{{ 'interior.subtitle' | t }}</p>
+        </div>
+        @if (auth.credits() !== null) {
+          <div class="credits-chip">
+            <app-icon name="flash-outline" class="text-amber-500 dark:text-amber-400 text-xs shrink-0" />
+            <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 leading-none">{{ auth.credits() }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="max-w-6xl mx-auto px-5 md:px-10 pb-3.5">
+        <div class="step-bar">
+          @for (step of steps; track step.id; let i = $index) {
+            <button type="button" class="step-node"
+                    [disabled]="i >= currentStep()"
+                    (click)="i < currentStep() && goToStep(i)">
+              <div class="step-circle"
+                   [class.step-circle--done]="i < currentStep()"
+                   [class.step-circle--active]="i === currentStep()">
+                @if (i < currentStep()) {
+                  <app-icon name="checkmark-outline" class="text-xs" />
+                } @else {
+                  {{ i + 1 }}
+                }
+              </div>
+              <span class="step-label" [class.step-label--active]="i === currentStep()">{{ step.labelKey | t }}</span>
+            </button>
+            @if (i < steps.length - 1) {
+              <div class="step-connector" [class.step-connector--done]="i < currentStep()"></div>
+            }
+          }
+        </div>
+        <div class="step-progress-track">
+          <div class="step-progress-fill" [style.width]="progressPercent() + '%'"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Main Content ── -->
+    <div class="max-w-6xl mx-auto px-5 md:px-10 pt-8">
+      <div class="wizard-body">
+
+        <!-- STEP 0: Room Space -->
+        @if (currentStep() === 0) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'build.room_space' | t }}</h2>
+              <span class="optional-tag">{{ 'optional' | t }}</span>
+            </div>
+            <div class="flex justify-end mt-2 mb-3">
+              <div class="mode-toggle">
+                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'gallery'" (click)="setRoomMode('gallery')">{{ 'presets' | t }}</button>
+                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'upload'" (click)="setRoomMode('upload')">{{ 'upload' | t }}</button>
+              </div>
+            </div>
+            @if (roomInputMode() === 'upload') {
+              <app-photo-picker [label]="'build.upload_room' | t"
+                (imageSelected)="onRoomSelected($event)" (imageRemoved)="onRoomRemoved()" />
+            } @else {
+              <app-room-gallery [selectedRoomId]="selectedRoomId()" (roomSelected)="onPresetRoomSelected($event)" />
+            }
+            <p class="hint-text mt-3">{{ 'build.preset_hint' | t }}</p>
+          </div>
+        }
+
+        <!-- STEP 1: Room Type -->
+        @if (currentStep() === 1) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'build.room_type' | t }}</h2>
+              <span class="required-tag">{{ 'required' | t }}</span>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4">
+              @for (opt of roomTypeOptions; track opt.id) {
+                <button type="button" class="type-chip"
+                        [class.type-chip--active]="selectedRoomType() === opt.id"
+                        (click)="selectRoomType(opt.id)">
+                  <span class="text-lg leading-none">{{ opt.icon }}</span>
+                  <span>{{ opt.label }}</span>
+                </button>
+              }
+            </div>
+            @if (!selectedRoomType()) {
+              <p class="hint-text mt-4">{{ 'wizard.required_hint' | t }}</p>
+            }
+          </div>
+        }
+
+        <!-- STEP 2: Furniture -->
+        @if (currentStep() === 2) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'build.furniture_items' | t }}</h2>
+              <span class="optional-tag">{{ 'optional' | t }}</span>
+            </div>
+            <p class="hint-text mt-2 mb-4">{{ 'build.autocomplete_hint' | t }}</p>
+            <app-furniture-multi-upload [autoComplete]="autoComplete()"
+              (itemsChanged)="onFurnitureItemsChanged($event)"
+              (autoCompleteChanged)="onAutoCompleteChanged($event)" />
+          </div>
+        }
+
+        <!-- STEP 3: Interior Style -->
+        @if (currentStep() === 3) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'build.interior_style' | t }}</h2>
+              <span class="required-tag">{{ 'required' | t }}</span>
+            </div>
+            <p class="hint-text mt-2 mb-4">{{ 'build.style_hint' | t }}</p>
+            <app-style-selector [selectedStyleId]="selectedStyle()?.id ?? null"
+              (styleSelected)="onStyleSelected($event)" />
+            @if (!selectedStyle()) {
+              <p class="hint-text mt-3">{{ 'wizard.required_hint' | t }}</p>
+            }
+          </div>
+        }
+
+        <!-- STEP 4: Color Palette -->
+        @if (currentStep() === 4) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'palette.title' | t }}</h2>
+              <span class="optional-tag">{{ 'optional' | t }}</span>
+            </div>
+            <p class="hint-text mt-2 mb-5">{{ 'palette.hint' | t }}</p>
+            <div class="palette-grid">
+              <!-- Keep my colors -->
+              <button type="button" class="palette-card"
+                      [class.palette-card--selected]="selectedColorPalette() === 'keep'"
+                      (click)="selectedColorPalette.set(selectedColorPalette() === 'keep' ? null : 'keep')">
+                @if (selectedColorPalette() === 'keep') {
+                  <div class="palette-check"><app-icon name="checkmark-outline" class="text-xs" /></div>
+                }
+                <div class="palette-special-icon">🎨</div>
+                <span class="palette-name">{{ 'palette.keep' | t }}</span>
+              </button>
+              <!-- Surprise me -->
+              <button type="button" class="palette-card"
+                      [class.palette-card--selected]="selectedColorPalette() === 'surprise'"
+                      (click)="selectedColorPalette.set(selectedColorPalette() === 'surprise' ? null : 'surprise')">
+                @if (selectedColorPalette() === 'surprise') {
+                  <div class="palette-check"><app-icon name="checkmark-outline" class="text-xs" /></div>
+                }
+                <div class="palette-special-icon">✨</div>
+                <span class="palette-name">{{ 'palette.surprise' | t }}</span>
+              </button>
+              <!-- Color palettes -->
+              @for (palette of colorPalettes; track palette.id) {
+                <button type="button" class="palette-card"
+                        [class.palette-card--selected]="selectedColorPalette() === palette.id"
+                        (click)="selectedColorPalette.set(selectedColorPalette() === palette.id ? null : palette.id)">
+                  @if (selectedColorPalette() === palette.id) {
+                    <div class="palette-check"><app-icon name="checkmark-outline" class="text-xs" /></div>
+                  }
+                  <div class="palette-dots">
+                    @for (color of palette.colors; track color) {
+                      <div class="palette-dot" [style.background]="color"></div>
+                    }
+                  </div>
+                  <span class="palette-name">{{ palette.name }}</span>
+                </button>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- STEP 5: Result -->
+        @if (isResultStep()) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            @if (isGenerating()) {
+              <app-ai-loader [isLoading]="true" [inline]="true" />
+            } @else if (generationResult()) {
+              <div class="result-reveal">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-[#1A1A1A] dark:text-cream">{{ 'build.your_room' | t }}</h2>
+                  <button type="button" class="text-xs text-primary font-semibold" (click)="goToHistory()">{{ 'view_history' | t }}</button>
+                </div>
+                <div class="result-gallery rounded-2xl shadow-xl overflow-hidden" #galleryRef
+                     (mousedown)="startSliderDrag($event, galleryRef)" (touchstart)="startSliderDrag($event, galleryRef)">
+                  <img class="gallery-img" [src]="generationResult()!.imageUrl" alt="AI design" draggable="false" />
+                  @if (roomPreviewUrl()) {
+                    <img class="gallery-img" [src]="roomPreviewUrl()" alt="Before" draggable="false"
+                         [style.clip-path]="'inset(0 ' + (100 - sliderPos()) + '% 0 0)'" />
+                  }
+                  <div class="gallery-divider" [style.left]="sliderPos() + '%'">
+                    <div class="gallery-handle">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 21 12 15 6"></polyline><polyline points="9 6 3 12 9 18"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                  @if (roomPreviewUrl()) {
+                    <span class="gallery-label gallery-label-before">{{ 'before' | t }}</span>
+                    <span class="gallery-label gallery-label-after">{{ 'after' | t }}</span>
+                  }
+                </div>
+                <div class="mt-4">
+                  <app-result-actions [imageUrl]="generationResult()!.imageUrl" [generationId]="generationResult()!.id"
+                    [showRegenerate]="true" (regenerate)="onRegenerate()" />
+                </div>
+              </div>
+            } @else {
+              <div class="result-placeholder">
+                <div class="placeholder-icon" style="background: rgba(232,93,93,0.1);">
+                  <app-icon name="sparkles-outline" class="text-3xl" style="color: #E85D5D;" />
+                </div>
+                <h3 class="placeholder-title">{{ 'gen.failed_title' | t }}</h3>
+                <p class="placeholder-desc">{{ 'gen.failed_desc' | t }}</p>
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+
+      <!-- Navigation -->
+      @if (!isResultStep()) {
+        <div class="step-nav" [class.step-nav--first]="currentStep() === 0">
+          @if (currentStep() > 0) {
+            <button type="button" class="nav-back-btn" (click)="goBack()">
+              <app-icon name="chevron-back-outline" />
+              {{ 'wizard.back' | t }}
+            </button>
+          }
+          @if (!isLastWizardStep()) {
+            <button type="button" class="nav-next-btn" [disabled]="steps[currentStep()].required && !canGoNext()" (click)="goNext()">
+              @if (steps[currentStep()].required) {
+                {{ 'wizard.continue' | t }}
+              } @else {
+                {{ canGoNext() ? ('wizard.continue' | t) : ('wizard.skip' | t) }}
+              }
+              <app-icon name="chevron-forward-outline" />
+            </button>
+          } @else {
+            <button type="button" class="generate-btn" [disabled]="!canGenerate()" (click)="onGenerateAndAdvance()">
+              <app-icon name="sparkles-outline" class="text-lg" />
+              {{ 'build.build' | t }}
+            </button>
+          }
+        </div>
+      } @else if (!isGenerating()) {
+        <div class="step-nav">
+          <button type="button" class="nav-back-btn" (click)="onNewDesign()">
+            <app-icon name="chevron-back-outline" />
+            {{ 'build.new_design' | t }}
+          </button>
+          @if (!generationResult()) {
+            <button type="button" class="generate-btn" (click)="onGenerate()">
+              <app-icon name="sparkles-outline" class="text-lg" />
+              {{ 'try_again' | t }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

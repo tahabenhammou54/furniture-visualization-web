@@ -1,0 +1,30 @@
+<div class="flex flex-col h-screen bg-cream dark:bg-[#0F1A12]">
+  <div class="flex-1 overflow-y-auto">
+    <router-outlet />
+  </div>
+
+  @if (!hideTabBar()) {
+    <nav class="flex items-stretch border-t border-black/[0.06] dark:border-white/[0.05] bg-white/95 dark:bg-[#0F1A12]/95 backdrop-blur-xl shrink-0">
+      <a routerLink="/tabs/home" routerLinkActive="tab-active" class="tab-item">
+        <app-icon name="layers-outline" />
+        <span>Studio</span>
+      </a>
+      <a routerLink="/tabs/history" routerLinkActive="tab-active" class="tab-item">
+        <app-icon name="time-outline" />
+        <span>{{ 'tabs.history' | t }}</span>
+      </a>
+      @if (auth.token) {
+        <a routerLink="/tabs/profile" routerLinkActive="tab-active" class="tab-item">
+          <app-icon name="person-outline" />
+          <span>{{ 'tabs.profile' | t }}</span>
+        </a>
+      }
+      <a routerLink="/tabs/settings" routerLinkActive="tab-active" class="tab-item">
+        <app-icon name="settings-outline" />
+        <span>{{ 'tabs.settings' | t }}</span>
+      </a>
+    </nav>
+  }
+</div>
+
+<app-toast-container />

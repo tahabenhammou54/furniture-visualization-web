@@ -1,0 +1,266 @@
+<div class="page-content">
+  <div class="min-h-full bg-cream dark:bg-[#0F1A12] pb-16">
+
+    <!-- ── Sticky Header ── -->
+    <div class="sticky top-0 z-20 bg-cream/97 dark:bg-[#0F1A12]/97 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.05]">
+
+      <!-- Title Row -->
+      <div class="max-w-6xl mx-auto flex items-center gap-3 px-5 md:px-10 pt-4 pb-2.5 title-p">
+        <button type="button" class="back-btn" (click)="goToStudio()">
+          <app-icon name="arrow-back-outline" />
+        </button>
+        <div class="flex-1 min-w-0">
+          <h1 class="page-title truncate">{{ 'studio.style.name' | t }}</h1>
+          <p class="page-subtitle truncate">{{ 'style.subtitle' | t }}</p>
+        </div>
+        @if (auth.credits() !== null) {
+          <div class="credits-chip">
+            <app-icon name="flash-outline" class="text-amber-500 dark:text-amber-400 text-xs shrink-0" />
+            <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 leading-none">{{ auth.credits() }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Step Indicator -->
+      <div class="max-w-6xl mx-auto px-5 md:px-10 pb-3.5">
+        <div class="step-bar">
+          @for (step of steps; track step.id; let i = $index) {
+            <button type="button" class="step-node"
+                    [disabled]="i >= currentStep()"
+                    (click)="i < currentStep() && goToStep(i)">
+              <div class="step-circle"
+                   [class.step-circle--done]="i < currentStep()"
+                   [class.step-circle--active]="i === currentStep()">
+                @if (i < currentStep()) {
+                  <app-icon name="checkmark-outline" class="text-xs" />
+                } @else {
+                  {{ i + 1 }}
+                }
+              </div>
+              <span class="step-label" [class.step-label--active]="i === currentStep()">{{ step.labelKey | t }}</span>
+            </button>
+            @if (i < steps.length - 1) {
+              <div class="step-connector" [class.step-connector--done]="i < currentStep()"></div>
+            }
+          }
+        </div>
+        <div class="step-progress-track">
+          <div class="step-progress-fill" [style.width]="progressPercent() + '%'"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Main Content ── -->
+    <div class="max-w-6xl mx-auto px-5 md:px-10 pt-8">
+      <div class="wizard-body">
+
+        <!-- STEP 0: Upload Room -->
+        @if (currentStep() === 0) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'home.room_space' | t }}</h2>
+              <span class="required-tag">{{ 'required' | t }}</span>
+            </div>
+            <div class="flex justify-end mt-2 mb-3">
+              <div class="mode-toggle">
+                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'gallery'" (click)="setRoomMode('gallery')">{{ 'presets' | t }}</button>
+                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'upload'" (click)="setRoomMode('upload')">{{ 'upload' | t }}</button>
+              </div>
+            </div>
+            @if (roomInputMode() === 'upload') {
+              <app-photo-picker
+                [label]="'home.upload_room' | t"
+                [required]="true"
+                (imageSelected)="onRoomSelected($event)"
+                (imageRemoved)="onRoomRemoved()" />
+            } @else {
+              <app-room-gallery [selectedRoomId]="selectedRoomId()" (roomSelected)="onPresetRoomSelected($event)" />
+            }
+            @if (!roomFile()) {
+              <p class="hint-text mt-4">{{ 'wizard.required_hint' | t }}</p>
+            }
+          </div>
+        }
+
+        <!-- STEP 1: Mark Area -->
+        @if (currentStep() === 1) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'style.mark' | t }}</h2>
+              <span class="required-tag">{{ 'required' | t }}</span>
+            </div>
+            <p class="hint-text mt-2 mb-4">{{ 'style.mark_hint' | t }}</p>
+
+            <!-- Brush Toolbar -->
+            <div class="brush-toolbar">
+              <div class="tool-toggle">
+                <button type="button" class="tool-btn" [class.tool-btn--active]="!isEraser()" (click)="isEraser.set(false)">
+                  <app-icon name="brush-outline" />
+                  <span>{{ 'cleanup.brush' | t }}</span>
+                </button>
+                <button type="button" class="tool-btn" [class.tool-btn--active]="isEraser()" (click)="isEraser.set(true)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 20H7L3 16l10-10 7 7-2.5 2.5"/><path d="m6 11 3.5 3.5"/>
+                  </svg>
+                  <span>{{ 'cleanup.eraser' | t }}</span>
+                </button>
+              </div>
+
+              <div class="size-control">
+                <span class="size-label">{{ 'cleanup.size' | t }}</span>
+                <input type="range" min="8" max="60" [value]="brushSize()"
+                  (input)="brushSize.set(+$any($event.target).value)"
+                  class="size-slider" />
+                <div class="size-preview" [style.width.px]="brushSize()" [style.height.px]="brushSize()"></div>
+              </div>
+
+              <button type="button" class="clear-btn" (click)="clearMask()" [disabled]="!hasMask()">
+                <app-icon name="trash-outline" />
+                <span>{{ 'cleanup.clear' | t }}</span>
+              </button>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-wrap">
+              <img #roomImgRef [src]="roomPreviewUrl()" class="room-bg-img" draggable="false"
+                   (load)="onImageLoad()" alt="Room" />
+              <canvas #brushCanvas class="brush-canvas" [class.eraser-cursor]="isEraser()"></canvas>
+            </div>
+
+            @if (!hasMask()) {
+              <p class="hint-text mt-3 text-center">{{ 'style.no_mask_hint' | t }}</p>
+            }
+          </div>
+        }
+
+        <!-- STEP 2: Options -->
+        @if (isOptionsStep()) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            <div class="step-section-header">
+              <h2 class="step-section-title">{{ 'style.options' | t }}</h2>
+              <span class="required-tag">{{ 'style.at_least_one' | t }}</span>
+            </div>
+            <p class="hint-text mt-2 mb-5">{{ 'style.options_hint' | t }}</p>
+
+            <!-- STYLE DESCRIPTION (optional) -->
+            <div class="options-section">
+              <div class="flex items-center justify-between mb-1">
+                <p class="options-section-title mb-0">{{ 'style.description_label' | t }}</p>
+                <span class="text-xs font-medium text-primary/70 bg-primary/10 px-2 py-0.5 rounded-full">{{ 'optional' | t }}</span>
+              </div>
+              <p class="hint-text mb-3">{{ 'style.description_hint' | t }}</p>
+              <textarea
+                class="style-textarea"
+                rows="3"
+                [placeholder]="'style.description_placeholder' | t"
+                [value]="styleDescription()"
+                (input)="styleDescription.set($any($event.target).value)">
+              </textarea>
+            </div>
+
+            <!-- OBJECT PHOTO (optional) -->
+            <div class="options-section">
+              <div class="flex items-center justify-between mb-1">
+                <p class="options-section-title mb-0">{{ 'style.object_label' | t }}</p>
+                <span class="text-xs font-medium text-primary/70 bg-primary/10 px-2 py-0.5 rounded-full">{{ 'optional' | t }}</span>
+              </div>
+              <p class="hint-text mb-3">{{ 'style.object_hint' | t }}</p>
+              <app-photo-picker
+                [label]="'style.object_upload_label' | t"
+                (imageSelected)="onObjectSelected($event)"
+                (imageRemoved)="onObjectRemoved()" />
+            </div>
+
+            @if (!canGenerate()) {
+              <p class="hint-text mt-2 text-center">{{ 'style.at_least_one_hint' | t }}</p>
+            }
+          </div>
+        }
+
+        <!-- STEP 3: Result -->
+        @if (isResultStep()) {
+          <div class="step-panel" [attr.data-dir]="stepDirection()">
+            @if (isGenerating()) {
+              <app-ai-loader [isLoading]="true" [inline]="true" />
+            } @else if (generationResult()) {
+              <div class="result-reveal">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-[#1A1A1A] dark:text-cream">{{ 'home.your_viz' | t }}</h2>
+                  <button type="button" class="text-xs text-primary font-semibold" (click)="goToHistory()">{{ 'view_history' | t }}</button>
+                </div>
+                <div class="result-gallery rounded-2xl shadow-xl overflow-hidden" #galleryRef
+                     (mousedown)="startSliderDrag($event, galleryRef)" (touchstart)="startSliderDrag($event, galleryRef)">
+                  <img class="gallery-img" [src]="generationResult()!.imageUrl" alt="Result" draggable="false" />
+                  @if (roomPreviewUrl()) {
+                    <img class="gallery-img" [src]="roomPreviewUrl()" alt="Original room" draggable="false"
+                         [style.clip-path]="'inset(0 ' + (100 - sliderPos()) + '% 0 0)'" />
+                  }
+                  <div class="gallery-divider" [style.left]="sliderPos() + '%'">
+                    <div class="gallery-handle">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 21 12 15 6"></polyline><polyline points="9 6 3 12 9 18"></polyline>
+                      </svg>
+                    </div>
+                  </div>
+                  @if (roomPreviewUrl()) {
+                    <span class="gallery-label gallery-label-before">{{ 'before' | t }}</span>
+                    <span class="gallery-label gallery-label-after">{{ 'after' | t }}</span>
+                  }
+                </div>
+                <div class="mt-4">
+                  <app-result-actions [imageUrl]="generationResult()!.imageUrl" [generationId]="generationResult()!.id"
+                    [showRegenerate]="true" (regenerate)="onRegenerate()" />
+                </div>
+              </div>
+            } @else {
+              <div class="result-placeholder">
+                <div class="placeholder-icon" style="background: rgba(155,114,207,0.1);">
+                  <app-icon name="sparkles-outline" class="text-3xl" style="color: #9B72CF;" />
+                </div>
+                <h3 class="placeholder-title">{{ 'gen.failed_title' | t }}</h3>
+                <p class="placeholder-desc">{{ 'gen.failed_desc' | t }}</p>
+              </div>
+            }
+          </div>
+        }
+
+      </div>
+
+      <!-- Navigation -->
+      @if (!isResultStep()) {
+        <div class="step-nav" [class.step-nav--first]="currentStep() === 0">
+          @if (currentStep() > 0) {
+            <button type="button" class="nav-back-btn" (click)="goBack()">
+              <app-icon name="chevron-back-outline" />
+              {{ 'wizard.back' | t }}
+            </button>
+          }
+          @if (!isLastWizardStep()) {
+            <button type="button" class="nav-next-btn" [disabled]="!canGoNext()" (click)="goNext()">
+              {{ 'wizard.continue' | t }}
+              <app-icon name="chevron-forward-outline" />
+            </button>
+          } @else {
+            <button type="button" class="generate-btn" [disabled]="!canGenerate()" (click)="onGenerateAndAdvance()">
+              <app-icon name="sparkles-outline" class="text-lg" />
+              {{ 'home.generate' | t }}
+            </button>
+          }
+        </div>
+      } @else if (!isGenerating()) {
+        <div class="step-nav">
+          <button type="button" class="nav-back-btn" (click)="onNewDesign()">
+            <app-icon name="chevron-back-outline" />
+            {{ 'build.new_design' | t }}
+          </button>
+          @if (!generationResult()) {
+            <button type="button" class="generate-btn" (click)="onGenerate()">
+              <app-icon name="sparkles-outline" class="text-lg" />
+              {{ 'try_again' | t }}
+            </button>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

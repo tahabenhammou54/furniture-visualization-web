@@ -1,0 +1,34 @@
+@reference "tailwindcss";
+
+.plan-card {
+  @apply relative rounded-2xl p-4 border-2 cursor-pointer transition-all duration-200;
+  @apply border-black/10 dark:border-white/10 bg-white dark:bg-white/5;
+
+  &--selected {
+    @apply border-[var(--plan-color,#F97316)] shadow-md;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  &--popular {
+    @apply mt-3;
+  }
+}
+
+.plan-popular-badge {
+  @apply absolute -top-3 left-1/2 -translate-x-1/2;
+  @apply px-3 py-0.5 rounded-full text-xs font-bold text-white whitespace-nowrap;
+  background: linear-gradient(135deg, #F97316, #C2410C);
+}
+
+.plan-icon {
+  @apply w-11 h-11 rounded-xl flex items-center justify-center shrink-0;
+}
+
+.plan-radio {
+  @apply w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all;
+  @apply border-black/20 dark:border-white/20;
+
+  &--selected {
+    @apply border-0;
+  }
+}
