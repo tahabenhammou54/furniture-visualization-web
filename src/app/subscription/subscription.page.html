@@ -133,25 +133,30 @@
       </div>
     }
 
-    <!-- CTA Button -->
+    <!-- CTA -->
     <div class="px-4 mt-6">
-      @for (plan of plans; track plan.id) {
-        @if (selectedPlan() === plan.id) {
-          <button
-            type="button"
-            class="w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-2 transition-opacity"
-            [style.background]="plan.gradient"
-            [class.opacity-60]="loading()"
-            [disabled]="loading()"
-            (click)="subscribe()"
-          >
-            @if (loading()) {
-              <span class="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full"></span>
-              {{ 'sub.processing' | t }}
-            } @else {
-              {{ plan.ctaKey | t }}
-            }
-          </button>
+
+      <!-- Free plan: simple button -->
+      @if (selectedPlan() === 'free') {
+        <button
+          type="button"
+          class="w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-2"
+          style="background: linear-gradient(135deg, #6B7280, #374151)"
+          (click)="continueWithFree()"
+        >
+          {{ 'sub.free.cta' | t }}
+        </button>
+      }
+
+      <!-- Paid plans: PayPal buttons (covers PayPal + debit/credit card) -->
+      @if (selectedPlan() !== 'free') {
+        @if (loading()) {
+          <div class="w-full py-4 rounded-2xl flex items-center justify-center gap-2 bg-black/5 dark:bg-white/5">
+            <span class="animate-spin w-4 h-4 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full"></span>
+            <span class="text-sm font-medium text-[#6B7280] dark:text-cream/60">{{ 'sub.processing' | t }}</span>
+          </div>
+        } @else {
+          <div #paypalContainer class="paypal-container"></div>
         }
       }
 
