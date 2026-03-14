@@ -75,6 +75,25 @@ export class AuthService {
     }
   }
 
+  /** Redirect the browser to the API's Google OAuth endpoint */
+  loginWithGoogle(): void {
+    window.location.href = `${this.apiUrl}/auth/google`;
+  }
+
+  /** Called by the google-success page after the OAuth redirect */
+  async handleGoogleToken(token: string): Promise<void> {
+    this._token = token;
+    await this.storage.set(TOKEN_KEY, token);
+    try {
+      const user = await this.http
+        .get<User>(`${this.apiUrl}/auth/me`)
+        .toPromise();
+      if (user) this.setUser(user);
+    } catch {
+      // Non-critical
+    }
+  }
+
   logout(): void {
     this.clearSession().then(() => {
       this.router.navigate(['/auth/login'], { replaceUrl: true });
