@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
+import { LandingPage } from './landing/landing.page';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/tabs/home',
+    component: LandingPage,
     pathMatch: 'full',
   },
   {

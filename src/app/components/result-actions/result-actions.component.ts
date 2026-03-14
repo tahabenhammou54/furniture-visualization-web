@@ -48,7 +48,7 @@ export class ResultActionsComponent {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: 'FurnishAI — Room Visualization',
+          title: 'HomeSketch AI — Room Visualization',
           text: 'Check out my room visualization!',
           url: this.imageUrl,
         });
