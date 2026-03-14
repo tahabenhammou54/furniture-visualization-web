@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { Location } from '@angular/common';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -17,6 +17,7 @@ import {
   downloadOutline,
   eyeOffOutline,
 } from 'ionicons/icons';
+import { I18nService } from '../services/i18n.service';
 
 @Component({
   selector: 'app-privacy',
@@ -26,39 +27,39 @@ import {
   styleUrls: ['./privacy.page.scss'],
 })
 export class PrivacyPage {
-  readonly usageItems = [
-    { text: 'Provide and improve AI furniture visualization features' },
-    { text: 'Process your uploaded images and return design results' },
-    { text: 'Manage your account and subscription' },
-    { text: 'Send generation-complete notifications (if enabled)' },
-    { text: 'Respond to support requests and bug reports' },
-    { text: 'Ensure app security and prevent abuse' },
-  ];
+  readonly usageItems = computed(() => [
+    { text: this.i18n.t('privacy.usage_item_1') },
+    { text: this.i18n.t('privacy.usage_item_2') },
+    { text: this.i18n.t('privacy.usage_item_3') },
+    { text: this.i18n.t('privacy.usage_item_4') },
+    { text: this.i18n.t('privacy.usage_item_5') },
+    { text: this.i18n.t('privacy.usage_item_6') },
+  ]);
 
-  readonly rights = [
+  readonly rights = computed(() => [
     {
       icon: 'eye-off-outline',
-      title: 'Access & Portability',
-      desc: 'Request a copy of the data we hold about you.',
+      title: this.i18n.t('privacy.right_access_title'),
+      desc: this.i18n.t('privacy.right_access_desc'),
     },
     {
       icon: 'create-outline',
-      title: 'Correction',
-      desc: 'Ask us to correct inaccurate personal information.',
+      title: this.i18n.t('privacy.right_correction_title'),
+      desc: this.i18n.t('privacy.right_correction_desc'),
     },
     {
       icon: 'trash-outline',
-      title: 'Deletion',
-      desc: 'Request deletion of your account and associated data at any time.',
+      title: this.i18n.t('privacy.right_deletion_title'),
+      desc: this.i18n.t('privacy.right_deletion_desc'),
     },
     {
       icon: 'download-outline',
-      title: 'Opt-Out',
-      desc: 'Disable push notifications or withdraw consent for optional data uses.',
+      title: this.i18n.t('privacy.right_opt_out_title'),
+      desc: this.i18n.t('privacy.right_opt_out_desc'),
     },
-  ];
+  ]);
 
-  constructor(private location: Location) {
+  constructor(public i18n: I18nService, private location: Location) {
     addIcons({
       chevronBackOutline,
       shieldCheckmarkOutline,

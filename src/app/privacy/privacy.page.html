@@ -10,8 +10,8 @@
         <ion-icon name="chevron-back-outline" class="text-[#1A1A1A] dark:text-cream text-base"></ion-icon>
       </button>
       <div class="flex-1 min-w-0">
-        <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">Privacy Policy</h1>
-        <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1">Last updated: March 2025</p>
+        <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">{{ i18n.t('privacy.title') }}</h1>
+        <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1">{{ i18n.t('privacy.last_updated') }}</p>
       </div>
     </div>
   </div>
@@ -25,22 +25,22 @@
           <ion-icon name="shield-checkmark-outline" class="text-primary text-lg"></ion-icon>
         </div>
         <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
-          At <strong>HomeSketch AI</strong>, we are committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information when you use our app.
+          {{ i18n.t('privacy.intro_prefix') }} <strong>{{ i18n.t('brand') }}</strong>, {{ i18n.t('privacy.intro_suffix') }}
         </p>
       </div>
     </div>
 
     <!-- Section: Information We Collect -->
     <section>
-      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">Information We Collect</h2>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('privacy.collect_title') }}</h2>
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
         <div class="px-5 py-4 flex items-start gap-4">
           <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
             <ion-icon name="person-outline" class="text-primary text-lg"></ion-icon>
           </div>
           <div>
-            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">Account Information</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">Name and email address when you create an account or sign in.</p>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('privacy.account_info_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('privacy.account_info_desc') }}</p>
           </div>
         </div>
         <div class="px-5 py-4 flex items-start gap-4">
@@ -48,8 +48,8 @@
             <ion-icon name="image-outline" class="text-primary text-lg"></ion-icon>
           </div>
           <div>
-            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">Images You Upload</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">Photos you submit for AI processing. These are used solely to generate your design results and are not shared with third parties.</p>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('privacy.uploaded_images_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('privacy.uploaded_images_desc') }}</p>
           </div>
         </div>
         <div class="px-5 py-4 flex items-start gap-4">
@@ -57,8 +57,8 @@
             <ion-icon name="bar-chart-outline" class="text-primary text-lg"></ion-icon>
           </div>
           <div>
-            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">Usage Data</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">App interactions, feature usage, and error logs to help us improve the experience.</p>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('privacy.usage_data_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('privacy.usage_data_desc') }}</p>
           </div>
         </div>
         <div class="px-5 py-4 flex items-start gap-4">
@@ -66,8 +66,8 @@
             <ion-icon name="phone-portrait-outline" class="text-primary text-lg"></ion-icon>
           </div>
           <div>
-            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">Device Information</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">Device type, operating system version, and app version for support and compatibility purposes.</p>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('privacy.device_info_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('privacy.device_info_desc') }}</p>
           </div>
         </div>
       </div>
@@ -75,9 +75,9 @@
 
     <!-- Section: How We Use Your Information -->
     <section>
-      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">How We Use Your Information</h2>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('privacy.usage_title') }}</h2>
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
-        @for (item of usageItems; track item.text) {
+        @for (item of usageItems(); track item.text) {
           <div class="px-5 py-3.5 flex items-center gap-3">
             <div class="w-1.5 h-1.5 rounded-full bg-primary shrink-0"></div>
             <p class="text-sm text-[#1A1A1A] dark:text-cream">{{ item.text }}</p>
@@ -88,34 +88,25 @@
 
     <!-- Section: Data Storage & Security -->
     <section>
-      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">Data Storage & Security</h2>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('privacy.storage_title') }}</h2>
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
         <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
-          Your data is stored on secure servers and protected with industry-standard encryption. We retain your uploaded images only as long as needed to deliver results and maintain your history. You may delete your history and account at any time from the app.
+          {{ i18n.t('privacy.storage_desc') }}
         </p>
       </div>
     </section>
 
     <!-- Section: Third-Party Services -->
     <section>
-      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">Third-Party Services</h2>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('privacy.third_party_title') }}</h2>
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
         <div class="px-5 py-4 flex items-start gap-4">
           <div class="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0 mt-0.5">
             <ion-icon name="cloud-outline" class="text-blue-500 text-lg"></ion-icon>
           </div>
           <div>
-            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">AI Processing</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">Images are processed by our AI provider. Data is transmitted securely and not used to train third-party models.</p>
-          </div>
-        </div>
-        <div class="px-5 py-4 flex items-start gap-4">
-          <div class="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
-            <ion-icon name="card-outline" class="text-purple-500 text-lg"></ion-icon>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">Payments</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">Payment processing is handled by a certified provider. We do not store your card details.</p>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('privacy.ai_processing_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('privacy.ai_processing_desc') }}</p>
           </div>
         </div>
       </div>
@@ -123,9 +114,9 @@
 
     <!-- Section: Your Rights -->
     <section>
-      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">Your Rights</h2>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('privacy.rights_title') }}</h2>
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
-        @for (right of rights; track right.title) {
+        @for (right of rights(); track right.title) {
           <div class="px-5 py-3.5 flex items-start gap-3">
             <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
               <ion-icon [name]="right.icon" class="text-primary text-base"></ion-icon>
@@ -141,14 +132,14 @@
 
     <!-- Section: Contact -->
     <section>
-      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">Contact Us</h2>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('privacy.contact_title') }}</h2>
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
         <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed mb-3">
-          If you have any questions about this Privacy Policy or want to exercise your rights, please contact us:
+          {{ i18n.t('privacy.contact_desc') }}
         </p>
         <div class="flex items-center gap-3">
           <ion-icon name="mail-outline" class="text-primary text-lg shrink-0"></ion-icon>
-          <p class="text-sm font-medium text-primary">privacy&#64;HomeSketch AI.app</p>
+          <p class="text-sm font-medium text-primary">{{ i18n.t('privacy.contact_email') }}</p>
         </div>
       </div>
     </section>
