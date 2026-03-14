@@ -16,6 +16,7 @@ import {
   notificationsOutline,
   informationCircleOutline,
   shieldCheckmarkOutline,
+  documentTextOutline,
   chevronForwardOutline,
   settingsOutline,
   logInOutline,
@@ -88,6 +89,7 @@ export class SettingsPage implements OnInit {
       notificationsOutline,
       informationCircleOutline,
       shieldCheckmarkOutline,
+      documentTextOutline,
       chevronForwardOutline,
       settingsOutline,
       logInOutline,
@@ -101,6 +103,10 @@ export class SettingsPage implements OnInit {
 
   openPrivacy(): void {
     this.router.navigate(['/tabs/privacy']);
+  }
+
+  openTerms(): void {
+    this.router.navigate(['/tabs/terms']);
   }
 
   goToLogin(): void {

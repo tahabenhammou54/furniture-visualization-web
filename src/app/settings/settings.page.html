@@ -168,6 +168,17 @@
           <p class="flex-1 text-left text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.privacy' | t }}</p>
           <ion-icon name="chevron-forward-outline" class="text-[#8A8A8A] dark:text-cream/40 text-sm"></ion-icon>
         </button>
+        <button
+          type="button"
+          class="w-full flex items-center px-5 py-4 border-b border-cream-dark dark:border-forest-light/40 active:bg-cream-dark/60 dark:active:bg-forest-light/10 transition-colors"
+          (click)="openTerms()"
+        >
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
+            <ion-icon name="document-text-outline" class="text-primary text-lg"></ion-icon>
+          </div>
+          <p class="flex-1 text-left text-sm font-medium text-[#1A1A1A] dark:text-cream">{{ 'settings.terms' | t }}</p>
+          <ion-icon name="chevron-forward-outline" class="text-[#8A8A8A] dark:text-cream/40 text-sm"></ion-icon>
+        </button>
         <div class="flex items-center px-5 py-4">
           <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center mr-4">
             <ion-icon name="information-circle-outline" class="text-primary text-lg"></ion-icon>

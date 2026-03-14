@@ -79,7 +79,7 @@ export class ExteriorDesignPage {
 
   // ── Form state ───────────────────────────────────────────
   selectedBuildingType   = signal<BuildingType | null>(null);
-  photoInputMode         = signal<PhotoInputMode>('gallery');
+  photoInputMode         = signal<PhotoInputMode>('upload');
   photoFile              = signal<File | null>(null);
   selectedPhotoId        = signal<string | null>(null);
   isFetchingPhoto        = signal<boolean>(false);

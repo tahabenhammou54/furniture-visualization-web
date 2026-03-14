@@ -59,7 +59,7 @@ export class ReplacePage {
   selectedRoomId = signal<string | null>(null);
   isFetchingRoom = signal<boolean>(false);
   prompt         = signal<string>('');
-  roomInputMode  = signal<RoomInputMode>('gallery');
+  roomInputMode  = signal<RoomInputMode>('upload');
 
   // ── Result ───────────────────────────────────────────────
   isGenerating     = signal<boolean>(false);

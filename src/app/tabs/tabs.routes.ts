@@ -84,6 +84,11 @@ export const routes: Routes = [
           import('../privacy/privacy.page').then((m) => m.PrivacyPage),
       },
       {
+        path: 'terms',
+        loadComponent: () =>
+          import('../terms/terms.page').then((m) => m.TermsPage),
+      },
+      {
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full',

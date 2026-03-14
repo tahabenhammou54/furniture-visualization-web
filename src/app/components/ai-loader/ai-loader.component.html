@@ -1,45 +1,41 @@
 @if (isLoading()) {
   @if (!inline()) {
+
     <!-- Overlay mode -->
     <div class="loader-backdrop">
       <div class="loader-card">
-        <div class="rings">
-          <div class="ring ring--outer"></div>
-          <div class="ring ring--mid"></div>
-          <div class="ring ring--inner"></div>
-          <div class="ring-center">
-            <ion-icon name="sparkles-outline"></ion-icon>
-          </div>
+
+        <div class="pixel-grid">
+          @for (p of pixels; track $index) {
+            <div [class]="'pixel pixel--' + p.colorClass"
+                 [style.animation-delay]="p.delay + 'ms'"></div>
+          }
         </div>
-        @for (msg of [currentMessage()]; track msg) {
-          <p class="loader-msg">{{ msg }}</p>
-        }
-        <div class="loader-dots">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
+
+        <div class="progress-track">
+          <div class="progress-fill"></div>
         </div>
+
       </div>
     </div>
+
   } @else {
+
     <!-- Inline mode -->
     <div class="loader-inline">
-      <div class="rings">
-        <div class="ring ring--outer"></div>
-        <div class="ring ring--mid"></div>
-        <div class="ring ring--inner"></div>
-        <div class="ring-center">
-          <ion-icon name="sparkles-outline"></ion-icon>
-        </div>
+
+      <div class="pixel-grid pixel-grid--sm">
+        @for (p of pixels; track $index) {
+          <div [class]="'pixel pixel--' + p.colorClass"
+               [style.animation-delay]="p.delay + 'ms'"></div>
+        }
       </div>
-      @for (msg of [currentMessage()]; track msg) {
-        <p class="loader-msg">{{ msg }}</p>
-      }
-      <div class="loader-dots">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+
+      <div class="progress-track">
+        <div class="progress-fill"></div>
       </div>
+
     </div>
+
   }
 }

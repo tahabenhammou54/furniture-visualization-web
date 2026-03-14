@@ -7,7 +7,7 @@
       <!-- Brand Row -->
       <div class="max-w-7xl mx-auto flex items-center px-5 md:px-10 pt-4 pb-2.5 title-p">
         <div class="flex-1 min-w-0">
-          <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">{{ 'studio.title' | t }}</h1>
+          <a routerLink="/" class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none cursor-pointer">HomeSketch AI</a>
           <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1 leading-none truncate">{{ 'studio.subtitle' | t }}</p>
         </div>
         @if (auth.credits() !== null) {
@@ -20,7 +20,7 @@
 
       <!-- Feature Quick-Nav -->
       <div class="overflow-x-auto no-scrollbar px-5 md:px-10 pb-3.5">
-        <div class="flex gap-1.5 w-max md:w-auto md:flex-wrap">
+        <div class="flex gap-1.5 w-max md:w-auto md:flex-wrap max-w-7xl mx-auto">
           @for (feature of features; track feature.id) {
             <button
               type="button"

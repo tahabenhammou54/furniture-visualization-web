@@ -1,6 +1,6 @@
 import { Component, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -38,7 +38,7 @@ export interface StudioFeature {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, IonContent, IonIcon, TranslatePipe],
+  imports: [CommonModule, IonContent, IonIcon, TranslatePipe, RouterLink],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })

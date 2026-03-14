@@ -1,0 +1,185 @@
+<ion-content [fullscreen]="true">
+  <!-- Header -->
+  <div class="sticky top-0 z-10 bg-cream/97 dark:bg-[#0F1A12]/97 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.05]">
+    <div class="max-w-6xl mx-auto px-5 md:px-10 py-4 flex items-center gap-3 title-p">
+      <button
+        type="button"
+        (click)="goBack()"
+        class="w-8 h-8 rounded-xl bg-cream-dark dark:bg-forest flex items-center justify-center active:scale-95 transition-transform shrink-0"
+      >
+        <ion-icon name="chevron-back-outline" class="text-[#1A1A1A] dark:text-cream text-base"></ion-icon>
+      </button>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-[18px] font-semibold tracking-[-0.5px] text-[#1A1A1A] dark:text-cream leading-none">{{ i18n.t('terms.title') }}</h1>
+        <p class="text-[11.5px] text-[#9A9A9A] dark:text-cream/35 mt-1">{{ i18n.t('terms.last_updated') }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-2xl mx-auto px-5 py-8 pb-16 flex flex-col gap-8 animate-fade-in">
+
+    <!-- Intro -->
+    <div class="bg-primary/8 dark:bg-primary/10 rounded-2xl px-5 py-4">
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-xl bg-primary/15 flex items-center justify-center shrink-0 mt-0.5">
+          <ion-icon name="document-text-outline" class="text-primary text-lg"></ion-icon>
+        </div>
+        <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
+          {{ i18n.t('terms.intro') }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Section: Acceptance of Terms -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.acceptance_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
+        <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
+          {{ i18n.t('terms.acceptance_desc') }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Section: Your Account -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.account_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="person-outline" class="text-primary text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.account_resp_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.account_resp_desc') }}</p>
+          </div>
+        </div>
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="shield-checkmark-outline" class="text-primary text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.account_info_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.account_info_desc') }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Credits & Subscriptions -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.credits_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="card-outline" class="text-purple-500 text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.free_credits_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.free_credits_desc') }}</p>
+          </div>
+        </div>
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="refresh-outline" class="text-purple-500 text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.paid_sub_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.paid_sub_desc') }}</p>
+          </div>
+        </div>
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-purple-500/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="alert-circle-outline" class="text-purple-500 text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.refunds_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.refunds_desc') }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Content You Upload -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.content_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="image-outline" class="text-primary text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.ownership_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.ownership_desc') }}</p>
+          </div>
+        </div>
+        <div class="px-5 py-4 flex items-start gap-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+            <ion-icon name="shield-checkmark-outline" class="text-primary text-lg"></ion-icon>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-[#1A1A1A] dark:text-cream mb-1">{{ i18n.t('terms.generated_title') }}</p>
+            <p class="text-xs text-[#8A8A8A] dark:text-cream/40 leading-relaxed">{{ i18n.t('terms.generated_desc') }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Prohibited Uses -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.prohibited_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm overflow-hidden flex flex-col divide-y divide-cream-dark dark:divide-forest-light/40">
+        @for (item of prohibitedItems(); track item) {
+          <div class="px-5 py-3.5 flex items-center gap-3">
+            <div class="w-1.5 h-1.5 rounded-full bg-red-400 dark:bg-red-400 shrink-0"></div>
+            <p class="text-sm text-[#1A1A1A] dark:text-cream">{{ item }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Section: Intellectual Property -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.ip_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
+        <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
+          {{ i18n.t('terms.ip_desc') }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Section: Limitation of Liability -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.liability_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
+        <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
+          {{ i18n.t('terms.liability_desc') }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Section: Changes to Terms -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.changes_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
+        <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed">
+          {{ i18n.t('terms.changes_desc') }}
+        </p>
+      </div>
+    </section>
+
+    <!-- Section: Contact -->
+    <section>
+      <h2 class="text-[13px] font-semibold text-[#8A8A8A] dark:text-cream/50 uppercase tracking-wider mb-3 ml-1">{{ i18n.t('terms.contact_title') }}</h2>
+      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm px-5 py-4">
+        <p class="text-sm text-[#1A1A1A] dark:text-cream leading-relaxed mb-3">
+          {{ i18n.t('terms.contact_desc') }}
+        </p>
+        <div class="flex items-center gap-3">
+          <ion-icon name="mail-outline" class="text-primary text-lg shrink-0"></ion-icon>
+          <p class="text-sm font-medium text-primary">support&#64;homesketch.ai</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</ion-content>

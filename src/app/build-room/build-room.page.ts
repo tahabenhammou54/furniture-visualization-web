@@ -63,7 +63,7 @@ export class BuildRoomPage {
 
   // ── Form state ───────────────────────────────────────────
   selectedRoomType  = signal<RoomType | null>(null);
-  roomInputMode     = signal<RoomInputMode>('gallery');
+  roomInputMode     = signal<RoomInputMode>('upload');
   roomFile          = signal<File | null>(null);
   selectedRoomId    = signal<string | null>(null);
   isFetchingRoom    = signal<boolean>(false);

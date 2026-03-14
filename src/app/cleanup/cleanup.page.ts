@@ -64,7 +64,7 @@ export class CleanupPage implements AfterViewInit, OnDestroy {
   stepDirection = signal<'forward' | 'back'>('forward');
 
   // ── Form state ────────────────────────────────────────────
-  roomInputMode  = signal<RoomInputMode>('gallery');
+  roomInputMode  = signal<RoomInputMode>('upload');
   roomFile       = signal<File | null>(null);
   selectedRoomId = signal<string | null>(null);
   isFetchingRoom = signal<boolean>(false);
