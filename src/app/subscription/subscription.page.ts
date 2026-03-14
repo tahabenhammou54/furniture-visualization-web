@@ -15,11 +15,15 @@ import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   checkmarkCircleOutline,
+  checkmarkOutline,
   closeOutline,
   flashOutline,
   infiniteOutline,
   starOutline,
   calendarOutline,
+  lockClosedOutline,
+  personOutline,
+  alertCircleOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../services/auth.service';
 import { TranslatePipe } from '../pipes/translate.pipe';
@@ -56,7 +60,7 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'free',
       nameKey: 'sub.free.name',
-      price: '0 MAD',
+      price: '$0',
       priceSubKey: 'sub.free.billing',
       ctaKey: 'sub.free.cta',
       icon: 'flash-outline',
@@ -66,7 +70,7 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'weekly',
       nameKey: 'sub.weekly.name',
-      price: '71.99 MAD',
+      price: '$3.99',
       priceSubKey: 'sub.weekly.billing',
       ctaKey: 'sub.subscribe_now',
       icon: 'calendar-outline',
@@ -76,7 +80,7 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'yearly',
       nameKey: 'sub.yearly.name',
-      price: '354.99 MAD',
+      price: '$19.99',
       priceSubKey: 'sub.yearly.billing',
       ctaKey: 'sub.subscribe_now',
       badge: 'sub.most_popular',
@@ -89,7 +93,7 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'lifetime',
       nameKey: 'sub.lifetime.name',
-      price: '589.99 MAD',
+      price: '$39.99',
       priceSubKey: 'sub.lifetime.billing',
       ctaKey: 'sub.buy_now',
       icon: 'infinite-outline',
@@ -123,11 +127,15 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
   ) {
     addIcons({
       checkmarkCircleOutline,
+      checkmarkOutline,
       closeOutline,
       flashOutline,
       infiniteOutline,
       starOutline,
       calendarOutline,
+      lockClosedOutline,
+      personOutline,
+      alertCircleOutline,
     });
   }
 
@@ -139,9 +147,19 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     this.destroyPayPalButtons();
   }
 
+  get isLoggedIn(): boolean {
+    return !!this.auth.token;
+  }
+
   get isSubscribed(): boolean {
     const sub = (this.auth.currentUser as any)?.subscription;
     return sub && sub !== 'free';
+  }
+
+  navigateToLogin(): void {
+    this.router.navigate(['/auth/login'], {
+      queryParams: { returnUrl: '/tabs/subscription' },
+    });
   }
 
   select(plan: SubscriptionPlan): void {

@@ -141,11 +141,36 @@ import { SeoService } from '../services/seo.service';
     #ba-wrap { touch-action: none; }
 
     /* ── Scrolled nav ──────────────────────────────── */
-    #site-nav.scrolled .nav-pill {
-      box-shadow: 0 4px 20px rgba(27,50,32,0.12);
+    #site-nav {
+      transition: top 0.4s cubic-bezier(0.16,1,0.3,1),
+                  left 0.4s cubic-bezier(0.16,1,0.3,1),
+                  right 0.4s cubic-bezier(0.16,1,0.3,1),
+                  background 0.35s ease,
+                  box-shadow 0.35s ease;
     }
-    :host-context(.dark) #site-nav.scrolled .nav-pill {
-      box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+    #site-nav.scrolled {
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(27,50,32,0.07);
+      box-shadow: 0 2px 20px rgba(27,50,32,0.09);
+    }
+    #site-nav.scrolled .nav-pill {
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      height: 60px;
+    }
+    :host-context(.dark) #site-nav.scrolled {
+      background: rgba(7,8,14,0.97);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 2px 32px rgba(0,0,0,0.4);
     }
 
     /* ════ KEYFRAMES ════════════════════════════════════ */

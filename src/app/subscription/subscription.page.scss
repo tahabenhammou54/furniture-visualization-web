@@ -1,10 +1,15 @@
 .plan-card {
-  @apply relative rounded-2xl p-4 border-2 cursor-pointer transition-all duration-200;
-  @apply border-black/10 dark:border-white/10 bg-white dark:bg-white/5;
+  @apply relative rounded-2xl px-3 py-3.5 border-2 transition-all duration-200;
+  @apply border-black/10 dark:border-white/10 bg-white/80 dark:bg-white/[0.04];
+  @apply backdrop-blur-sm;
 
   &--selected {
-    @apply border-[var(--plan-color,#F97316)] shadow-md;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-color: var(--plan-color, #F97316);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.08),
+      0 0 0 1px color-mix(in srgb, var(--plan-color, #F97316) 15%, transparent);
+
+    @apply dark:bg-white/[0.07];
   }
 
   &--popular {
@@ -14,19 +19,13 @@
 
 .plan-popular-badge {
   @apply absolute -top-3 left-1/2 -translate-x-1/2;
-  @apply px-3 py-0.5 rounded-full text-xs font-bold text-white whitespace-nowrap;
+  @apply px-3 py-0.5 rounded-full text-[10px] font-bold text-white whitespace-nowrap;
   background: linear-gradient(135deg, #F97316, #C2410C);
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
 }
 
-.plan-icon {
-  @apply w-11 h-11 rounded-xl flex items-center justify-center shrink-0;
-}
-
-.plan-radio {
-  @apply w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all;
-  @apply border-black/20 dark:border-white/20;
-
-  &--selected {
-    @apply border-0;
+.paypal-container {
+  :deep(iframe) {
+    border-radius: 1rem !important;
   }
 }
