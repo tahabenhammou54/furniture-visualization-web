@@ -6,7 +6,7 @@
   <!-- Landing page — highest priority -->
   <url>
     <loc>https://homesketchai.com/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://homesketchai.com/"/>
@@ -19,13 +19,13 @@
   <!-- Auth pages -->
   <url>
     <loc>https://homesketchai.com/auth/login</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://homesketchai.com/auth/register</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -33,13 +33,13 @@
   <!-- Legal -->
   <url>
     <loc>https://homesketchai.com/tabs/privacy</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://homesketchai.com/tabs/terms</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-03-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
