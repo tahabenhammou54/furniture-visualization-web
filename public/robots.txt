@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /auth/login
+Allow: /auth/register
+Disallow: /tabs/result/
+Disallow: /tabs/gen/
+Disallow: /tabs/profile
+Disallow: /tabs/history
+Disallow: /tabs/subscription
+
+# Sitemaps
+Sitemap: https://homesketchai.com/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1

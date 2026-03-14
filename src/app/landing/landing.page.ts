@@ -9,6 +9,7 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { AiLoaderComponent } from '../components/ai-loader/ai-loader.component';
+import { SeoService } from '../services/seo.service';
 
 @Component({
   selector: 'app-landing',
@@ -295,10 +296,12 @@ export class LandingPage implements AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private pid: object,
     private router: Router,
+    private seo: SeoService,
   ) {}
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.pid)) return;
+    this.seo.injectLandingSchema();
     this.initTheme();
     this.initHeroReveal();
     this.initScrollReveal();
