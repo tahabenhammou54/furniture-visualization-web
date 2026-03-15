@@ -6,6 +6,8 @@ export interface User {
   email: string;
   avatar?: string;
   imageUrl?: string;
+  firstname?: string;
+  lastname?: string;
   credits?: number;
   subscription?: SubscriptionPlan;
   subscriptionExpiresAt?: string;

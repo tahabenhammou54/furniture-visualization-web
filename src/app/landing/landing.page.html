@@ -63,14 +63,52 @@
           }
         </button>
 
-        <a routerLink="/auth/login"
-           class="hidden sm:block text-[13px] font-medium text-forest/50 dark:text-white/50 hover:text-forest dark:hover:text-white px-3 py-1.5 transition-colors duration-200">
-          Sign in
-        </a>
-        <a href="javascript:void(0)" (click)="goToApp()"
-           class="relative overflow-hidden bg-primary text-white text-[13px] font-bold px-4 py-2 rounded-xl transition-all duration-200 shadow-[0_0_16px_rgba(232,152,58,0.35)] hover:shadow-[0_0_28px_rgba(232,152,58,0.6)] hover:scale-[1.03] hover:bg-primary-shade">
-          Start Free
-        </a>
+        @if (currentUser()) {
+          <!-- Logged-in: avatar + Open Studio -->
+          <a routerLink="/tabs/home"
+             class="flex items-center gap-2 group
+                    bg-forest/6 dark:bg-white/6
+                    border border-forest/10 dark:border-white/10
+                    hover:border-primary/40 dark:hover:border-primary/40
+                    rounded-xl pl-1.5 pr-3.5 py-1.5
+                    transition-all duration-200">
+
+            <!-- Avatar or initials -->
+            @if (currentUser()?.imageUrl) {
+              <img [src]="currentUser()!.imageUrl"
+                   class="w-7 h-7 rounded-lg object-cover shrink-0"
+                   alt="avatar">
+            } @else {
+              <span class="w-7 h-7 rounded-lg bg-primary/20 border border-primary/30
+                           flex items-center justify-center shrink-0
+                           text-primary text-[11px] font-black">
+                {{ (currentUser()?.firstname || currentUser()?.name || currentUser()?.email || '?')[0].toUpperCase() }}
+              </span>
+            }
+
+            <span class="hidden sm:block text-[13px] font-semibold text-forest dark:text-white
+                         group-hover:text-primary dark:group-hover:text-primary transition-colors">
+              Studio
+            </span>
+            <svg class="text-forest/30 dark:text-white/30 group-hover:text-primary
+                        group-hover:translate-x-0.5 transition-all duration-200"
+                 width="12" height="12" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+
+        } @else {
+          <!-- Guest: Sign in + Start Free -->
+          <a routerLink="/auth/login"
+             class="hidden sm:block text-[13px] font-medium text-forest/50 dark:text-white/50 hover:text-forest dark:hover:text-white px-3 py-1.5 transition-colors duration-200">
+            Sign in
+          </a>
+          <a href="javascript:void(0)" (click)="goToApp()"
+             class="relative overflow-hidden bg-primary text-white text-[13px] font-bold px-4 py-2 rounded-xl transition-all duration-200 shadow-[0_0_16px_rgba(232,152,58,0.35)] hover:shadow-[0_0_28px_rgba(232,152,58,0.6)] hover:scale-[1.03] hover:bg-primary-shade">
+            Start Free
+          </a>
+        }
       </div>
     </div>
   </div>

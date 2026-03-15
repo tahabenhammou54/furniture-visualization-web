@@ -8,8 +8,10 @@ import {
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { AiLoaderComponent } from '../components/ai-loader/ai-loader.component';
 import { SeoService } from '../services/seo.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -317,11 +319,15 @@ export class LandingPage implements AfterViewInit {
     }, 1800);
   }
 
+  /* ── Auth state ─────────────────────────────────── */
+  currentUser = toSignal(this.auth.currentUser$);
+
   /* ── Lifecycle ──────────────────────────────────── */
   constructor(
     @Inject(PLATFORM_ID) private pid: object,
     private router: Router,
     private seo: SeoService,
+    public auth: AuthService,
   ) {}
 
   ngAfterViewInit() {
