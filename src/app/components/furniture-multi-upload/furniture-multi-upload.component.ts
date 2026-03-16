@@ -66,10 +66,12 @@ export class FurnitureMultiUploadComponent {
   }
 
   async onPickerFileSelected(file: File): Promise<void> {
-    const current = this.items();
-    if (current.length >= this.MAX_ITEMS) return;
+    if (this.items().length >= this.MAX_ITEMS) return;
     const item = await this.fileToItem(file, false);
-    this.items.set([...current, item]);
+    this.items.update((current) => {
+      if (current.length >= this.MAX_ITEMS) return current;
+      return [...current, item];
+    });
     this.itemsChanged.emit(this.items());
   }
 
