@@ -157,20 +157,6 @@
                 (input)="styleDescription.set($any($event.target).value)">
               </textarea>
             </div>
-
-            <!-- OBJECT PHOTO (optional) -->
-            <div class="options-section">
-              <div class="flex items-center justify-between mb-1">
-                <p class="options-section-title mb-0">{{ 'style.object_label' | t }}</p>
-                <span class="text-xs font-medium text-primary/70 bg-primary/10 px-2 py-0.5 rounded-full">{{ 'optional' | t }}</span>
-              </div>
-              <p class="hint-text mb-3">{{ 'style.object_hint' | t }}</p>
-              <app-photo-picker
-                [label]="'style.object_upload_label' | t"
-                (imageSelected)="onObjectSelected($event)"
-                (imageRemoved)="onObjectRemoved()" />
-            </div>
-
             @if (!canGenerate()) {
               <p class="hint-text mt-2 text-center">{{ 'style.at_least_one_hint' | t }}</p>
             }
