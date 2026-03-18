@@ -96,14 +96,12 @@
 
     <!-- Action buttons -->
     <div class="picker-actions">
-      @if (!isWeb) {
         <button type="button" class="picker-action-btn" (click)="openCamera()">
           <div class="picker-action-icon-wrap">
             <ion-icon name="camera-outline" class="text-2xl"></ion-icon>
           </div>
           <span class="picker-action-label">Camera</span>
         </button>
-      }
 
       <button type="button" class="picker-action-btn" (click)="openGallery()">
         <div class="picker-action-icon-wrap">
