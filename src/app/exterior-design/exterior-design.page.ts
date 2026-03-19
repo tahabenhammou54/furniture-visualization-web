@@ -66,7 +66,7 @@ export class ExteriorDesignPage {
   readonly buildingTypeOptions = BUILDING_TYPE_OPTIONS;
 
   readonly steps: WizardStep[] = [
-    { id: 'photo',     labelKey: 'exterior.photo',          required: false },
+    { id: 'photo',     labelKey: 'exterior.photo',          required: true },
     { id: 'building',  labelKey: 'exterior.building_type',  required: true  },
     { id: 'style',     labelKey: 'exterior.style',          required: true  },
     { id: 'palette',   labelKey: 'palette.title',           required: false },

@@ -49,7 +49,7 @@ export class BuildRoomPage {
   readonly roomTypeOptions = ROOM_TYPE_OPTIONS;
 
   readonly steps: WizardStep[] = [
-    { id: 'space',     labelKey: 'build.room_space',      required: false },
+    { id: 'space',     labelKey: 'build.room_space',      required: true },
     { id: 'type',      labelKey: 'build.room_type',       required: true  },
     { id: 'furniture', labelKey: 'build.furniture_items', required: false },
     { id: 'style',     labelKey: 'build.interior_style',  required: true  },

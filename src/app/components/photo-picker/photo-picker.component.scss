@@ -63,7 +63,9 @@
 
 // ── Bottom sheet panel ────────────────────────────────────────────────────────
 .picker-panel {
+  max-height: 600px;
   position: fixed;
+  overflow: auto;
   left: 0;
   right: 0;
   bottom: 0;
