@@ -9,18 +9,18 @@ import {
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AiLoaderComponent } from '../components/ai-loader/ai-loader.component';
 import { SeoService } from '../services/seo.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [RouterLink, AiLoaderComponent],
+  imports: [RouterLink],
   templateUrl: './landing.page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'ion-page' },
   styles: [`
-    :host { display: block; }
+    :host { display: block; overflow-y: auto; }
 
     /* ── Gradient text ─────────────────────────────── */
     .gradient-text {
@@ -312,11 +312,7 @@ export class LandingPage implements AfterViewInit {
   isLoading = signal(false);
 
   goToApp() {
-    this.isLoading.set(true);
-    setTimeout(() => {
-      this.router.navigateByUrl('/tabs/home');
-      this.isLoading.set(false);
-    }, 1800);
+    this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
   }
 
   /* ── Auth state ─────────────────────────────────── */

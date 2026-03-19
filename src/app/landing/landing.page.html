@@ -640,7 +640,7 @@
 
         <!-- QR code (replace src with your actual QR image) -->
         <div class="w-[148px] h-[148px] rounded-xl bg-white border border-forest/10 flex items-center justify-center p-2.5 mt-2">
-          <img src="assets/qr/appstore-qr.png" alt="App Store QR Code"
+          <img src="assets/qrcode_web.png" alt="App Store QR Code"
                class="w-full h-full object-contain rounded"
                onerror="this.replaceWith(document.getElementById('qr-apple-fallback').content.cloneNode(true))">
         </div>
@@ -707,7 +707,7 @@
 
         <!-- QR code (replace src with your actual QR image) -->
         <div class="w-[148px] h-[148px] rounded-xl bg-white border border-forest/10 flex items-center justify-center p-2.5 mt-2">
-          <img src="assets/qr/playstore-qr.png" alt="Google Play QR Code"
+          <img src="assets/qrcode_web.png" alt="Google Play QR Code"
                class="w-full h-full object-contain rounded"
                onerror="this.replaceWith(document.getElementById('qr-play-fallback').content.cloneNode(true))">
         </div>
@@ -844,5 +844,3 @@
     </div>
   </div>
 </footer>
-
-<app-ai-loader [isLoading]="isLoading()" />
