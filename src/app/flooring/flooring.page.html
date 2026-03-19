@@ -153,7 +153,7 @@
         @if (isResultStep()) {
           <div class="step-panel" [attr.data-dir]="stepDirection()">
             @if (isGenerating()) {
-              <app-ai-loader [isLoading]="true" [inline]="true" />
+              <app-ai-loader [isLoading]="true" [inline]="true" [imageUrl]="roomPreviewUrl()" />
             } @else if (generationResult()) {
               <div class="result-reveal">
                 <div class="flex items-center justify-between mb-3">

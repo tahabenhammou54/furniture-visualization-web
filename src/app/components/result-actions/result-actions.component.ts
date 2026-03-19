@@ -47,17 +47,22 @@ export class ResultActionsComponent {
     this.isSharing.set(true);
     try {
       if (navigator.share) {
+        // Call navigator.share immediately inside the user-gesture context —
+        // no async fetch beforehand so the gesture token never expires.
         await navigator.share({
           title: 'HomeSketch AI — Room Visualization',
-          text: 'Check out my room visualization!',
+          text: 'Check out my AI room design!',
           url: this.imageUrl,
         });
       } else {
         await navigator.clipboard.writeText(this.imageUrl);
         await this.toast.success('Link copied to clipboard!');
       }
-    } catch {
-      // User cancelled share — no error needed
+    } catch (err: any) {
+      // AbortError = user dismissed the share sheet — no toast needed
+      if (err?.name !== 'AbortError') {
+        await this.toast.error('Share failed');
+      }
     } finally {
       this.isSharing.set(false);
     }
