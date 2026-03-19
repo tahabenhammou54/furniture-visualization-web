@@ -44,88 +44,59 @@
         </div>
       </div>
     </div>
-    <!-- ── Feature Cards ── -->
-    <div class="max-w-7xl mx-auto px-5 md:px-10 flex flex-col gap-6 md:gap-8">
+    <!-- ── Feature Gallery Grid ── -->
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-3 pb-8">
+      <div class="gallery-grid">
 
-      @for (feature of features; track feature.id; let i = $index) {
-        <div
-          [id]="'feature-' + feature.id"
-          class="feature-section"
-          [class.feature-section--unavailable]="!feature.available"
-        >
-          <div
-            class="feature-card"
-            [class.feature-card--reversed]="i % 2 === 1"
+        @for (feature of features; track feature.id) {
+          <article
+            [id]="'feature-' + feature.id"
+            class="gallery-card"
+            [class.gallery-card--clickable]="feature.available"
+            [class.gallery-card--unavailable]="!feature.available"
             (click)="navigate(feature)"
-            [class.feature-card--clickable]="feature.available"
+            [attr.role]="feature.available ? 'button' : null"
+            [attr.tabindex]="feature.available ? 0 : null"
+            (keydown.enter)="feature.available && navigate(feature)"
           >
+            <img
+              [src]="feature.image"
+              [alt]="feature.nameKey | t"
+              class="gallery-card__img"
+              loading="lazy"
+            />
 
-            <!-- Visual Panel -->
-            <div class="feature-visual" >
-              <img
-                [src]="feature.image"
-                [alt]="feature.nameKey | t"
-                class="feature-visual__img"
-              />
-              <div class="feature-visual__overlay" ></div>
+            <div class="gallery-card__gradient"></div>
+
+            <div class="gallery-card__top">
+              <span class="gallery-card__tag" [style.--tag-accent]="feature.gradientFrom">
+                <ion-icon [name]="feature.icon"></ion-icon>
+                <span>{{ feature.tagKey | t }}</span>
+              </span>
             </div>
 
-            <!-- Content -->
-            <div class="feature-content">
-              <!-- Status row -->
-              <div class="flex items-center gap-2 mb-4">
-                @if (feature.available) {
-                  <span class="status-badge status-badge--available">
-                    <span class="status-badge__dot"></span>
-                    {{ 'studio.available_badge' | t }}
-                  </span>
-                } @else {
-                  <span class="status-badge status-badge--soon">
-                    <ion-icon name="time-outline" class="text-xs"></ion-icon>
-                    {{ 'studio.coming_soon' | t }}
-                  </span>
-                }
-              </div>
-
-              <!-- Name -->
-              <h3 class="feature-title">{{ feature.nameKey | t }}</h3>
-
-              <!-- Description -->
-              <p class="feature-desc">{{ feature.descKey | t }}</p>
-
-              <!-- Highlights -->
-              <ul class="feature-highlights">
-                @for (h of feature.highlights; track h) {
-                  <li class="highlight-item">
-                    <span class="highlight-dot" [style.background]="feature.gradientFrom"></span>
-                    <span>{{ h | t }}</span>
-                  </li>
-                }
-              </ul>
-
-              <!-- CTA -->
-              @if (feature.available) {
-                <button
-                  type="button"
-                  class="feature-cta"
-                  [style.background]="gradient(feature)"
-                  (click)="$event.stopPropagation(); navigate(feature)"
-                >
-                  {{ 'studio.open_feature' | t }}
-                  <ion-icon name="arrow-forward-outline" class="text-base"></ion-icon>
-                </button>
-              } @else {
-                <div class="feature-cta-soon">
-                  <ion-icon name="lock-closed-outline" class="text-sm"></ion-icon>
+            @if (!feature.available) {
+              <div class="gallery-card__soon">
+                <span class="gallery-card__soon-pill">
+                  <ion-icon name="time-outline"></ion-icon>
                   {{ 'studio.coming_soon' | t }}
+                </span>
+              </div>
+            }
+
+            <div class="gallery-card__bottom">
+              <h3 class="gallery-card__name">{{ feature.nameKey | t }}</h3>
+              @if (feature.available) {
+                <div class="gallery-card__launch" [style.--launch-color]="feature.gradientFrom">
+                  <ion-icon name="arrow-forward-outline" class="gallery-card__launch-icon"></ion-icon>
                 </div>
               }
             </div>
 
-          </div>
-        </div>
-      }
+          </article>
+        }
 
+      </div>
     </div>
 
     <!-- ── Bottom padding ── -->
