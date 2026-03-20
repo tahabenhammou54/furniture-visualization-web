@@ -100,26 +100,3 @@
     }
   </div>
 }
-
-<!-- Auto-complete toggle -->
-<div class="autocomplete-row mt-4">
-  <div class="flex flex-col gap-0.5">
-    <span class="text-sm font-semibold text-[#1A1A1A] dark:text-cream flex items-center gap-1.5">
-      <ion-icon name="sparkles-outline" class="text-primary text-base"></ion-icon>
-      AI Auto-Complete
-    </span>
-    <span class="text-xs text-[#8A8A8A] dark:text-cream/40">
-      AI will suggest extra furniture to complete the room
-    </span>
-  </div>
-
-  <button
-    type="button"
-    class="toggle-btn"
-    [class.toggle-btn--on]="autoComplete"
-    (click)="toggleAutoComplete()"
-    [attr.aria-pressed]="autoComplete"
-  >
-    <span class="toggle-thumb" [class.toggle-thumb--on]="autoComplete"></span>
-  </button>
-</div>

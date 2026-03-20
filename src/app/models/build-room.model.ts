@@ -97,7 +97,7 @@ export const ROOM_STYLES: RoomStyle[] = [
     description: 'High-end, elegant and opulent',
     colorHint: 'bg-yellow-100',
     prompt: 'luxury interior design, elegant opulent decor, high-end materials like marble and polished brass, plush velvet furniture, grand crystal chandelier, sophisticated rich color palette, glamorous and expensive look, architectural digest style',
-    previewImgUrl: 'https://images.unsplash.com/photo-1600607687920-4e2a09be1587?auto=format&fit=crop&w=400&q=80'
+    previewImgUrl: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'minimalist',
@@ -106,7 +106,7 @@ export const ROOM_STYLES: RoomStyle[] = [
     description: 'Ultra clean, less is more',
     colorHint: 'bg-slate-100',
     prompt: 'minimalist interior design, ultra clean uncluttered space, essential modern furniture only, strictly monochromatic or light neutral palette, beautiful negative space, simple functional forms, maximizing natural light',
-    previewImgUrl: 'https://images.unsplash.com/photo-1583847268964-b28ce8fde1e3?auto=format&fit=crop&w=400&q=80'
+    previewImgUrl: 'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'scandinavian',
@@ -115,7 +115,7 @@ export const ROOM_STYLES: RoomStyle[] = [
     description: 'Light woods, airy and functional',
     colorHint: 'bg-stone-100',
     prompt: 'Scandinavian interior design, hygge aesthetic, light natural wood floors and furniture, crisp white walls, functional and simple layout, soft natural textiles, muted pastel or neutral tones, bright airy photography',
-    previewImgUrl: 'https://images.unsplash.com/photo-1598928506311-c55dd1b31042?auto=format&fit=crop&w=400&q=80'
+    previewImgUrl: 'https://images.unsplash.com/photo-1556020685-ae41abfc9365?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'farmhouse',
@@ -245,7 +245,7 @@ export const ROOM_STYLES: RoomStyle[] = [
     description: 'Stylized 3D, bright primary colors',
     colorHint: 'bg-yellow-300',
     prompt: 'cartoon style interior, stylized 3D illustration look, bright saturated vibrant colors, exaggerated chunky furniture proportions, playful and whimsical atmosphere, soft cel-shaded or glossy toy-like appearance, highly fun and vibrant',
-    previewImgUrl: 'https://images.unsplash.com/photo-1566665155688-6000c0a996bd?auto=format&fit=crop&w=400&q=80'
+    previewImgUrl: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'medieval',
@@ -281,7 +281,7 @@ export const ROOM_STYLES: RoomStyle[] = [
     description: 'Highly ornate, dramatic, luxurious',
     colorHint: 'bg-purple-200',
     prompt: 'baroque interior design, ultra ornate and highly dramatic, rich deep colors like burgundy red and bright gold leaf, elaborate molding and carved stucco, grand crystal chandeliers, luxurious heavy fabrics, intricate highly detailed antique furniture',
-    previewImgUrl: 'https://images.unsplash.com/photo-1605814521873-c619b0151b6e?auto=format&fit=crop&w=400&q=80'
+    previewImgUrl: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'rainbow',
@@ -326,7 +326,7 @@ export const ROOM_STYLES: RoomStyle[] = [
     description: 'Dilapidated, eerie, haunted',
     colorHint: 'bg-slate-800',
     prompt: 'creepy interior, haunted house aesthetic, dilapidated and abandoned look, peeling distressed wallpaper, dusty covered antique furniture, eerie long shadows, dimly lit, unsettling and terrifying cinematic atmosphere',
-    previewImgUrl: 'https://images.unsplash.com/photo-1620645604473-89d41496a70e?auto=format&fit=crop&w=400&q=80'
+    previewImgUrl: 'https://images.unsplash.com/photo-1509909756405-be0199881695?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'japanese',

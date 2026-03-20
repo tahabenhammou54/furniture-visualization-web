@@ -1,41 +1,71 @@
 @if (isLoading()) {
-  @if (!inline()) {
+  <div [class]="inline() ? 'loader-inline' : 'loader-backdrop'">
+    <div class="loader-card" [class.loader-card--inline]="inline()">
 
-    <!-- Overlay mode -->
-    <div class="loader-backdrop">
-      <div class="loader-card">
+      <!-- ── Scan panel (shown when an image is provided) ── -->
+      @if (imageUrl()) {
+        <div class="scan-container">
 
-        <div class="pixel-grid">
+          <!-- The user's input image -->
+          <img [src]="imageUrl()" alt="" class="scan-image" draggable="false" />
+
+          <!-- Dark desaturation overlay -->
+          <div class="scan-overlay-dark"></div>
+
+          <!-- Subtle coordinate grid -->
+          <div class="scan-grid"></div>
+
+          <!-- Scanning beam + glow trail -->
+          <div class="scan-beam"></div>
+
+          <!-- Corner viewfinder brackets -->
+          <div class="corner corner--tl"></div>
+          <div class="corner corner--tr"></div>
+          <div class="corner corner--bl"></div>
+          <div class="corner corner--br"></div>
+
+          <!-- Detection crosshair markers -->
+          @for (m of detectMarkers; track $index) {
+            <div class="detect-marker"
+                 [style.top]="m.top"
+                 [style.left]="m.left"
+                 [style.animation-delay]="m.delay + 's'"></div>
+          }
+
+          <!-- Percentage badge overlay -->
+          <div class="scan-pct-badge">{{ percentage() }}%</div>
+
+        </div>
+
+      } @else {
+        <!-- Fallback: pixel wave grid -->
+        <div [class]="inline() ? 'pixel-grid pixel-grid--sm' : 'pixel-grid'">
           @for (p of pixels; track $index) {
             <div [class]="'pixel pixel--' + p.colorClass"
                  [style.animation-delay]="p.delay + 'ms'"></div>
           }
         </div>
+      }
 
-        <div class="progress-track">
-          <div class="progress-fill"></div>
-        </div>
+      <!-- ── Info strip ── -->
+      <div class="loader-info">
 
-      </div>
-    </div>
+        <p class="loader-status">{{ statusMessages[statusIndex()] }}</p>
 
-  } @else {
-
-    <!-- Inline mode -->
-    <div class="loader-inline">
-
-      <div class="pixel-grid pixel-grid--sm">
-        @for (p of pixels; track $index) {
-          <div [class]="'pixel pixel--' + p.colorClass"
-               [style.animation-delay]="p.delay + 'ms'"></div>
+        @if (imageUrl()) {
+          <!-- Real progress bar when image is shown -->
+          <div class="progress-track">
+            <div class="progress-fill" [style.width.%]="percentage()"></div>
+          </div>
+        } @else {
+          <!-- Infinite sweep bar for no-image case -->
+          <div class="progress-track">
+            <div class="progress-fill-sweep"></div>
+          </div>
         }
-      </div>
 
-      <div class="progress-track">
-        <div class="progress-fill"></div>
       </div>
 
     </div>
-
-  }
+  </div>
 }
