@@ -77,23 +77,6 @@
       </button>
     </div>
 
-    <!-- Recent photos -->
-    @if (recentPhotos().length > 0) {
-      <div class="picker-section">
-        <div class="picker-section-label">
-          <ion-icon name="time-outline" class="text-sm"></ion-icon>
-          <span>Recent</span>
-        </div>
-        <div class="picker-recents-grid">
-          @for (photo of recentPhotos(); track photo) {
-            <button type="button" class="recent-thumb-btn" (click)="selectRecent(photo)">
-              <img [src]="photo" alt="Recent photo" class="recent-thumb-img" />
-            </button>
-          }
-        </div>
-      </div>
-    }
-
     <!-- Action buttons -->
     <div class="picker-actions">
         <button type="button" class="picker-action-btn" (click)="openCamera()">

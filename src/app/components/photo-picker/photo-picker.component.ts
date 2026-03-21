@@ -129,7 +129,7 @@ export class PhotoPickerComponent {
       if (!ctx) return;
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       const thumb = canvas.toDataURL('image/jpeg', 0.6);
-      this.addToRecent(thumb);
+      // this.addToRecent(thumb);
     };
     img.src = dataUrl;
   }

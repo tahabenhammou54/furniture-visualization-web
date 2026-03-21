@@ -111,6 +111,7 @@
             </div>
             <p class="hint-text mt-2 mb-4">{{ 'exterior.style_hint' | t }}</p>
             <app-style-selector [selectedStyleId]="selectedStyle()?.id ?? null"
+              feature="exterior"
               (styleSelected)="onStyleSelected($event)" />
             @if (!selectedStyle()) {
               <p class="hint-text mt-3">{{ 'wizard.required_hint' | t }}</p>

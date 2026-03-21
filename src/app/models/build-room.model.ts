@@ -339,6 +339,126 @@ export const ROOM_STYLES: RoomStyle[] = [
   }
 ];
 
+export const OUTDOOR_STYLES: RoomStyle[] = [
+  {
+    id: 'outdoor-modern',
+    name: 'Modern',
+    emoji: '◻️',
+    description: 'Clean lines, sleek and contemporary',
+    colorHint: 'bg-gray-200',
+    prompt: 'modern exterior design, clean geometric architecture, flat roof, large glass windows, minimalist facade, neutral tones of white and grey, sleek outdoor furniture, manicured lawn, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-retro',
+    name: 'Retro',
+    emoji: '📻',
+    description: 'Vintage charm with nostalgic details',
+    colorHint: 'bg-yellow-100',
+    prompt: 'retro exterior design, vintage 1950s-1960s architectural style, pastel color palette, decorative trim, curved awnings, classic landscaping, nostalgic charm, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-christmas',
+    name: 'Christmas',
+    emoji: '🎄',
+    description: 'Festive holiday exterior decor',
+    colorHint: 'bg-red-100',
+    prompt: 'Christmas exterior decor, holiday lights strung on the facade, wreath on the door, snow-dusted roof, red and green festive decorations, warm glowing windows, cozy winter atmosphere, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1481833761820-0509d3217039?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-cozy',
+    name: 'Cozy',
+    emoji: '☕',
+    description: 'Warm, inviting cottage atmosphere',
+    colorHint: 'bg-orange-100',
+    prompt: 'cozy cottage exterior, warm stone facade, climbing ivy, flower boxes under windows, soft warm lighting, inviting front porch with rocking chairs, lush garden path, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-rustic',
+    name: 'Rustic',
+    emoji: '🪵',
+    description: 'Natural wood and earthy textures',
+    colorHint: 'bg-amber-100',
+    prompt: 'rustic exterior design, natural wood siding and timber beams, stone foundation, metal roof, rough-hewn textures, wildflower garden, gravel path, rural countryside setting, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-farmhouse',
+    name: 'Farmhouse',
+    emoji: '🏡',
+    description: 'Classic American farmhouse charm',
+    colorHint: 'bg-stone-100',
+    prompt: 'modern farmhouse exterior, white board and batten siding, black window frames, metal roof, covered front porch with wooden columns, raised garden beds, split rail fence, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-minimalist',
+    name: 'Minimalist',
+    emoji: '⬜',
+    description: 'Simple, uncluttered and serene',
+    colorHint: 'bg-neutral-100',
+    prompt: 'minimalist exterior design, pure white stucco walls, flat roof, minimal landscaping with gravel and sculptural plants, clean uncluttered facade, hidden gutters, zen-like serenity, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-tropical',
+    name: 'Tropical',
+    emoji: '🌴',
+    description: 'Lush, vibrant and exotic foliage',
+    colorHint: 'bg-green-100',
+    prompt: 'tropical exterior design, lush palm trees and exotic plants, thatched or bamboo accents, bright colorful facade, outdoor pergola with climbing vines, resort-style swimming pool, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-luxury',
+    name: 'Luxury',
+    emoji: '💎',
+    description: 'Opulent finishes and grand presence',
+    colorHint: 'bg-yellow-50',
+    prompt: 'luxury exterior design, grand villa, natural stone cladding, ornate iron gates, manicured hedgerows, fountain in driveway, infinity pool, high-end outdoor furniture, dramatic uplighting, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-mediterranean',
+    name: 'Mediterranean',
+    emoji: '🏛️',
+    description: 'Sun-soaked terracotta and arches',
+    colorHint: 'bg-orange-50',
+    prompt: 'Mediterranean exterior design, terracotta roof tiles, stucco walls in warm white and ochre, arched doorways and windows, bougainvillea climbing the walls, terracotta pots, olive trees, blue shutters, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-midcentury',
+    name: 'Midcentury',
+    emoji: '🕰️',
+    description: 'Atomic age style meets nature',
+    colorHint: 'bg-teal-50',
+    prompt: 'mid-century modern exterior, low-pitched gable roof, large panoramic windows, horizontal lines, wood and brick combination, carport, atomic age landscaping with ornamental grasses, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-zen',
+    name: 'Zen',
+    emoji: '🪨',
+    description: 'Tranquil, balanced and meditative',
+    colorHint: 'bg-stone-50',
+    prompt: 'zen exterior design, Japanese-inspired garden, raked gravel and mossy stones, bamboo fence, minimalist facade in natural grey and beige, koi pond, stone lanterns, cherry blossom tree, photorealistic, 8k',
+    previewImgUrl: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=400&q=80'
+  },
+  {
+    id: 'outdoor-no-style',
+    name: 'No Style',
+    emoji: '✨',
+    description: 'Let AI decide the best look',
+    colorHint: 'bg-gray-50',
+    prompt: 'beautifully designed exterior, photorealistic, 8k',
+    previewImgUrl: ''
+  },
+];
+
 export const PRESET_FURNITURE: PresetFurniture[] = [
   // --- SEATING ---
   { id: 'sofa-modern', name: 'Velvet Modern Sofa', thumbnailUrl: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&q=80', category: 'seating', style: 'Modern' },

@@ -15,6 +15,7 @@ import {
 } from 'ionicons/icons';
 import { GenerationService } from '../services/generation.service';
 import { AuthService } from '../services/auth.service';
+import { AuthModalService } from '../services/auth-modal.service';
 import { ToastService } from '../services/toast.service';
 import { GenerateResponse } from '../models/generation.model';
 import { FLOOR_STYLES, COLOR_PALETTES, ColorPalette, RoomStyle } from '../models/build-room.model';
@@ -91,7 +92,8 @@ export class FlooringPage {
     private generation: GenerationService,
     public auth: AuthService,
     private toast: ToastService,
-    private router: Router
+    private router: Router,
+    private authModal: AuthModalService,
   ) {
     addIcons({ sparklesOutline, arrowBackOutline, flashOutline, gridOutline, chevronForwardOutline, chevronBackOutline, checkmarkOutline });
   }
@@ -129,10 +131,7 @@ export class FlooringPage {
 
   onGenerateAndAdvance(): void {
     if (!this.canGenerate()) return;
-    if (!this.auth.token) {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url } });
-      return;
-    }
+    if (!this.auth.token) { this.authModal.open(() => this.onGenerateAndAdvance()); return; }
     this.stepDirection.set('forward');
     this.currentStep.set(this.steps.length - 1);
     this.content?.scrollToTop(300);
