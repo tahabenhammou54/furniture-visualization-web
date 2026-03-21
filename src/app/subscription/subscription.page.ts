@@ -29,7 +29,7 @@ import { AuthService } from '../services/auth.service';
 import { TranslatePipe } from '../pipes/translate.pipe';
 import { environment } from '../../environments/environment';
 
-export type SubscriptionPlan = 'free' | 'weekly' | 'yearly' | 'lifetime';
+export type SubscriptionPlan = 'free' | 'weekly' | 'monthly' | 'yearly' | 'lifetime';
 
 export interface PlanConfig {
   id: SubscriptionPlan;
@@ -70,8 +70,18 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'weekly',
       nameKey: 'sub.weekly.name',
-      price: '$3.99',
+      price: '$4.99',
       priceSubKey: 'sub.weekly.billing',
+      ctaKey: 'sub.subscribe_now',
+      icon: 'flash-outline',
+      color: '#10B981',
+      gradient: 'linear-gradient(135deg, #10B981, #059669)',
+    },
+    {
+      id: 'monthly',
+      nameKey: 'sub.monthly.name',
+      price: '$0.47',
+      priceSubKey: 'sub.monthly.billing',
       ctaKey: 'sub.subscribe_now',
       icon: 'calendar-outline',
       color: '#3B82F6',
@@ -80,8 +90,9 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'yearly',
       nameKey: 'sub.yearly.name',
-      price: '$19.99',
+      price: '$3.50',
       priceSubKey: 'sub.yearly.billing',
+      priceSub2Key: 'sub.yearly.billing2',
       ctaKey: 'sub.subscribe_now',
       badge: 'sub.most_popular',
       savings: 'sub.yearly.savings',
@@ -93,7 +104,7 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     {
       id: 'lifetime',
       nameKey: 'sub.lifetime.name',
-      price: '$39.99',
+      price: '$139.99',
       priceSubKey: 'sub.lifetime.billing',
       ctaKey: 'sub.buy_now',
       icon: 'infinite-outline',

@@ -1,4 +1,4 @@
-export type SubscriptionPlan = 'free' | 'weekly' | 'yearly' | 'lifetime';
+export type SubscriptionPlan = 'free' | 'weekly' | 'monthly' | 'yearly' | 'lifetime';
 
 export interface User {
   _id: string;
@@ -11,7 +11,8 @@ export interface User {
   credits?: number;
   subscription?: SubscriptionPlan;
   subscriptionExpiresAt?: string;
-  lastCreditRefreshAt?: string;
+  dailyGenerationCount?: number;
+  lastGenerationDate?: string;
   created_at: string;
 }
 

@@ -13,11 +13,18 @@
           <h1 class="page-title truncate">{{ 'exterior.title' | t }}</h1>
           <p class="page-subtitle truncate">{{ 'exterior.subtitle' | t }}</p>
         </div>
-        @if (auth.credits() !== null) {
-          <div class="credits-chip">
-            <ion-icon name="flash-outline" class="text-amber-500 dark:text-amber-400 text-xs shrink-0"></ion-icon>
-            <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 leading-none">{{ auth.credits() }}</span>
-          </div>
+        @if (auth.currentUser) {
+          @if (auth.isPro()) {
+            <div class="credits-chip" style="background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.2);">
+              <ion-icon name="star-outline" class="text-violet-500 dark:text-violet-400 text-xs shrink-0"></ion-icon>
+              <span class="text-xs font-bold text-violet-600 dark:text-violet-400 leading-none">PRO</span>
+            </div>
+          } @else {
+            <div class="credits-chip">
+              <ion-icon name="flash-outline" class="text-amber-500 dark:text-amber-400 text-xs shrink-0"></ion-icon>
+              <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 leading-none">{{ auth.dailyRemaining() }}/{{ auth.dailyLimit() }}</span>
+            </div>
+          }
         }
       </div>
 

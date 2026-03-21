@@ -80,23 +80,6 @@
         <p class="text-sm text-[#8A8A8A] dark:text-cream/50 mt-1">{{ profile()!.email }}</p>
       </div>
 
-      <!-- Stats card -->
-      <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm mb-5 overflow-hidden">
-        <div class="grid grid-cols-2 divide-x divide-cream-dark dark:divide-forest-light/30">
-          <div class="flex flex-col items-center py-5 px-4">
-            <p class="text-3xl font-bold text-primary leading-none">{{ profile()!.totalGenerations }}</p>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/50 mt-2 font-medium">{{ 'visualizations' | t }}</p>
-          </div>
-          <div class="flex flex-col items-center py-5 px-4">
-            <div class="flex items-center gap-1.5 leading-none">
-              <ion-icon name="flash-outline" class="text-amber-500 text-2xl"></ion-icon>
-              <p class="text-3xl font-bold text-amber-500">{{ profile()!.credits ?? 0 }}</p>
-            </div>
-            <p class="text-xs text-[#8A8A8A] dark:text-cream/50 mt-2 font-medium">{{ 'credits' | t }}</p>
-          </div>
-        </div>
-      </div>
-
       <!-- Subscription card -->
       <div class="bg-white dark:bg-forest/40 rounded-2xl border border-cream-dark dark:border-forest-light/40 shadow-sm mb-5 overflow-hidden">
         <div class="grid grid-cols-2 divide-x divide-cream-dark dark:divide-forest-light/30">

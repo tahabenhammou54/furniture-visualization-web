@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -17,6 +17,25 @@ export class AuthService {
 
   currentUser$ = this._currentUser$.asObservable();
   readonly credits = signal<number | null>(null);
+  readonly dailyGenerationCount = signal<number>(0);
+
+  private static readonly DAILY_LIMITS: Record<string, number> = {
+    free: 3, weekly: 10, monthly: 10, yearly: 10, lifetime: 10,
+  };
+
+  readonly dailyLimit = computed(() => {
+    const plan = this.currentUser?.subscription || 'free';
+    return AuthService.DAILY_LIMITS[plan] ?? 3;
+  });
+
+  readonly isPro = computed(() => {
+    const plan = this.currentUser?.subscription || 'free';
+    return plan !== 'free';
+  });
+
+  readonly dailyRemaining = computed(() => {
+    return Math.max(0, this.dailyLimit() - this.dailyGenerationCount());
+  });
   isAuthenticated$ = this._currentUser$.asObservable().pipe(
     // map to boolean — consumers can use !!user
   );
@@ -135,6 +154,7 @@ export class AuthService {
   private setUser(user: User | null): void {
     this._currentUser$.next(user);
     this.credits.set(user?.credits ?? null);
+    this.dailyGenerationCount.set(user?.dailyGenerationCount ?? 0);
   }
 
   private async clearSession(): Promise<void> {
