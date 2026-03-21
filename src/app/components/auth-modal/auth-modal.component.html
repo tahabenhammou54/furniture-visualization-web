@@ -1,0 +1,212 @@
+@if (authModal.isOpen()) {
+  <!-- Backdrop -->
+  <div
+    class="fixed inset-0 z-50 flex items-end justify-center"
+    (click)="authModal.close()"
+  >
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+    <!-- Sheet -->
+    <div
+      class="relative w-full max-w-lg bg-white dark:bg-[#0F1A12] rounded-t-3xl animate-slide-up"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Handle -->
+      <div class="w-10 h-1 rounded-full bg-[#D0D0D0] dark:bg-white/20 mx-auto mt-4"></div>
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 pt-4 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 9V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/>
+              <path d="M3 11v8a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-8"/>
+              <rect x="6" y="11" width="12" height="8" rx="1"/>
+            </svg>
+          </div>
+          <span class="text-[15px] font-semibold text-[#1A1A1A] dark:text-cream">Stylevision</span>
+        </div>
+        <button
+          type="button"
+          (click)="authModal.close()"
+          class="w-8 h-8 rounded-full bg-cream-dark dark:bg-forest flex items-center justify-center"
+        >
+          <ion-icon name="close-outline" class="text-[#8A8A8A] dark:text-cream/50 text-lg"></ion-icon>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="flex gap-1 mx-5 mt-3 p-1 rounded-xl bg-cream-dark dark:bg-forest">
+        <button
+          type="button"
+          (click)="switchTab('login')"
+          class="flex-1 py-2 rounded-lg text-xs font-semibold transition-all"
+          [class]="activeTab() === 'login'
+            ? 'bg-white dark:bg-forest-light/30 text-[#1A1A1A] dark:text-cream shadow-sm'
+            : 'text-[#8A8A8A] dark:text-cream/40'"
+        >{{ 'auth.signin' | t }}</button>
+        <button
+          type="button"
+          (click)="switchTab('register')"
+          class="flex-1 py-2 rounded-lg text-xs font-semibold transition-all"
+          [class]="activeTab() === 'register'
+            ? 'bg-white dark:bg-forest-light/30 text-[#1A1A1A] dark:text-cream shadow-sm'
+            : 'text-[#8A8A8A] dark:text-cream/40'"
+        >{{ 'auth.signup' | t }}</button>
+      </div>
+
+      <div class="px-5 pt-4 pb-8">
+
+        <!-- Login Form -->
+        @if (activeTab() === 'login') {
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="flex flex-col gap-3">
+            <div>
+              <div class="relative">
+                <ion-icon name="mail-outline" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-base pointer-events-none"></ion-icon>
+                <input
+                  formControlName="email"
+                  type="email"
+                  [placeholder]="'auth.email' | t"
+                  autocomplete="email"
+                  class="w-full bg-cream-dark dark:bg-forest rounded-xl pl-10 pr-4 py-3 text-sm text-[#1A1A1A] dark:text-cream placeholder-[#8A8A8A] dark:placeholder-cream/30 outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                />
+              </div>
+              @if (fieldError(loginForm, 'email')) {
+                <p class="text-red-500 text-xs mt-1 ml-1">{{ fieldError(loginForm, 'email') }}</p>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <ion-icon name="lock-closed-outline" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-base pointer-events-none"></ion-icon>
+                <input
+                  formControlName="password"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  [placeholder]="'auth.password' | t"
+                  autocomplete="current-password"
+                  class="w-full bg-cream-dark dark:bg-forest rounded-xl pl-10 pr-10 py-3 text-sm text-[#1A1A1A] dark:text-cream placeholder-[#8A8A8A] dark:placeholder-cream/30 outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                />
+                <button type="button" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40" (click)="showPassword.set(!showPassword())">
+                  <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" class="text-base"></ion-icon>
+                </button>
+              </div>
+              @if (fieldError(loginForm, 'password')) {
+                <p class="text-red-500 text-xs mt-1 ml-1">{{ fieldError(loginForm, 'password') }}</p>
+              }
+            </div>
+
+            <button
+              type="submit"
+              [disabled]="isLoading()"
+              class="w-full bg-primary text-white rounded-xl py-3.5 font-semibold text-sm shadow-md shadow-primary/20 active:scale-[0.98] transition-all mt-1 disabled:opacity-60 flex items-center justify-center gap-2"
+            >
+              @if (isLoading()) {
+                <ion-spinner name="crescent" class="w-4 h-4 text-white"></ion-spinner>
+                <span>{{ 'auth.signing_in' | t }}</span>
+              } @else {
+                <span>{{ 'auth.signin' | t }}</span>
+              }
+            </button>
+          </form>
+        }
+
+        <!-- Register Form -->
+        @if (activeTab() === 'register') {
+          <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="flex flex-col gap-3">
+            <div>
+              <div class="relative">
+                <ion-icon name="person-outline" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-base pointer-events-none"></ion-icon>
+                <input
+                  formControlName="name"
+                  type="text"
+                  [placeholder]="'auth.full_name' | t"
+                  autocomplete="name"
+                  class="w-full bg-cream-dark dark:bg-forest rounded-xl pl-10 pr-4 py-3 text-sm text-[#1A1A1A] dark:text-cream placeholder-[#8A8A8A] dark:placeholder-cream/30 outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                />
+              </div>
+              @if (fieldError(registerForm, 'name')) {
+                <p class="text-red-500 text-xs mt-1 ml-1">{{ fieldError(registerForm, 'name') }}</p>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <ion-icon name="mail-outline" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-base pointer-events-none"></ion-icon>
+                <input
+                  formControlName="email"
+                  type="email"
+                  [placeholder]="'auth.email' | t"
+                  autocomplete="email"
+                  class="w-full bg-cream-dark dark:bg-forest rounded-xl pl-10 pr-4 py-3 text-sm text-[#1A1A1A] dark:text-cream placeholder-[#8A8A8A] dark:placeholder-cream/30 outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                />
+              </div>
+              @if (fieldError(registerForm, 'email')) {
+                <p class="text-red-500 text-xs mt-1 ml-1">{{ fieldError(registerForm, 'email') }}</p>
+              }
+            </div>
+
+            <div>
+              <div class="relative">
+                <ion-icon name="lock-closed-outline" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40 text-base pointer-events-none"></ion-icon>
+                <input
+                  formControlName="password"
+                  [type]="showPassword() ? 'text' : 'password'"
+                  [placeholder]="'auth.password_hint' | t"
+                  autocomplete="new-password"
+                  class="w-full bg-cream-dark dark:bg-forest rounded-xl pl-10 pr-10 py-3 text-sm text-[#1A1A1A] dark:text-cream placeholder-[#8A8A8A] dark:placeholder-cream/30 outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                />
+                <button type="button" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8A8A8A] dark:text-cream/40" (click)="showPassword.set(!showPassword())">
+                  <ion-icon [name]="showPassword() ? 'eye-off-outline' : 'eye-outline'" class="text-base"></ion-icon>
+                </button>
+              </div>
+              @if (fieldError(registerForm, 'password')) {
+                <p class="text-red-500 text-xs mt-1 ml-1">{{ fieldError(registerForm, 'password') }}</p>
+              }
+            </div>
+
+            <button
+              type="submit"
+              [disabled]="isLoading()"
+              class="w-full bg-primary text-white rounded-xl py-3.5 font-semibold text-sm shadow-md shadow-primary/20 active:scale-[0.98] transition-all mt-1 disabled:opacity-60 flex items-center justify-center gap-2"
+            >
+              @if (isLoading()) {
+                <ion-spinner name="crescent" class="w-4 h-4 text-white"></ion-spinner>
+                <span>{{ 'auth.creating' | t }}</span>
+              } @else {
+                <span>{{ 'auth.create_account' | t }}</span>
+              }
+            </button>
+          </form>
+        }
+
+        <!-- Divider -->
+        <div class="flex items-center gap-3 mt-4">
+          <div class="h-px bg-cream-dark dark:bg-forest-light/20 flex-1"></div>
+          <span class="text-xs text-[#8A8A8A] dark:text-cream/30 font-medium">or</span>
+          <div class="h-px bg-cream-dark dark:bg-forest-light/20 flex-1"></div>
+        </div>
+
+        <!-- Google -->
+        <button
+          type="button"
+          (click)="onGoogleLogin()"
+          class="w-full flex items-center justify-center gap-3 mt-3
+                 bg-white dark:bg-forest/40
+                 border border-cream-dark dark:border-forest-light/40
+                 rounded-xl py-3 text-sm font-semibold
+                 text-[#1A1A1A] dark:text-cream
+                 active:scale-[0.98] transition-all"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#4285F4" d="M23.745 12.27c0-.79-.07-1.54-.19-2.27h-11.3v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/>
+            <path fill="#34A853" d="M12.255 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96h-3.98v3.09C3.515 21.3 7.615 24 12.255 24z"/>
+            <path fill="#FBBC05" d="M5.525 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62h-3.98a11.86 11.86 0 000 10.76l3.98-3.09z"/>
+            <path fill="#EA4335" d="M12.255 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C18.205 1.19 15.495 0 12.255 0c-4.64 0-8.74 2.7-10.71 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+      </div>
+    </div>
+  </div>
+}

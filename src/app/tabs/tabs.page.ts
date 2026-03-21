@@ -13,6 +13,7 @@ import {
 import { filter } from 'rxjs/operators';
 import { TranslatePipe } from '../pipes/translate.pipe';
 import { AuthService } from '../services/auth.service';
+import { AuthModalComponent } from '../components/auth-modal/auth-modal.component';
 
 const TAB_ROUTES = ['/tabs/home', '/tabs/history', '/tabs/profile', '/tabs/settings'];
 
@@ -20,7 +21,7 @@ const TAB_ROUTES = ['/tabs/home', '/tabs/history', '/tabs/profile', '/tabs/setti
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, TranslatePipe],
+  imports: [IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, TranslatePipe, AuthModalComponent],
 })
 export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);

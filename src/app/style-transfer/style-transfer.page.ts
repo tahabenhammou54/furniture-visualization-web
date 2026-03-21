@@ -25,6 +25,7 @@ import {
 } from 'ionicons/icons';
 import { GenerationService } from '../services/generation.service';
 import { AuthService } from '../services/auth.service';
+import { AuthModalService } from '../services/auth-modal.service';
 import { ToastService } from '../services/toast.service';
 import { GenerateResponse, PresetRoom } from '../models/generation.model';
 import { PhotoPickerComponent } from '../components/photo-picker/photo-picker.component';
@@ -138,6 +139,7 @@ export class StyleTransferPage implements AfterViewInit, OnDestroy {
     private toast: ToastService,
     private router: Router,
     private zone: NgZone,
+    private authModal: AuthModalService,
   ) {
     addIcons({
       sparklesOutline, arrowBackOutline, flashOutline, brushOutline, trashOutline,
@@ -192,10 +194,7 @@ export class StyleTransferPage implements AfterViewInit, OnDestroy {
 
   onGenerateAndAdvance(): void {
     if (!this.canGenerate()) return;
-    if (!this.auth.token) {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url } });
-      return;
-    }
+    if (!this.auth.token) { this.authModal.open(() => this.onGenerateAndAdvance()); return; }
     this.stepDirection.set('forward');
     this.currentStep.set(this.steps.length - 1);
     this.content?.scrollToTop(300);

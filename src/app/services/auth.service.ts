@@ -80,6 +80,24 @@ export class AuthService {
     window.location.href = `${this.apiUrl}/auth/google`;
   }
 
+  /** Open Google OAuth in a popup; calls onSuccess() after token is stored */
+  loginWithGooglePopup(onSuccess: () => void): void {
+    const url = `${this.apiUrl}/auth/google`;
+    const w = 500, h = 620;
+    const left = window.screenX + (window.outerWidth - w) / 2;
+    const top = window.screenY + (window.outerHeight - h) / 2;
+    window.open(url, 'google-oauth', `width=${w},height=${h},top=${top},left=${left}`);
+
+    const handler = async (event: StorageEvent) => {
+      if (event.key !== 'google_auth_token' || !event.newValue) return;
+      window.removeEventListener('storage', handler);
+      localStorage.removeItem('google_auth_token');
+      await this.handleGoogleToken(event.newValue);
+      onSuccess();
+    };
+    window.addEventListener('storage', handler);
+  }
+
   /** Called by the google-success page after the OAuth redirect */
   async handleGoogleToken(token: string): Promise<void> {
     this._token = token;

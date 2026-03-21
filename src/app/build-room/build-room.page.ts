@@ -15,6 +15,7 @@ import {
 } from 'ionicons/icons';
 import { GenerationService } from '../services/generation.service';
 import { AuthService } from '../services/auth.service';
+import { AuthModalService } from '../services/auth-modal.service';
 import { ToastService } from '../services/toast.service';
 import { GenerateResponse, PresetRoom, BuildRoomApiRequest } from '../models/generation.model';
 import { RoomStyle, RoomType, ROOM_TYPE_OPTIONS, SelectedFurnitureItem, COLOR_PALETTES, ColorPalette } from '../models/build-room.model';
@@ -118,7 +119,8 @@ export class BuildRoomPage {
     private generation: GenerationService,
     public auth: AuthService,
     private toast: ToastService,
-    private router: Router
+    private router: Router,
+    private authModal: AuthModalService,
   ) {
     addIcons({ sparklesOutline, flashOutline, arrowBackOutline, chevronForwardOutline, chevronBackOutline, checkmarkOutline, homeOutline });
   }
@@ -189,10 +191,7 @@ export class BuildRoomPage {
   // ── Generate ─────────────────────────────────────────────
   onGenerateAndAdvance(): void {
     if (!this.canGenerate()) return;
-    if (!this.auth.token) {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url } });
-      return;
-    }
+    if (!this.auth.token) { this.authModal.open(() => this.onGenerateAndAdvance()); return; }
     this.stepDirection.set('forward');
     this.currentStep.set(this.steps.length - 1);
     this.content?.scrollToTop(300);

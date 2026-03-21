@@ -15,6 +15,7 @@ import {
 } from 'ionicons/icons';
 import { GenerationService } from '../services/generation.service';
 import { AuthService } from '../services/auth.service';
+import { AuthModalService } from '../services/auth-modal.service';
 import { ToastService } from '../services/toast.service';
 import { GenerateResponse, PresetRoom } from '../models/generation.model';
 import { PhotoPickerComponent } from '../components/photo-picker/photo-picker.component';
@@ -86,6 +87,13 @@ export class ReplacePage {
     return file ? URL.createObjectURL(file) : '';
   });
 
+  loaderImageUrl = computed(() => {
+    const room = this.roomFile();
+    if (room) return URL.createObjectURL(room);
+    const furniture = this.furnitureFile();
+    return furniture ? URL.createObjectURL(furniture) : '';
+  });
+
   get userInitials(): string {
     const name = this.auth.currentUser?.name || '';
     return name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2);
@@ -99,7 +107,8 @@ export class ReplacePage {
     private generation: GenerationService,
     public auth: AuthService,
     private toast: ToastService,
-    private router: Router
+    private router: Router,
+    private authModal: AuthModalService,
   ) {
     addIcons({ sparklesOutline, arrowBackOutline, flashOutline, swapHorizontalOutline, chevronForwardOutline, chevronBackOutline, checkmarkOutline });
   }
@@ -138,10 +147,7 @@ export class ReplacePage {
 
   onGenerateAndAdvance(): void {
     if (!this.canGenerate()) return;
-    if (!this.auth.token) {
-      this.router.navigate(['/auth/login'], { queryParams: { returnUrl: this.router.url } });
-      return;
-    }
+    if (!this.auth.token) { this.authModal.open(() => this.onGenerateAndAdvance()); return; }
     this.stepDirection.set('forward');
     this.currentStep.set(this.steps.length - 1);
     this.content?.scrollToTop(300);
