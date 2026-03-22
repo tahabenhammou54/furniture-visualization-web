@@ -62,32 +62,31 @@ export const ROOM_TYPE_OPTIONS: RoomTypeOption[] = [
 ]
 
 export const ROOM_STYLES: RoomStyle[] = [
-  // --- IMAGE 1 ---
   {
     id: 'modern',
     name: 'Modern',
     emoji: '◻️',
-    description: 'Clean lines, sleek and neutral tones',
+    description: 'Sleek, high-contrast, and gallery-inspired',
     colorHint: 'bg-gray-200',
-    prompt: 'modern interior design style, clean geometric lines, neutral color palette of whites grays and blacks, minimalist furniture with sleek surfaces, open floor plan, abundant natural light, contemporary finishes, photorealistic, 8k',
+    prompt: 'Ultra-modern high-end interior, bold geometric architectural forms, high-contrast palette of charcoal and soft white, low-profile Italian designer furniture, floor-to-ceiling windows, polished concrete floors, indirect LED cove lighting, oversized abstract canvas art, 8k resolution, cinematic lighting.',
     previewImgUrl: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'cozy',
     name: 'Cozy',
     emoji: '☕',
-    description: 'Warm, plush, and inviting',
+    description: 'Warm layers, soft textures, and glow',
     colorHint: 'bg-orange-100',
-    prompt: 'cozy warm interior design, plush fabrics, soft warm ambient lighting, comfortable oversized furniture, inviting atmosphere, warm earth tones, soft textiles like knit blankets and rugs, realistic interior photography',
+    prompt: 'High-end cozy sanctuary, layered heavy-knit boucle and cashmere textiles, oversized plush cloud-style sectional, warm ambient glowing light from designer floor lamps, crackling modern linear fireplace, light oak wood accents, thick wool area rug, amber-toned photography, 8k ultra-detailed.',
     previewImgUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'christmas',
     name: 'Christmas',
     emoji: '🎄',
-    description: 'Festive holiday atmosphere',
+    description: 'Magical, nostalgic holiday glow',
     colorHint: 'bg-red-100',
-    prompt: 'Christmas interior decor, festive holiday decorations, decorated Christmas tree with glowing warm lights, stockings, glowing fireplace, pine garlands, red and green accents, magical winter atmosphere',
+    prompt: 'Magical luxury Christmas interior, 12-foot Balsam Fir tree with thousands of tiny warm-white fairy lights, gold and champagne glass ornaments, velvet stockings on a stone mantel, pine-scented garlands with eucalyptus, warm flickering candlelight, snowy window view, soft bokeh photography, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=400&q=80'
   },
   {
@@ -96,247 +95,252 @@ export const ROOM_STYLES: RoomStyle[] = [
     emoji: '✨',
     description: 'High-end, elegant and opulent',
     colorHint: 'bg-yellow-100',
-    prompt: 'luxury interior design, elegant opulent decor, high-end materials like marble and polished brass, plush velvet furniture, grand crystal chandelier, sophisticated rich color palette, glamorous and expensive look, architectural digest style',
+    prompt: 'Bespoke luxury penthouse design, book-matched Calacatta marble walls, brushed champagne gold hardware, velvet curved furniture, massive tiered crystal chandelier, inset silk rugs, Architectural Digest photography, opulent textures, grand scale, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'minimalist',
     name: 'Minimalist',
     emoji: '🤍',
-    description: 'Ultra clean, less is more',
+    description: 'Zen-like, architectural purity',
     colorHint: 'bg-slate-100',
-    prompt: 'minimalist interior design, ultra clean uncluttered space, essential modern furniture only, strictly monochromatic or light neutral palette, beautiful negative space, simple functional forms, maximizing natural light',
+    prompt: 'High-end minimalist sanctuary, museum-quality negative space, seamless handle-less cabinetry, single statement designer lounge chair, limestone flooring, architectural soft shadows, strictly monochromatic warm-whites, hidden lighting, ultra-clean and serene, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'scandinavian',
     name: 'Scandinavian',
     emoji: '🦌',
-    description: 'Light woods, airy and functional',
+    description: 'Nordic Hygge, light woods, and air',
     colorHint: 'bg-stone-100',
-    prompt: 'Scandinavian interior design, hygge aesthetic, light natural wood floors and furniture, crisp white walls, functional and simple layout, soft natural textiles, muted pastel or neutral tones, bright airy photography',
+    prompt: 'Premium Scandinavian Hygge, pale ash wood furniture, Hans Wegner inspired chairs, white linen curtains, minimalist ceramic vase with dried branches, soft natural northern light, muted sage and cream palette, clean functional aesthetics, bright airy photography, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1556020685-ae41abfc9365?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'farmhouse',
     name: 'Farmhouse',
     emoji: '🌾',
-    description: 'Rustic charm meets modern comfort',
+    description: 'Modern rustic, shiplap, and charm',
     colorHint: 'bg-amber-100',
-    prompt: 'modern farmhouse interior, rustic elegance, distressed wood elements, white shiplap walls, sliding barn doors, vintage matte black metal fixtures, cozy and comfortable rural aesthetic, neutral base with earthy accents',
+    prompt: 'Modern luxury farmhouse, soaring vaulted ceilings with reclaimed oak beams, white shiplap walls, oversized black-framed windows, large apron-front sink, linen-upholstered dining chairs, matte black iron hardware, cozy sophisticated rural aesthetic, 8k photorealistic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'mid-century',
     name: 'Mid Century',
     emoji: '🕰️',
-    description: 'Retro 60s vibes, organic shapes',
+    description: 'Iconic 60s design, walnut and brass',
     colorHint: 'bg-orange-200',
-    prompt: 'Mid-century modern interior, retro 1950s 1960s aesthetic, teak wood furniture with tapered legs, organic curved shapes, bold geometric patterns, mustard yellow and teal accents, vintage classic iconic design',
+    prompt: 'Authentic mid-century modern luxury, rich walnut wood paneling, Eames lounge chair, atomic-age brass Sputnik chandelier, geometric wool rug in burnt orange and teal, tapered furniture legs, sun-drenched 1960s Palm Springs vibe, iconic designer furniture, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'airbnb',
     name: 'Airbnb',
     emoji: '🧳',
-    description: 'Trendy, photogenic, universal appeal',
+    description: 'Trendy, photogenic, and boutique',
     colorHint: 'bg-teal-100',
-    prompt: 'trendy boutique Airbnb style interior, highly photogenic and inviting space, contemporary chic decor, mix of modern and subtle bohemian elements, indoor plants, stylish abstract wall art, bright and airy professional photography style',
+    prompt: 'Boutique Airbnb style, highly curated photogenic corners, neon "good vibes" sign, gallery wall with abstract art, mix of velvet and rattan textures, trendy indoor fiddle leaf fig trees, bright "Instagrammable" professional photography, vibrant and welcoming, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=400&q=80'
   },
-
-  // --- IMAGE 2 ---
   {
     id: 'mediterranean',
     name: 'Mediterranean',
     emoji: '🌊',
-    description: 'Coastal European, terracotta accents',
+    description: 'Ibiza villa, white stucco, sea tones',
     colorHint: 'bg-blue-100',
-    prompt: 'Mediterranean interior style, coastal European aesthetic, warm terracotta tiles, arched doorways, white stucco walls, wrought iron details, vibrant sea blue accents, airy and sun-drenched space',
+    prompt: 'Luxury Ibiza villa interior, hand-applied white lime-plaster walls, soft organic arched niches, terracotta Zellige tiles, heavy rustic wooden ceiling beams, woven esparto grass decor, azure blue accents, sun-drenched sunroom, Mediterranean high-end resort feel, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'biophilic',
     name: 'Biophilic',
     emoji: '🌿',
-    description: 'Nature-inspired, abundant plants',
+    description: 'Nature-infused, jungle luxury',
     colorHint: 'bg-green-100',
-    prompt: 'biophilic interior design, abundant lush indoor plants, living green walls, natural materials like raw wood and stone, organic flowing shapes mimicking nature, maximizing daylight, seamless indoor-outdoor connection',
+    prompt: 'High-end biophilic architecture, indoor vertical living moss walls, integrated planters with tropical ferns, natural stone water feature, skylights pouring natural light, raw edge wood furniture, organic shapes, seamless connection to nature, fresh and oxygenated atmosphere, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1597218868981-1b68e15f0065?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'rustic',
     name: 'Rustic',
     emoji: '🪵',
-    description: 'Raw wood, stone, earthy warmth',
+    description: 'Mountain lodge, raw wood and stone',
     colorHint: 'bg-yellow-900',
-    prompt: 'rustic interior design, rugged natural beauty, raw unfinished heavy wood beams, large stone fireplace, earthy warm colors, heavy sturdy furniture, cozy mountain cabin atmosphere, textured natural fabrics',
+    prompt: 'Modern luxury mountain lodge, massive dry-stack river stone fireplace, hand-hewn cedar log beams, thick faux-fur throws, heavy leather armchairs, wrought iron chandeliers, warm wood-fire glow, panoramic mountain views through glass, 8k ultra-realistic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'zen',
     name: 'Zen',
     emoji: '🧘',
-    description: 'Peaceful, balanced, minimal',
+    description: 'Tranquil, balanced, and meditative',
     colorHint: 'bg-stone-200',
-    prompt: 'Zen interior design, tranquil and peaceful space, minimalist layout inspired by traditional Japanese interiors, low profile furniture, bamboo elements, neutral earthy palette, soft diffused lighting, harmonious and highly balanced',
+    prompt: 'Meditative Zen interior, low-profile black slate furniture, sand-colored walls, bamboo privacy screens, indoor bonsai focal point, soft diffused paper-filtered light, harmonious empty space, pebbles and water element, tranquil sanctuary, 8k resolution.',
     previewImgUrl: 'https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'japandi',
     name: 'Japandi',
     emoji: '🍵',
-    description: 'Japanese minimalism meets Nordic',
+    description: 'Minimalist soul meets Nordic warmth',
     colorHint: 'bg-orange-50',
-    prompt: 'Japandi interior design, perfect blend of Japanese minimalism and Scandinavian functionality, light oak wood, wabi-sabi aesthetics, muted warm neutrals, uncluttered surfaces, simple elegant forms, highly serene',
+    prompt: 'Sophisticated Japandi aesthetic, raw unfinished light oak, Wabi-sabi principles, low-profile black ash furniture, textured plaster walls (Limewash), paper lantern pendant lights (Noguchi style), minimalist ceramic decor, soft natural daylight, serene and balanced, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'coastal',
     name: 'Coastal',
     emoji: '🐚',
-    description: 'Breezy beach house vibes',
+    description: 'Hamptons breezy beach house',
     colorHint: 'bg-cyan-100',
-    prompt: 'coastal interior design, beach house aesthetic, light and breezy atmosphere, crisp white and soft blue ocean color palette, natural textures like rattan and jute, comfortable slipcovered furniture, subtle nautical touches',
+    prompt: 'Hamptons luxury coastal style, crisp white linen slipcovered sofas, driftwood coffee table, jute and sisal rugs, coral and seashell decor, nautical navy blue pinstripe accents, bright breezy ocean air, sun-bleached wood floors, high-end beach house photography, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'vintage',
     name: 'Vintage',
     emoji: '📻',
-    description: 'Nostalgic charm, antique decor',
+    description: 'Nostalgic charm and heirloom decor',
     colorHint: 'bg-rose-100',
-    prompt: 'vintage interior design, eclectic mix of beautiful antique furniture, delicate floral wallpaper, ornate classic details, rich nostalgic color palette, heirloom decor pieces, classic retro charm, beautifully layered and lived-in look',
+    prompt: 'Elegant vintage revival, curated antique furniture with patina, floral silk wallpaper, ornate gilded mirrors, lace curtains, rich mahogany wood, nostalgic warm color palette, heirloom decor, beautifully layered and lived-in Victorian-inspired look, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'tropical',
     name: 'Tropical',
     emoji: '🌴',
-    description: 'Lush exotic plants, bold colors',
+    description: 'Bali resort, lush and exotic',
     colorHint: 'bg-lime-100',
-    prompt: 'tropical interior design, lush exotic island atmosphere, bold botanical prints, large palm leaves, bamboo and rattan furniture, vibrant accent colors like emerald green and bright coral, airy and high-end resort feel',
+    prompt: 'Ultra-luxury Bali resort interior, thatched Alang-Alang roofing, dark volcanic stone walls, lush exotic jungle indoor landscaping, oversized monsteras and palms, sunken floor lounge, glowing warm outdoor lanterns, exotic paradise vibe, 8k resolution.',
     previewImgUrl: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'industrial',
     name: 'Industrial',
     emoji: '🏗️',
-    description: 'Urban loft, exposed brick and metal',
+    description: 'New York loft, raw and edgy',
     colorHint: 'bg-zinc-300',
-    prompt: 'industrial interior design, urban loft aesthetic, exposed red brick walls, visible metal pipes and ducts, polished concrete floors, raw and unfinished architectural look, distressed leather furniture, dark moody tones',
+    prompt: 'Luxury New York loft industrial style, double-height ceilings, weathered red brick, matte black steel beams, cognac distressed leather sofa, reclaimed wood dining table, Edison bulb statement lighting, polished concrete floors, gritty yet high-end, 8k photorealistic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=400&q=80'
   },
-
-  // --- IMAGE 3 ---
   {
     id: 'halloween',
     name: 'Halloween',
     emoji: '🎃',
-    description: 'Spooky, festive, orange and black',
+    description: 'Spooky, festive, and eerie',
     colorHint: 'bg-orange-600',
-    prompt: 'Halloween interior decor, spooky and festive atmosphere, carved glowing jack-o-lantern pumpkins, faux cobwebs, dark black and orange color scheme, dim eerie lighting, gothic candles, playfully spooky seasonal decorations',
+    prompt: 'Sophisticated Halloween haunted manor, hundreds of glowing floating candles, real carved pumpkins with intricate faces, black lace textiles, gothic candelabras, mist and low-lying fog on the floor, eerie orange and purple ambient light, dark Victorian mystery, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1508344928928-7165b67de128?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'cartoon',
     name: 'Cartoon',
     emoji: '🎨',
-    description: 'Stylized 3D, bright primary colors',
+    description: '3D Pixar-style, vibrant and playful',
     colorHint: 'bg-yellow-300',
-    prompt: 'cartoon style interior, stylized 3D illustration look, bright saturated vibrant colors, exaggerated chunky furniture proportions, playful and whimsical atmosphere, soft cel-shaded or glossy toy-like appearance, highly fun and vibrant',
+    prompt: 'Stylized 3D cartoon interior, Pixar-style animation render, chunky rounded furniture proportions, vibrant saturated colors, soft plastic textures, glowing toy-like appearance, whimsical and high-quality 3D illustration, volumetric lighting, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'medieval',
     name: 'Medieval',
     emoji: '🛡️',
-    description: 'Castle-like, heavy wood, stone',
+    description: 'Gothic castle, stone and iron',
     colorHint: 'bg-stone-400',
-    prompt: 'medieval interior design, historical castle-like atmosphere, heavy dark solid wood furniture, rough stone walls, forged iron chandeliers, tapestries, rich velvet fabrics, gothic architectural arches, warm flickering firelight',
+    prompt: 'Epic Medieval castle hall, massive vaulted stone arches, roaring walk-in fireplace, long solid oak banquet table, wrought iron chandeliers with dripping wax candles, wall-hung tapestries, fur rugs, mysterious torchlight, Game of Thrones aesthetic, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1574610758891-5b809b6e6e2e?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'concrete',
     name: 'Concrete',
     emoji: '🧱',
-    description: 'Brutalist, stark, monochrome',
+    description: 'Brutalist, raw, and structural',
     colorHint: 'bg-gray-400',
-    prompt: 'concrete interior design, brutalist architectural elements, exposed poured concrete walls and floors, minimalist and highly industrial, stark structural forms, monochrome gray palette, sleek modern furniture contrasting the raw concrete',
+    prompt: 'Architectural Brutalist interior, raw board-formed concrete walls, structural concrete beams, minimalist modular furniture in slate grey, massive glass windows, stark sunlight and deep shadows, industrial monochromatic masterpiece, 8k photorealistic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'bohemian',
     name: 'Bohemian',
     emoji: '🧶',
-    description: 'Eclectic, colorful, layered textures',
+    description: 'Artistic, botanical, and free-spirited',
     colorHint: 'bg-fuchsia-100',
-    prompt: 'bohemian interior design, boho chic, highly eclectic and free-spirited, layered patterned rugs, macrame wall hangings, colorful warm vibrant palette, lots of indoor hanging plants, low floor seating, global inspired artisanal decor',
+    prompt: 'Luxury boho-chic interior, eclectic curated treasures, hand-woven Moroccan rugs, abundant indoor jungle of tropical plants, rattan hanging egg chair, colorful velvet floor cushions, warm sun-drenched photography, macrame art, artistic and vibrant, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1529338296731-c4280a44fc48?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'baroque',
     name: 'Baroque',
     emoji: '👑',
-    description: 'Highly ornate, dramatic, luxurious',
+    description: 'Gilded, dramatic, and royal',
     colorHint: 'bg-purple-200',
-    prompt: 'baroque interior design, ultra ornate and highly dramatic, rich deep colors like burgundy red and bright gold leaf, elaborate molding and carved stucco, grand crystal chandeliers, luxurious heavy fabrics, intricate highly detailed antique furniture',
+    prompt: 'Grand Baroque palace interior, 24k gold leaf ornate moldings, ceiling fresco paintings, deep crimson velvet upholstery, intricate marquetry furniture, dramatic chiaroscuro lighting, Versailles-inspired opulence, royal and theatrical, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'rainbow',
     name: 'Rainbow',
     emoji: '🌈',
-    description: 'Extremely colorful and energetic',
+    description: 'Pop-art, maximalist, and neon',
     colorHint: 'bg-pink-100',
-    prompt: 'rainbow interior design, extremely colorful and vibrant space, multicolored brightly painted furniture and accents, playful and bold maximalist aesthetic, pop art influences, highly energetic and joyful atmosphere',
+    prompt: 'Vibrant Rainbow maximalist interior, Pop-art aesthetic, multicolored acrylic furniture, neon-lit bookshelves, bold clashing patterns, joyful energetic atmosphere, saturated candy colors, highly artistic and avant-garde, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'cyberpunk',
     name: 'Cyberpunk',
     emoji: '🤖',
-    description: 'Neon lights, futuristic tech',
+    description: 'Futuristic neon and tech-noir',
     colorHint: 'bg-indigo-900',
-    prompt: 'cyberpunk interior design, futuristic sci-fi apartment aesthetic, glowing neon lights in hot pink and electric blue, high-tech gadgets, dark reflective metallic surfaces, dystopian urban elements, LED strips everywhere, sleek and highly advanced look',
+    prompt: 'High-tech Cyberpunk apartment, futuristic carbon fiber furniture, neon pink and cyan recessed LED strips, dark chrome surfaces, holographic decor elements, rain-streaked window view with city lights, cinematic sci-fi atmosphere, Unreal Engine 5 render style, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'gothic',
     name: 'Gothic',
     emoji: '🦇',
-    description: 'Dark, moody, Victorian elegance',
+    description: 'Moody Victorian Noir',
     colorHint: 'bg-black',
-    prompt: 'modern gothic interior design, dark and moody atmospheric space, pitch black walls or dark rich jewel tones, ornate Victorian gothic architecture elements, tufted velvet upholstery, dramatic focused lighting, antique mysterious decor',
+    prompt: 'Modern Gothic luxury, matte black walls with ornate molding, deep purple velvet wingback chairs, silver candelabras, ravens-wing black decor, mysterious atmospheric lighting, Victorian noir elegance, dramatic and sophisticated, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'techno',
     name: 'Techno',
     emoji: '🎛️',
-    description: 'Club vibes, LED lights, sleek',
+    description: 'Industrial club, lasers, and steel',
     colorHint: 'bg-blue-900',
-    prompt: 'techno club interior style, modern nightlife electronic aesthetic, dark room bathed in vibrant LED and laser lighting, sleek glossy metallic surfaces, minimalist futuristic lounge furniture, underground music studio vibe',
+    prompt: 'Berlin techno club aesthetic, industrial raw steel surfaces, strobing blue and white laser lights, minimalist black modular seating, Funktion-One speaker stacks, dark moody warehouse vibe, smoke and haze effect, underground nightlife vibe, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1563841930606-67e2bce48b78?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'creepy',
     name: 'Creepy',
     emoji: '🕸️',
-    description: 'Dilapidated, eerie, haunted',
+    description: 'Abandoned, haunted, and chilling',
     colorHint: 'bg-slate-800',
-    prompt: 'creepy interior, haunted house aesthetic, dilapidated and abandoned look, peeling distressed wallpaper, dusty covered antique furniture, eerie long shadows, dimly lit, unsettling and terrifying cinematic atmosphere',
+    prompt: 'Chilling abandoned mansion interior, peeling lead paint, rotting floorboards, dust-covered grand piano, cobwebs over antique mirrors, unsettling long shadows, cold moonlight through broken windows, terrifying horror movie atmosphere, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1509909756405-be0199881695?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'japanese',
     name: 'Japanese',
     emoji: '🏯',
-    description: 'Traditional Washitsu, tatami mats',
+    description: 'Traditional Washitsu and Tatami',
     colorHint: 'bg-red-50',
-    prompt: 'traditional Japanese interior design, washitsu room, woven tatami mats on the floor, sliding shoji paper doors, low wooden tables, minimalist floor cushions, tokonoma alcove, natural wood and paper materials, highly serene and balanced',
+    prompt: 'Traditional Japanese Washitsu room, premium woven tatami flooring, handmade shoji sliding paper doors, low solid cedar wood table, zabuton floor cushions, tokonoma alcove with single scroll and flower, soft diffused paper lighting, extremely serene, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1490312278390-ab64016e0aa9?auto=format&fit=crop&w=400&q=80'
-  }
+  },
+{
+    id: 'moroccan-style',
+    name: 'Moroccan',
+    emoji: '🇲🇦',
+    description: 'Authentic Moroccan furniture and room design',
+    colorHint: 'bg-orange-800',
+    prompt: 'Professional Moroccan interior design. Transform this space into an authentic Moroccan room using traditional Moroccan furniture, carved wood tables, authentic seating, and Moroccan architectural influences. Every piece of furniture must be Moroccan style. Photorealistic, 8k.',
+    previewImgUrl: 'https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=400&q=80'
+  },
 ];
 
 export const OUTDOOR_STYLES: RoomStyle[] = [
@@ -344,119 +348,110 @@ export const OUTDOOR_STYLES: RoomStyle[] = [
     id: 'outdoor-modern',
     name: 'Modern',
     emoji: '◻️',
-    description: 'Clean lines, sleek and contemporary',
+    description: 'Architectural, glass-heavy, and sharp',
     colorHint: 'bg-gray-200',
-    prompt: 'modern exterior design, clean geometric architecture, flat roof, large glass windows, minimalist facade, neutral tones of white and grey, sleek outdoor furniture, manicured lawn, photorealistic, 8k',
+    prompt: 'Contemporary architectural masterpiece, cantilevered rooflines, floor-to-ceiling glass pivot doors, black basalt stone cladding, white smooth stucco, infinity edge pool with turquoise water, minimalist fire pit lounge, professional architectural evening photography, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-retro',
     name: 'Retro',
     emoji: '📻',
-    description: 'Vintage charm with nostalgic details',
+    description: '1950s Americana, pastel and neon',
     colorHint: 'bg-yellow-100',
-    prompt: 'retro exterior design, vintage 1950s-1960s architectural style, pastel color palette, decorative trim, curved awnings, classic landscaping, nostalgic charm, photorealistic, 8k',
+    prompt: 'Mid-century American Googie architecture, pastel pink and mint green facade, boomerang-shaped roof overhang, retro neon signage, classic 1950s vintage cars in driveway, desert palms, nostalgic retro-future aesthetic, Kodachrome photography style, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-christmas',
     name: 'Christmas',
     emoji: '🎄',
-    description: 'Festive holiday exterior decor',
+    description: 'Holiday magic and winter snow',
     colorHint: 'bg-red-100',
-    prompt: 'Christmas exterior decor, holiday lights strung on the facade, wreath on the door, snow-dusted roof, red and green festive decorations, warm glowing windows, cozy winter atmosphere, photorealistic, 8k',
+    prompt: 'Magical luxury Christmas exterior, thousands of warm-white LEDs tracing the roofline, professional outdoor light show, giant lit wreaths, snow-covered landscape, glowing interior lights through windows, festive holiday curb appeal, 8k cinematic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1481833761820-0509d3217039?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-cozy',
     name: 'Cozy',
     emoji: '☕',
-    description: 'Warm, inviting cottage atmosphere',
+    description: 'Storybook cottage and English garden',
     colorHint: 'bg-orange-100',
-    prompt: 'cozy cottage exterior, warm stone facade, climbing ivy, flower boxes under windows, soft warm lighting, inviting front porch with rocking chairs, lush garden path, photorealistic, 8k',
+    prompt: 'Charming English storybook cottage, Cotswold stone walls, thatched roof, climbing pink roses and ivy, cobblestone path, warm glowing windows at dusk, lush perennial garden, inviting porch with wooden swings, 8k ultra-romantic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-rustic',
     name: 'Rustic',
     emoji: '🪵',
-    description: 'Natural wood and earthy textures',
+    description: 'Timber-frame ranch and wilderness',
     colorHint: 'bg-amber-100',
-    prompt: 'rustic exterior design, natural wood siding and timber beams, stone foundation, metal roof, rough-hewn textures, wildflower garden, gravel path, rural countryside setting, photorealistic, 8k',
+    prompt: 'Luxury rustic ranch exterior, heavy timber-frame construction, rough-cut stone foundation, wrap-around porch, outdoor stone fireplace, rugged wilderness setting with pine trees, warm lantern lighting, high-end mountain architecture, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-farmhouse',
     name: 'Farmhouse',
     emoji: '🏡',
-    description: 'Classic American farmhouse charm',
+    description: 'Modern white farmhouse estate',
     colorHint: 'bg-stone-100',
-    prompt: 'modern farmhouse exterior, white board and batten siding, black window frames, metal roof, covered front porch with wooden columns, raised garden beds, split rail fence, photorealistic, 8k',
+    prompt: 'Modern luxury farmhouse exterior, crisp white board-and-batten siding, black metal standing seam roof, massive wrap-around porch with rocking chairs, symmetrical barn-style windows, manicured lawn with lavender, high-end rural estate, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-minimalist',
     name: 'Minimalist',
     emoji: '⬜',
-    description: 'Simple, uncluttered and serene',
+    description: 'Sculptural, pure, and desert-cool',
     colorHint: 'bg-neutral-100',
-    prompt: 'minimalist exterior design, pure white stucco walls, flat roof, minimal landscaping with gravel and sculptural plants, clean uncluttered facade, hidden gutters, zen-like serenity, photorealistic, 8k',
+    prompt: 'Architectural minimalist exterior, pure white monolithic forms, flat roof, hidden gutters, single desert tree in a courtyard, gravel landscape with sculptural rocks, shadow-play on blank walls, ultra-modern and peaceful, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-tropical',
     name: 'Tropical',
     emoji: '🌴',
-    description: 'Lush, vibrant and exotic foliage',
+    description: 'Bali resort, lush and exotic',
     colorHint: 'bg-green-100',
-    prompt: 'tropical exterior design, lush palm trees and exotic plants, thatched or bamboo accents, bright colorful facade, outdoor pergola with climbing vines, resort-style swimming pool, photorealistic, 8k',
+    prompt: 'Ultra-luxury Bali resort exterior, thatched Alang-Alang roofing, dark volcanic stone walls, lush exotic jungle landscaping, oversized monsteras and palms, sunken poolside lounge, glowing warm outdoor lanterns, exotic paradise vibe, 8k resolution.',
     previewImgUrl: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-luxury',
     name: 'Luxury',
     emoji: '💎',
-    description: 'Opulent finishes and grand presence',
+    description: 'Grand estate, manicured and elite',
     colorHint: 'bg-yellow-50',
-    prompt: 'luxury exterior design, grand villa, natural stone cladding, ornate iron gates, manicured hedgerows, fountain in driveway, infinity pool, high-end outdoor furniture, dramatic uplighting, photorealistic, 8k',
+    prompt: 'Grand European estate facade, limestone walls, symmetrical formal gardens, white marble fountain, dramatic architectural uplighting, high-end designer outdoor kitchen, Bentley-level luxury, crisp sunset lighting, 8k ultra-detailed.',
     previewImgUrl: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-mediterranean',
     name: 'Mediterranean',
     emoji: '🏛️',
-    description: 'Sun-soaked terracotta and arches',
+    description: 'Tuscan villa, olive trees, and sun',
     colorHint: 'bg-orange-50',
-    prompt: 'Mediterranean exterior design, terracotta roof tiles, stucco walls in warm white and ochre, arched doorways and windows, bougainvillea climbing the walls, terracotta pots, olive trees, blue shutters, photorealistic, 8k',
+    prompt: 'Luxury Tuscan villa facade, warm ochre stucco walls, terracotta tile roof, arched stone loggias, climbing purple bougainvillea, century-old olive trees, wrought iron balconies, sun-drenched Italian countryside, 8k photorealistic.',
     previewImgUrl: 'https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-midcentury',
     name: 'Midcentury',
     emoji: '🕰️',
-    description: 'Atomic age style meets nature',
+    description: 'Palm Springs chic, desert and glass',
     colorHint: 'bg-teal-50',
-    prompt: 'mid-century modern exterior, low-pitched gable roof, large panoramic windows, horizontal lines, wood and brick combination, carport, atomic age landscaping with ornamental grasses, photorealistic, 8k',
+    prompt: 'Iconic Palm Springs mid-century exterior, low-slung roofline, decorative breeze blocks, bright orange front door, desert xeriscaping with cacti, swimming pool reflecting the sunset, retro-luxury aesthetic, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1416331108676-a22ccb276e35?auto=format&fit=crop&w=400&q=80'
   },
   {
     id: 'outdoor-zen',
     name: 'Zen',
     emoji: '🪨',
-    description: 'Tranquil, balanced and meditative',
+    description: 'Japanese garden, moss and serenity',
     colorHint: 'bg-stone-50',
-    prompt: 'zen exterior design, Japanese-inspired garden, raked gravel and mossy stones, bamboo fence, minimalist facade in natural grey and beige, koi pond, stone lanterns, cherry blossom tree, photorealistic, 8k',
+    prompt: 'Traditional Japanese garden exterior, raked white sand (Karesansui), aged bonsai trees, moss-covered granite lanterns, dark Shou Sugi Ban wood facade, koi pond with wooden bridge, extremely peaceful and balanced, 8k.',
     previewImgUrl: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=400&q=80'
-  },
-  {
-    id: 'outdoor-no-style',
-    name: 'No Style',
-    emoji: '✨',
-    description: 'Let AI decide the best look',
-    colorHint: 'bg-gray-50',
-    prompt: 'beautifully designed exterior, photorealistic, 8k',
-    previewImgUrl: ''
-  },
+  }
 ];
 
 export const PRESET_FURNITURE: PresetFurniture[] = [
