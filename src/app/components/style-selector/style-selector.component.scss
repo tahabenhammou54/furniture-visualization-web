@@ -2,6 +2,7 @@
   display: flex;
   gap: 10px;
   overflow-x: auto;
+  justify-content: center;
   flex-wrap: wrap;
   padding-bottom: 4px;
   -ms-overflow-style: none;
@@ -16,7 +17,8 @@
   align-items: center;
   gap: 8px;
   padding: 12px 10px 10px;
-  width: 88px;
+  width: 100%;
+  max-width: 115px;
   border-radius: 16px;
   border: 2px solid transparent;
   background: white;
