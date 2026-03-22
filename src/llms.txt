@@ -20,20 +20,20 @@ HomeSketch AI is free to start. Free users get daily generations. Premium plans 
 
 ## Links
 
-- Website: https://homesketchai.com
-- AI Room Redesign: https://homesketchai.com/tabs/build-room
-- Furniture Replacement: https://homesketchai.com/tabs/replace
-- Object Removal: https://homesketchai.com/tabs/cleanup
-- Style Transfer: https://homesketchai.com/tabs/style-transfer
-- Wall Redesign: https://homesketchai.com/tabs/walls
-- Flooring Visualizer: https://homesketchai.com/tabs/flooring
-- Exterior Design: https://homesketchai.com/tabs/exterior-design
-- Pricing: https://homesketchai.com/tabs/subscription
-- Privacy Policy: https://homesketchai.com/tabs/privacy
-- Terms of Service: https://homesketchai.com/tabs/terms
+- Website: https://www.homesketchai.com
+- AI Room Redesign: https://www.homesketchai.com/tabs/build-room
+- Furniture Replacement: https://www.homesketchai.com/tabs/replace
+- Object Removal: https://www.homesketchai.com/tabs/cleanup
+- Style Transfer: https://www.homesketchai.com/tabs/style-transfer
+- Wall Redesign: https://www.homesketchai.com/tabs/walls
+- Flooring Visualizer: https://www.homesketchai.com/tabs/flooring
+- Exterior Design: https://www.homesketchai.com/tabs/exterior-design
+- Pricing: https://www.homesketchai.com/tabs/subscription
+- Privacy Policy: https://www.homesketchai.com/tabs/privacy
+- Terms of Service: https://www.homesketchai.com/tabs/terms
 
 ## Availability
 
-- Web: https://homesketchai.com (works on all browsers)
+- Web: https://www.homesketchai.com (works on all browsers)
 - Mobile: Progressive Web App (add to home screen on iOS/Android)
 - Supported styles: Modern, Minimalist, Japandi, Luxury, Boho, Scandinavian, Industrial, Coastal, Mediterranean, Farmhouse, Contemporary, Art Deco, Rustic, Mid-Century Modern, Wabi-Sabi, Neo-Classic, Tropical, Eclectic, French Country, Hollywood Regency

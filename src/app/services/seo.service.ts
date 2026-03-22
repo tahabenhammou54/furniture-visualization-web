@@ -11,7 +11,7 @@ export interface SeoConfig {
   noindex?: boolean;
 }
 
-const BASE_URL = 'https://homesketchai.com';
+const BASE_URL = 'https://www.homesketchai.com';
 const DEFAULT_OG_IMAGE = `${BASE_URL}/assets/og/og-image.jpg`;
 
 const ROUTE_META: Record<string, SeoConfig> = {
