@@ -1,0 +1,39 @@
+# HomeSketch AI
+
+> AI-powered interior design and room redesign tool. Transform any room photo into a stunning redesign in seconds.
+
+HomeSketch AI is a web and mobile application that uses AI to help homeowners, renters, interior designers, and real estate professionals visualize room redesigns instantly. Upload a photo of any room and get a photorealistic AI-generated redesign in under 30 seconds.
+
+## Features
+
+- **AI Room Redesign**: Upload a room photo, choose from 20+ design styles (Modern, Minimalist, Japandi, Boho, Scandinavian, Industrial, Coastal, Mediterranean, Farmhouse, Art Deco, Rustic, Mid-Century, and more), and get a complete interior redesign in seconds.
+- **Furniture Replacement**: Upload a room photo and a furniture image. The AI places the new furniture naturally into the room with realistic lighting and shadows.
+- **AI Object Removal**: Paint over any unwanted object in a room photo and the AI removes it seamlessly, reconstructing the background behind it.
+- **Style Transfer**: Select any object in your room (sofa, table, rug, etc.) and replace it with a new style, material, or design using AI.
+- **Wall Redesign**: Change wall paint colors, wallpaper, textures, stone cladding, wood paneling, and other materials with one click.
+- **Flooring Visualizer**: Preview hardwood, tile, marble, concrete, carpet, and other flooring options in your actual room.
+- **Exterior & Garden Design**: Redesign your home facade, landscaping, pathways, and garden with AI-generated exterior styles.
+
+## Pricing
+
+HomeSketch AI is free to start. Free users get daily generations. Premium plans unlock unlimited AI redesigns and priority generation.
+
+## Links
+
+- Website: https://homesketchai.com
+- AI Room Redesign: https://homesketchai.com/tabs/build-room
+- Furniture Replacement: https://homesketchai.com/tabs/replace
+- Object Removal: https://homesketchai.com/tabs/cleanup
+- Style Transfer: https://homesketchai.com/tabs/style-transfer
+- Wall Redesign: https://homesketchai.com/tabs/walls
+- Flooring Visualizer: https://homesketchai.com/tabs/flooring
+- Exterior Design: https://homesketchai.com/tabs/exterior-design
+- Pricing: https://homesketchai.com/tabs/subscription
+- Privacy Policy: https://homesketchai.com/tabs/privacy
+- Terms of Service: https://homesketchai.com/tabs/terms
+
+## Availability
+
+- Web: https://homesketchai.com (works on all browsers)
+- Mobile: Progressive Web App (add to home screen on iOS/Android)
+- Supported styles: Modern, Minimalist, Japandi, Luxury, Boho, Scandinavian, Industrial, Coastal, Mediterranean, Farmhouse, Contemporary, Art Deco, Rustic, Mid-Century Modern, Wabi-Sabi, Neo-Classic, Tropical, Eclectic, French Country, Hollywood Regency

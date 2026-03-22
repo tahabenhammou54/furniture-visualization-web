@@ -26,48 +26,64 @@ const ROUTE_META: Record<string, SeoConfig> = {
     title: 'Sign In — HomeSketch AI',
     description: 'Sign in to your HomeSketch AI account to access AI-powered interior design tools.',
     canonical: `${BASE_URL}/auth/login`,
-    noindex: false,
+    noindex: true,
   },
   '/auth/register': {
     title: 'Create Account — HomeSketch AI',
     description: 'Join HomeSketch AI and start transforming your rooms with AI. Free to sign up, no credit card required.',
     canonical: `${BASE_URL}/auth/register`,
-    noindex: false,
+    noindex: true,
   },
   '/tabs/home': {
-    title: 'Design Studio — HomeSketch AI',
-    description: 'Choose your AI design tool — room redesign, furniture visualization, style transfer, wall & flooring, exterior design, and more.',
-    noindex: true,
+    title: 'AI Design Studio — Interior & Exterior Design Tools | HomeSketch AI',
+    description: 'Access all AI design tools in one studio — room redesign, furniture visualization, style transfer, wall & flooring changes, exterior design, object removal, and garden design.',
+    canonical: `${BASE_URL}/tabs/home`,
   },
   '/tabs/build-room': {
-    title: 'AI Room Redesign — HomeSketch AI',
-    description: 'Upload a room photo and get an AI-powered redesign in seconds. Choose from 20+ interior styles.',
-    noindex: true,
+    title: 'AI Room Redesign — Transform Any Room Photo in Seconds | HomeSketch AI',
+    description: 'Upload a room photo and get an AI-powered interior redesign in seconds. Choose from 20+ styles including Modern, Minimalist, Japandi, Boho, Scandinavian, and more. Free to try.',
+    canonical: `${BASE_URL}/tabs/build-room`,
+    ogImage: `${BASE_URL}/assets/features/interior.webp`,
   },
   '/tabs/exterior-design': {
-    title: 'AI Exterior Design — HomeSketch AI',
-    description: 'Redesign your home facade with AI. Visualize new exteriors instantly.',
-    noindex: true,
+    title: 'AI Exterior & Garden Design — Redesign Your Home Facade | HomeSketch AI',
+    description: 'Redesign your home exterior, facade, driveway, and garden with AI. Visualize new exterior styles, landscaping, and curb appeal instantly. Upload a photo and transform it.',
+    canonical: `${BASE_URL}/tabs/exterior-design`,
+    ogImage: `${BASE_URL}/assets/features/exterior.webp`,
   },
   '/tabs/replace': {
-    title: 'Furniture Replacement — HomeSketch AI',
-    description: 'Replace or add furniture in any room photo using AI.',
-    noindex: true,
+    title: 'AI Furniture Replacement — Add or Swap Furniture in Any Room | HomeSketch AI',
+    description: 'Replace or add furniture in any room photo using AI. Upload a room and a furniture image to see how it looks placed naturally with realistic lighting and shadows.',
+    canonical: `${BASE_URL}/tabs/replace`,
+    ogImage: `${BASE_URL}/assets/features/replace.webp`,
   },
   '/tabs/cleanup': {
-    title: 'Object Removal — HomeSketch AI',
-    description: 'Remove any object from your room photos instantly with AI.',
-    noindex: true,
+    title: 'AI Object Removal — Remove Anything From Room Photos | HomeSketch AI',
+    description: 'Remove unwanted objects, furniture, or clutter from room photos instantly with AI. Paint over what you want gone and get a clean, seamless result in seconds.',
+    canonical: `${BASE_URL}/tabs/cleanup`,
+    ogImage: `${BASE_URL}/assets/features/cleanup.webp`,
+  },
+  '/tabs/style-transfer': {
+    title: 'AI Style Transfer — Replace Any Object in Your Room | HomeSketch AI',
+    description: 'Select any object in your room photo and replace it with a new style, material, or piece using AI. Swap sofas, tables, rugs, or any element with a brush and a prompt.',
+    canonical: `${BASE_URL}/tabs/style-transfer`,
   },
   '/tabs/walls': {
-    title: 'Wall Redesign — HomeSketch AI',
-    description: 'Change wall colors, textures, and materials with AI in one click.',
-    noindex: true,
+    title: 'AI Wall Redesign — Change Wall Colors & Textures Instantly | HomeSketch AI',
+    description: 'Change wall paint colors, wallpaper, textures, and materials in any room photo with AI. Visualize new wall treatments before committing. One-click transformation.',
+    canonical: `${BASE_URL}/tabs/walls`,
+    ogImage: `${BASE_URL}/assets/features/wall.webp`,
   },
   '/tabs/flooring': {
-    title: 'Flooring Redesign — HomeSketch AI',
-    description: 'Visualize new flooring options in your room with AI.',
-    noindex: true,
+    title: 'AI Flooring Visualizer — Preview New Floors in Your Room | HomeSketch AI',
+    description: 'Visualize hardwood, tile, marble, carpet, and other flooring options in your actual room using AI. Upload a photo and see photorealistic new floors in seconds.',
+    canonical: `${BASE_URL}/tabs/flooring`,
+    ogImage: `${BASE_URL}/assets/features/floor.webp`,
+  },
+  '/tabs/subscription': {
+    title: 'Pricing & Plans — Unlock Unlimited AI Designs | HomeSketch AI',
+    description: 'Choose a HomeSketch AI plan that fits your needs. Free tier included. Upgrade for unlimited AI room redesigns, priority generation, and full feature access.',
+    canonical: `${BASE_URL}/tabs/subscription`,
   },
   '/tabs/history': {
     title: 'My Designs — HomeSketch AI',
@@ -79,20 +95,20 @@ const ROUTE_META: Record<string, SeoConfig> = {
     description: 'Manage your HomeSketch AI account settings and preferences.',
     noindex: true,
   },
+  '/tabs/profile': {
+    title: 'Profile — HomeSketch AI',
+    description: 'Manage your HomeSketch AI profile.',
+    noindex: true,
+  },
   '/tabs/privacy': {
     title: 'Privacy Policy — HomeSketch AI',
-    description: 'Read the HomeSketch AI privacy policy to learn how we handle your data.',
+    description: 'Read the HomeSketch AI privacy policy to learn how we handle your data and protect your privacy.',
     canonical: `${BASE_URL}/tabs/privacy`,
   },
   '/tabs/terms': {
     title: 'Terms of Service — HomeSketch AI',
     description: 'Read the HomeSketch AI terms of service and usage agreement.',
     canonical: `${BASE_URL}/tabs/terms`,
-  },
-  '/tabs/subscription': {
-    title: 'Upgrade Plan — HomeSketch AI',
-    description: 'Unlock unlimited AI designs with HomeSketch AI premium plans.',
-    noindex: true,
   },
 };
 
@@ -111,10 +127,9 @@ export class SeoService {
     this.setRobots(cfg.noindex);
   }
 
-  /** Inject full landing-page JSON-LD schemas (called once from LandingPage) */
+  /** Inject landing-page JSON-LD schema (called once from LandingPage) */
   injectLandingSchema(): void {
-    this.injectJsonLd('ld-howto', HOWTO_SCHEMA);
-    this.injectJsonLd('ld-faq',   FAQ_SCHEMA);
+    this.injectJsonLd('ld-faq', FAQ_SCHEMA);
   }
 
   private setTitle(title: string): void {
@@ -166,39 +181,7 @@ export class SeoService {
   }
 }
 
-// ── HowTo Schema ─────────────────────────────────────────────────────────────
-const HOWTO_SCHEMA = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  'name': 'How to Redesign Your Room with AI',
-  'description': 'Use HomeSketch AI to transform any room photo into a professional redesign in 3 simple steps.',
-  'totalTime': 'PT1M',
-  'step': [
-    {
-      '@type': 'HowToStep',
-      'position': 1,
-      'name': 'Upload Your Room Photo',
-      'text': 'Take any photo of your room — living room, bedroom, kitchen, exterior, or garden — and upload it to HomeSketch AI.',
-      'image': 'https://homesketchai.com/assets/rooms/empty-room1.jpg',
-    },
-    {
-      '@type': 'HowToStep',
-      'position': 2,
-      'name': 'Choose Your Style',
-      'text': 'Select from 20+ design styles including Modern, Minimalist, Japandi, Boho, Luxury, Scandinavian, and more. Add furniture, set a palette, or describe your vision.',
-      'image': 'https://homesketchai.com/assets/features/interior.webp',
-    },
-    {
-      '@type': 'HowToStep',
-      'position': 3,
-      'name': 'Get Your AI Redesign',
-      'text': 'Receive your stunning redesign in seconds. Download, share, or generate unlimited variations in one tap.',
-      'image': 'https://homesketchai.com/assets/rooms/living-modern.webp',
-    },
-  ],
-};
-
-// ── FAQ Schema ────────────────────────────────────────────────────────────────
+// ── FAQ Schema (kept for AI citation benefit, not for Google rich results on commercial sites) ──
 const FAQ_SCHEMA = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',

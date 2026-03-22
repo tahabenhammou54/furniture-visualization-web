@@ -1,0 +1,37 @@
+# HomeSketch AI — https://homesketchai.com
+User-agent: *
+Allow: /
+Disallow: /tabs/history
+Disallow: /tabs/settings
+Disallow: /tabs/profile
+Disallow: /tabs/gen/
+Disallow: /tabs/result/
+Disallow: /auth/
+
+# ── AI Crawlers — explicitly allowed ─────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# Sitemaps
+Sitemap: https://homesketchai.com/sitemap.xml
