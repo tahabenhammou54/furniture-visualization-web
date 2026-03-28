@@ -123,7 +123,10 @@ export class SeoService {
     this.setTitle(cfg.title);
     this.setDescription(cfg.description);
     this.setOg(cfg);
-    this.setCanonical(cfg.canonical);
+    // For noindex pages without explicit canonical: remove the tag (don't default to /)
+    // For indexable pages without explicit canonical: self-reference the route
+    const canonical = cfg.canonical ?? (cfg.noindex ? undefined : `${BASE_URL}${route}`);
+    this.setCanonical(canonical);
     this.setRobots(cfg.noindex);
   }
 
@@ -155,13 +158,18 @@ export class SeoService {
   }
 
   private setCanonical(url?: string): void {
-    let link = this.doc.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    if (!link) {
-      link = this.doc.createElement('link');
-      link.setAttribute('rel', 'canonical');
-      this.doc.head.appendChild(link);
+    const link = this.doc.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!url) {
+      link?.remove();
+      return;
     }
-    link.setAttribute('href', url ?? `${BASE_URL}/`);
+    const el = link ?? (() => {
+      const created = this.doc.createElement('link');
+      created.setAttribute('rel', 'canonical');
+      this.doc.head.appendChild(created);
+      return created;
+    })();
+    el.setAttribute('href', url);
   }
 
   private setRobots(noindex?: boolean): void {
