@@ -94,6 +94,18 @@ export class AuthService {
     }
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/forgot-password`, { email });
+  }
+
+  verifyPin(email: string, pin: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/users/verify-pin`, { email, pin });
+  }
+
+  resetPasswordWithPin(email: string, pin: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reset-password`, { email, pin, password });
+  }
+
   /** Redirect the browser to the API's Google OAuth endpoint */
   loginWithGoogle(): void {
     window.location.href = `${this.apiUrl}/auth/google`;

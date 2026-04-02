@@ -12,11 +12,12 @@ import { AuthModalService } from '../../services/auth-modal.service';
 import { ToastService } from '../../services/toast.service';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { I18nService } from '../../services/i18n.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-auth-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IonIcon, IonSpinner, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule,RouterLink, IonIcon, IonSpinner, TranslatePipe],
   templateUrl: './auth-modal.component.html',
 })
 export class AuthModalComponent {
