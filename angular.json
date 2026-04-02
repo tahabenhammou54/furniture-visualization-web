@@ -39,6 +39,11 @@
                 "input": "public",
                 "output": ""
               },
+              {
+                "glob": "favicon.ico",
+                "input": "src/assets/icon",
+                "output": ""
+              },
               "src/robots.txt",
               "src/sitemap.xml",
               "src/llms.txt",
