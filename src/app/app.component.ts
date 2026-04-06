@@ -17,8 +17,15 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
       .subscribe((e: NavigationEnd) => {
-        // Strip query params and fragments for lookup
-        const path = e.urlAfterRedirects.split('?')[0].split('#')[0];
+        const url = e.urlAfterRedirects;
+        const path = url.split('?')[0].split('#')[0];
+
+        // Redirect root path with query params (e.g. Google Ads ?q= placeholders) to clean URL
+        if (path === '/' && url.includes('?')) {
+          this.router.navigate(['/'], { replaceUrl: true });
+          return;
+        }
+
         this.seo.update(path);
       });
   }

@@ -7,9 +7,10 @@ Disallow: /tabs/gen/
 Disallow: /tabs/profile
 Disallow: /tabs/history
 Disallow: /tabs/subscription
+Disallow: /*?q=
 
 # Sitemaps
-Sitemap: https://homesketchai.com/sitemap.xml
+Sitemap: https://www.homesketchai.com/sitemap.xml
 
 # Crawl-delay for polite bots
 Crawl-delay: 1
