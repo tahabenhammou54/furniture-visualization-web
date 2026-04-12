@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
+import { PromoPopupService } from './promo-popup.service';
 import {
   GenerateRequest,
   GenerateResponse,
@@ -17,10 +18,17 @@ import { SurfaceEditRequest } from '../models/build-room.model';
 export class GenerationService {
   private readonly apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient, private auth: AuthService) {}
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService,
+    private promo: PromoPopupService,
+  ) {}
 
   private refreshCredits<T>() {
-    return tap<T>(() => this.auth.refreshUser());
+    return tap<T>(() => {
+      this.auth.refreshUser();
+      this.promo.notifyGeneration();
+    });
   }
 
   generate(req: GenerateRequest): Observable<GenerateResponse> {

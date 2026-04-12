@@ -1,235 +1,241 @@
 <ion-content [fullscreen]="true" class="ion-no-padding">
-  <div class="min-h-full bg-cream dark:bg-[#0A1209] pb-16">
+  <div class="sub-wrap relative min-h-full bg-cream dark:bg-[#07080E] overflow-x-hidden pb-20">
 
-    <!-- ── Hero ────────────────────────────────────────────────── -->
-    <div class="relative overflow-hidden">
-      <!-- Gradient blobs -->
-      <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full opacity-20 dark:opacity-10 blur-3xl"
-          style="background: radial-gradient(circle, #F97316, #E8983A)"></div>
-        <div class="absolute top-10 -left-16 w-56 h-56 rounded-full opacity-15 dark:opacity-10 blur-3xl"
-          style="background: radial-gradient(circle, #8B5CF6, #6D28D9)"></div>
-      </div>
-
-      <!-- Close button -->
-      <div class="relative flex justify-end px-5 pt-safe-top pt-4">
-        <button type="button" aria-label="Close"
-          class="w-9 h-9 rounded-full flex items-center justify-center bg-black/8 dark:bg-white/10 text-[#555] dark:text-white/60 cursor-pointer transition-colors duration-200 hover:bg-black/15 dark:hover:bg-white/20"
-          (click)="close()">
-          <ion-icon name="close-outline" class="text-xl"></ion-icon>
-        </button>
-      </div>
-
-      <!-- Hero content -->
-      <div class="relative text-center px-6 pt-2 pb-8">
-        <!-- Icon badge -->
-        <div class="relative inline-flex mb-5">
-          <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
-            style="background: linear-gradient(135deg, #F97316, #C2410C)">
-            <ion-icon name="star-outline" class="text-3xl text-white"></ion-icon>
-          </div>
-          <div class="absolute inset-0 rounded-2xl blur-xl opacity-40"
-            style="background: linear-gradient(135deg, #F97316, #C2410C)"></div>
-        </div>
-
-        <h1 class="text-[1.75rem] font-black tracking-tight leading-tight mb-2">
-          <span class="text-[#1A1A1A] dark:text-cream">{{ 'sub.title' | t }}</span>
-        </h1>
-        <p class="text-sm text-[#6B7280] dark:text-cream/50 max-w-xs mx-auto leading-relaxed">
-          {{ 'sub.subtitle' | t }}
-        </p>
-
-        <!-- Status badge -->
-        @if (isLoggedIn) {
-          @if (isSubscribed) {
-            <div class="inline-flex items-center gap-1.5 mt-4 px-3.5 py-1.5 rounded-full
-                          bg-violet-50 dark:bg-violet-900/20
-                          border border-violet-200 dark:border-violet-600/30
-                          shadow-sm">
-              <ion-icon name="star-outline" class="text-violet-500 text-xs"></ion-icon>
-              <span class="text-xs font-bold text-violet-600 dark:text-violet-400">PRO</span>
-            </div>
-          } @else {
-            <div class="inline-flex items-center gap-1.5 mt-4 px-3.5 py-1.5 rounded-full
-                          bg-amber-50 dark:bg-amber-900/20
-                          border border-amber-200 dark:border-amber-600/30
-                          shadow-sm">
-              <ion-icon name="flash-outline" class="text-amber-500 text-xs"></ion-icon>
-              <span class="text-xs font-semibold text-amber-600 dark:text-amber-400">
-                {{ auth.dailyRemaining() }}/{{ auth.dailyLimit() }} {{ 'sub.credits_left' | t }}
-              </span>
-            </div>
-          }
-        }
-      </div>
+    <!-- ── Background orbs ── -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div class="absolute -top-40 -right-20 w-[600px] h-[600px] rounded-full opacity-[0.12] dark:opacity-[0.07] blur-[110px]"
+           style="background: radial-gradient(circle, #F97316, transparent)"></div>
+      <div class="absolute bottom-0 -left-24 w-[500px] h-[500px] rounded-full opacity-[0.08] dark:opacity-[0.06] blur-[100px]"
+           style="background: radial-gradient(circle, #8B5CF6, transparent)"></div>
     </div>
 
-    <!-- ── Plan Cards ───────────────────────────────────────────── -->
-    <div class="px-4 flex flex-col gap-3">
-      @for (plan of plans; track plan.id) {
-      <div class="plan-card cursor-pointer" [class.plan-card--selected]="selectedPlan() === plan.id"
-        [style.--plan-color]="plan.color" (click)="select(plan.id)" role="radio"
-        [attr.aria-checked]="selectedPlan() === plan.id">
-        <!-- Popular badge -->
-        @if (plan.badge) {
-        <div class="plan-popular-badge">{{ plan.badge | t }}</div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- ── Header bar ── -->
+      <div class="flex items-center justify-between pt-safe-top pt-5 pb-8">
+        <button type="button" (click)="close()"
+                class="flex items-center gap-1.5 text-sm font-medium text-[#9CA3AF] hover:text-[#1A1A1A] dark:hover:text-white transition-colors group cursor-pointer">
+          <ion-icon name="close-outline" class="text-xl group-hover:scale-110 transition-transform"></ion-icon>
+          <span class="hidden sm:block">Close</span>
+        </button>
+
+        @if (isLoggedIn && isSubscribed) {
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold text-violet-600 dark:text-violet-400
+                       bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-600/30
+                       rounded-full px-3 py-1">
+            <ion-icon name="star-outline" class="text-xs"></ion-icon>
+            You're already on Pro
+          </span>
         }
+      </div>
 
-        <div class="flex items-center gap-3.5">
-          <!-- Colored accent bar -->
-          <div class="w-1 self-stretch rounded-full shrink-0 transition-all duration-200"
-            [style.background]="selectedPlan() === plan.id ? plan.color : 'transparent'"
-            [style.opacity]="selectedPlan() === plan.id ? '1' : '0'"></div>
+      <!-- ── Hero ── -->
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h1 class="text-[2.4rem] sm:text-[3.2rem] lg:text-[3.8rem] font-black tracking-tight
+                   text-[#1A1A1A] dark:text-cream leading-[1.05] mb-4">
+          Design Without
+          <span style="background:linear-gradient(135deg,#F97316,#FBBF24 60%,#F97316);
+                       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+                       background-clip:text">Limits</span>
+        </h1>
 
-          <!-- Icon -->
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
-            [style.background]="plan.gradient">
-            <ion-icon [name]="plan.icon" class="text-white text-lg"></ion-icon>
+        <p class="text-[16px] sm:text-[18px] text-[#6B7280] dark:text-cream/50 leading-relaxed max-w-lg mx-auto">
+          Unlimited AI room designs, 2× faster processing, and zero watermarks —
+          starting at just <strong class="text-primary font-bold">$0.47/day</strong>.
+        </p>
+
+        @if (isLoggedIn && !isSubscribed) {
+          <div class="inline-flex items-center gap-2 mt-5 px-4 py-2 rounded-full
+                      bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-600/30">
+            <ion-icon name="flash-outline" class="text-amber-500 text-sm"></ion-icon>
+            <span class="text-sm font-semibold text-amber-600 dark:text-amber-400">
+              {{ auth.dailyRemaining() }}/{{ auth.dailyLimit() }} free generations left today
+            </span>
           </div>
+        }
+      </div>
 
-          <!-- Info -->
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="text-sm font-bold text-[#1A1A1A] dark:text-cream">
-                {{ plan.nameKey | t }}
-              </span>
-              @if (plan.savings) {
-              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full text-white leading-none"
-                [style.background]="plan.color">
-                {{ plan.savings | t }}
-              </span>
+      <!-- ── Plan Grid ── -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4 mb-10">
+        @for (plan of plans; track plan.id) {
+          <div class="plan-card plan-card-v cursor-pointer relative"
+               [class.plan-card--selected]="selectedPlan() === plan.id"
+               [style.--plan-color]="plan.color"
+               (click)="select(plan.id)"
+               role="radio"
+               [attr.aria-checked]="selectedPlan() === plan.id">
+
+            @if (plan.badge) {
+              <div class="plan-popular-badge">{{ plan.badge | t }}</div>
+            }
+
+            <!-- Radio -->
+            <div class="absolute top-3 right-3 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all duration-200"
+                 [style.border-color]="selectedPlan() === plan.id ? plan.color : undefined"
+                 [style.background]="selectedPlan() === plan.id ? plan.color : undefined"
+                 [class]="selectedPlan() === plan.id ? '' : 'border-black/15 dark:border-white/15'">
+              @if (selectedPlan() === plan.id) {
+                <ion-icon name="checkmark-outline" class="text-white text-[10px]"></ion-icon>
               }
             </div>
-            <div class="flex items-baseline gap-1 mt-0.5">
-              <span class="text-lg font-black" [style.color]="plan.color">{{ plan.price }}</span>
+
+            <!-- Icon -->
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3 shrink-0"
+                 [style.background]="plan.gradient">
+              <ion-icon [name]="plan.icon" class="text-white text-lg"></ion-icon>
             </div>
-            <p class="text-[11px] text-[#9CA3AF] dark:text-cream/35 mt-0.5 leading-snug">
+
+            <!-- Plan name -->
+            <div class="text-[11px] font-extrabold text-[#9CA3AF] dark:text-cream/40 uppercase tracking-wider mb-1.5">
+              {{ plan.nameKey | t }}
+            </div>
+
+            <!-- Price -->
+            <div class="flex items-baseline gap-0.5 flex-wrap">
+              <span class="text-[2rem] font-black leading-none" [style.color]="plan.color">
+                {{ plan.price }}
+              </span>
+            </div>
+            <p class="text-[11px] text-[#9CA3AF] dark:text-cream/30 mt-1 leading-snug">
               {{ plan.priceSubKey | t }}
             </p>
-          </div>
+            @if (plan.priceSub2Key) {
+              <p class="text-[10px] text-[#9CA3AF] dark:text-cream/25 mt-0.5 leading-snug">
+                {{ plan.priceSub2Key | t }}
+              </p>
+            }
 
-          <!-- Radio -->
-          <div
-            class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-200"
-            [style.border-color]="selectedPlan() === plan.id ? plan.color : undefined"
-            [style.background]="selectedPlan() === plan.id ? plan.color : undefined"
-            [class]="selectedPlan() === plan.id ? '' : 'border-black/20 dark:border-white/20'">
-            @if (selectedPlan() === plan.id) {
-            <ion-icon name="checkmark-outline" class="text-white text-[10px]"></ion-icon>
+            @if (plan.savings) {
+              <div class="mt-2">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full text-white leading-none"
+                      [style.background]="plan.color">
+                  {{ plan.savings | t }}
+                </span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- ── Features — what's included ── -->
+      @if (selectedPlan() !== 'free') {
+        <div class="rounded-2xl border border-black/[0.06] dark:border-white/[0.07]
+                    bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm p-5 sm:p-6 mb-8">
+          <p class="text-[11px] font-bold text-[#9CA3AF] dark:text-cream/35 uppercase tracking-widest mb-5">
+            {{ 'sub.whats_included' | t }}
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-3">
+            @for (fk of featureKeys; track fk) {
+              <div class="flex items-center gap-2.5">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                     style="background:rgba(16,185,129,0.1)">
+                  <ion-icon name="checkmark-outline" class="text-[9px] text-emerald-500"></ion-icon>
+                </div>
+                <span class="text-sm text-[#374151] dark:text-cream/75">{{ fk | t }}</span>
+              </div>
             }
           </div>
         </div>
-      </div>
       }
-    </div>
 
-    <!-- ── Features Section ─────────────────────────────────────── -->
-    @if (selectedPlan() !== 'free') {
-    <div class="mx-4 mt-5 rounded-2xl overflow-hidden
-                  border border-black/[0.06] dark:border-white/[0.07]
-                  bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm">
-      <div class="px-4 pt-4 pb-1">
-        <p class="text-[11px] font-bold text-[#6B7280] dark:text-cream/40 uppercase tracking-widest mb-3">
-          {{ 'sub.whats_included' | t }}
-        </p>
-      </div>
-      <div class="px-4 pb-4 grid gap-0">
-        @for (fk of featureKeys; track fk) {
-        <div class="flex items-center gap-2.5 py-1.5">
-          <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 bg-emerald-500/10">
-            <ion-icon name="checkmark-outline" class="text-[9px] text-emerald-500"></ion-icon>
+      @if (selectedPlan() === 'free') {
+        <div class="rounded-2xl border border-black/[0.06] dark:border-white/[0.07]
+                    bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm p-5 sm:p-6 mb-8">
+          <p class="text-[11px] font-bold text-[#9CA3AF] dark:text-cream/35 uppercase tracking-widest mb-5">
+            {{ 'sub.free_includes' | t }}
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-3">
+            @for (fk of ['sub.free.f1', 'sub.free.f2', 'sub.free.f3']; track fk) {
+              <div class="flex items-center gap-2.5">
+                <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                     style="background:rgba(16,185,129,0.1)">
+                  <ion-icon name="checkmark-outline" class="text-[9px] text-emerald-500"></ion-icon>
+                </div>
+                <span class="text-sm text-[#374151] dark:text-cream/75">{{ fk | t }}</span>
+              </div>
+            }
           </div>
-          <span class="text-sm text-[#374151] dark:text-cream/75">{{ fk | t }}</span>
         </div>
+      }
+
+      <!-- ── Error ── -->
+      @if (error()) {
+        <div class="mb-6 px-4 py-3 rounded-xl bg-red-50 dark:bg-red-900/20
+                    border border-red-200/60 dark:border-red-600/25 flex items-start gap-2">
+          <ion-icon name="alert-circle-outline" class="text-red-500 text-base shrink-0 mt-0.5"></ion-icon>
+          <p class="text-sm text-red-600 dark:text-red-400">{{ error() }}</p>
+        </div>
+      }
+
+      <!-- ── CTA Section ── -->
+      <div class="max-w-md mx-auto">
+
+        <!-- Not logged in → sign-in gate -->
+        @if (!isLoggedIn) {
+          <div class="rounded-2xl border border-black/[0.06] dark:border-white/[0.07]
+                      bg-white/80 dark:bg-white/[0.05] backdrop-blur-sm p-5 mb-5">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                   style="background:rgba(232,152,58,0.12)">
+                <ion-icon name="lock-closed-outline" class="text-base" style="color:#E8983A"></ion-icon>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-[#1A1A1A] dark:text-cream">Sign in to subscribe</p>
+                <p class="text-xs text-[#9CA3AF] dark:text-cream/40 leading-snug">Create an account or log in to unlock premium plans</p>
+              </div>
+            </div>
+            <button type="button"
+                    class="w-full py-3.5 rounded-xl text-white font-bold text-sm
+                           flex items-center justify-center gap-2
+                           cursor-pointer transition-opacity active:opacity-80"
+                    style="background:linear-gradient(135deg,#E8983A,#F97316)"
+                    (click)="navigateToLogin()">
+              <ion-icon name="person-outline" class="text-base"></ion-icon>
+              Sign In / Create Account
+            </button>
+          </div>
         }
-      </div>
-    </div>
-    }
 
-    @if (selectedPlan() === 'free') {
-    <div class="mx-4 mt-5 rounded-2xl overflow-hidden
-                  border border-black/[0.06] dark:border-white/[0.07]
-                  bg-white/70 dark:bg-white/[0.04] backdrop-blur-sm">
-      <div class="px-4 pt-4 pb-1">
-        <p class="text-[11px] font-bold text-[#6B7280] dark:text-cream/40 uppercase tracking-widest mb-3">
-          {{ 'sub.free_includes' | t }}
-        </p>
-      </div>
-      <div class="px-4 pb-4 grid gap-0">
-        @for (fk of ['sub.free.f1', 'sub.free.f2', 'sub.free.f3']; track fk) {
-        <div class="flex items-center gap-2.5 py-1.5">
-          <div class="w-4 h-4 rounded-full flex items-center justify-center shrink-0 bg-emerald-500/10">
-            <ion-icon name="checkmark-outline" class="text-[9px] text-emerald-500"></ion-icon>
-          </div>
-          <span class="text-sm text-[#374151] dark:text-cream/75">{{ fk | t }}</span>
-        </div>
+        <!-- Free plan CTA -->
+        @if (isLoggedIn && selectedPlan() === 'free') {
+          <button type="button"
+                  class="w-full py-4 rounded-2xl text-white font-bold text-base
+                         flex items-center justify-center gap-2
+                         cursor-pointer transition-opacity active:opacity-80 mb-4"
+                  style="background:linear-gradient(135deg,#6B7280,#374151)"
+                  (click)="continueWithFree()">
+            {{ 'sub.free.cta' | t }}
+          </button>
         }
-      </div>
-    </div>
-    }
 
-    <!-- ── Error ─────────────────────────────────────────────────── -->
-    @if (error()) {
-    <div class="mx-4 mt-4 px-4 py-3 rounded-xl
-                  bg-red-50 dark:bg-red-900/20
-                  border border-red-200/60 dark:border-red-600/25
-                  flex items-start gap-2">
-      <ion-icon name="alert-circle-outline" class="text-red-500 text-base shrink-0 mt-0.5"></ion-icon>
-      <p class="text-sm text-red-600 dark:text-red-400">{{ error() }}</p>
-    </div>
-    }
+        <!-- Logged in + paid plan → PayPal -->
+        @if (isLoggedIn && selectedPlan() !== 'free') {
+          @if (loading()) {
+            <div class="w-full py-5 rounded-2xl flex items-center justify-center gap-2
+                        bg-black/5 dark:bg-white/5 mb-4">
+              <span class="animate-spin w-4 h-4 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full"></span>
+              <span class="text-sm font-medium text-[#6B7280] dark:text-cream/60">{{ 'sub.processing' | t }}</span>
+            </div>
+          } @else {
+            <div #paypalContainer class="paypal-container max-w-[500px] mx-auto rounded-2xl overflow-hidden mb-4"></div>
+          }
+        }
 
-    <!-- ── CTA ───────────────────────────────────────────────────── -->
-    <div class="px-4 mt-6">
-
-      <!-- NOT logged in → Login gate -->
-      @if (!isLoggedIn) {
-      <div class="rounded-2xl overflow-hidden border border-black/[0.06] dark:border-white/[0.07]
-                    bg-white/80 dark:bg-white/[0.05] backdrop-blur-sm p-4 mb-4">
-        <div class="flex items-center gap-3 mb-3">
-          <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-            style="background: linear-gradient(135deg, #E8983A22, #F9731622)">
-            <ion-icon name="lock-closed-outline" class="text-primary text-lg" style="color:#E8983A"></ion-icon>
-          </div>
-          <div>
-            <p class="text-sm font-semibold text-[#1A1A1A] dark:text-cream">Sign in to subscribe</p>
-            <p class="text-xs text-[#9CA3AF] dark:text-cream/40 leading-snug">Create an account or log in to unlock
-              premium plans</p>
-          </div>
+        <!-- Trust badges -->
+        <div class="flex items-center justify-center gap-5 mt-4 flex-wrap">
+          <span class="flex items-center gap-1.5 text-[11px] text-[#9CA3AF] dark:text-cream/30 font-medium">
+            <ion-icon name="lock-closed-outline" class="text-xs"></ion-icon>
+            Secure via PayPal
+          </span>
+          <span class="text-[11px] text-[#9CA3AF] dark:text-cream/30 font-medium">Cancel anytime</span>
+          <span class="text-[11px] text-[#9CA3AF] dark:text-cream/30 font-medium">Instant access</span>
         </div>
-        <button type="button"
-          class="w-full py-3.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 cursor-pointer transition-opacity duration-200 active:opacity-80"
-          style="background: linear-gradient(135deg, #E8983A, #F97316)" (click)="navigateToLogin()">
-          <ion-icon name="person-outline" class="text-base"></ion-icon>
-          Sign In / Create Account
-        </button>
-      </div>
-      }
 
-      <!-- Logged in, free plan -->
-      @if (isLoggedIn && selectedPlan() === 'free') {
-      <button type="button"
-        class="w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-2 cursor-pointer transition-opacity duration-200 active:opacity-80"
-        style="background: linear-gradient(135deg, #6B7280, #374151)" (click)="continueWithFree()">
-        {{ 'sub.free.cta' | t }}
-      </button>
-      }
+        <p class="text-center text-xs text-[#9CA3AF] dark:text-cream/25 mt-4 leading-relaxed">
+          {{ 'sub.terms_hint' | t }}
+        </p>
 
-      <!-- Logged in, paid plan → PayPal -->
-      @if (isLoggedIn && selectedPlan() !== 'free') {
-      @if (loading()) {
-      <div class="w-full py-4 rounded-2xl flex items-center justify-center gap-2 bg-black/5 dark:bg-white/5">
-        <span class="animate-spin w-4 h-4 border-2 border-[#F97316]/30 border-t-[#F97316] rounded-full"></span>
-        <span class="text-sm font-medium text-[#6B7280] dark:text-cream/60">{{ 'sub.processing' | t }}</span>
       </div>
-      } @else {
-      <div #paypalContainer class="paypal-container max-w-[500px] mx-auto rounded-2xl overflow-hidden"></div>
-      }
-      }
-      <p class="text-center text-xs text-[#9CA3AF] dark:text-cream/30 mt-4 leading-relaxed">
-        {{ 'sub.terms_hint' | t }}
-      </p>
     </div>
-
   </div>
 </ion-content>

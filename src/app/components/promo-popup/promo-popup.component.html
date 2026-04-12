@@ -1,0 +1,111 @@
+@if (promo.isOpen()) {
+
+  <!-- ── Backdrop ── -->
+  <div class="fixed inset-0 z-[9990] bg-black/60 backdrop-blur-sm"
+       (click)="dismiss()"></div>
+
+  <!-- ── Panel ── -->
+  <!-- Mobile: bottom sheet · Desktop: centered modal -->
+  <div class="fixed z-[9991]
+              bottom-0 left-0 right-0
+              md:bottom-auto md:top-1/2 md:left-1/2 md:right-auto
+              md:-translate-x-1/2 md:-translate-y-1/2
+              md:w-[460px]
+              rounded-t-3xl md:rounded-3xl
+              overflow-hidden
+              shadow-[0_-8px_60px_rgba(0,0,0,0.25)] md:shadow-[0_24px_80px_rgba(0,0,0,0.3)]">
+
+    <!-- Gradient accent bar -->
+    <div class="h-1 w-full"
+         style="background: linear-gradient(90deg, #F97316, #FBBF24, #F97316)"></div>
+
+    <!-- Body -->
+    <div class="bg-white dark:bg-[#0F1A12] px-6 pt-6 pb-8 relative">
+
+      <!-- Close -->
+      <button type="button"
+              class="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center
+                     bg-black/6 dark:bg-white/8 text-[#6B7280] dark:text-cream/50
+                     hover:bg-black/10 dark:hover:bg-white/12 transition-colors cursor-pointer"
+              (click)="dismiss()">
+        <ion-icon name="close-outline" class="text-lg"></ion-icon>
+      </button>
+
+      <!-- Icon + headline -->
+      <div class="flex items-start gap-4 mb-5 pr-8">
+        <div class="w-13 h-13 rounded-2xl flex items-center justify-center shrink-0 shadow-lg"
+             style="background: linear-gradient(135deg, #F97316, #C2410C)">
+          <ion-icon name="star-outline" class="text-white text-2xl"></ion-icon>
+        </div>
+        <div>
+          <div class="text-[10px] font-extrabold uppercase tracking-[0.12em] text-primary mb-1">
+            HomeSketch AI Pro
+          </div>
+          <h2 class="text-[1.25rem] font-black text-[#1A1A1A] dark:text-cream leading-snug">
+            Love your result?<br>
+            <span class="font-light text-[#6B7280] dark:text-cream/50">Unlock the full power.</span>
+          </h2>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <p class="text-sm text-[#6B7280] dark:text-cream/55 leading-relaxed mb-5">
+        You just created something amazing. With Pro you get unlimited generations, faster AI, and no watermarks — every single day.
+      </p>
+
+      <!-- Benefits list -->
+      <div class="space-y-2.5 mb-6">
+        @for (b of benefits; track b.text) {
+          <div class="flex items-center gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center shrink-0 bg-emerald-500/12">
+              <ion-icon name="checkmark-outline" class="text-[9px] text-emerald-500"></ion-icon>
+            </div>
+            <span class="text-[13px] text-[#374151] dark:text-cream/75">{{ b.text }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Price teaser -->
+      <div class="rounded-2xl border border-primary/15 px-4 py-3.5 mb-5 flex items-center justify-between"
+           style="background: rgba(249,115,22,0.04)">
+        <div>
+          <div class="text-[11px] font-semibold text-[#6B7280] dark:text-cream/40 mb-0.5">Monthly plan</div>
+          <div class="text-[11px] text-[#9CA3AF] dark:text-cream/30">~$14/mo billed monthly</div>
+        </div>
+        <div class="text-right">
+          <div class="text-[11px] font-semibold text-[#6B7280] dark:text-cream/40 mb-0.5">That's only</div>
+          <div class="flex items-baseline gap-0.5">
+            <span class="text-[1.6rem] font-black text-primary leading-none">$0.47</span>
+            <span class="text-[11px] text-[#9CA3AF] dark:text-cream/40">/day</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primary CTA -->
+      <button type="button"
+              class="w-full py-4 rounded-2xl text-white font-bold text-[15px]
+                     flex items-center justify-center gap-2 mb-3
+                     cursor-pointer transition-all duration-200
+                     hover:scale-[1.02] active:scale-[0.98]
+                     shadow-[0_4px_20px_rgba(249,115,22,0.35)]
+                     hover:shadow-[0_6px_28px_rgba(249,115,22,0.5)]"
+              style="background: linear-gradient(135deg, #F97316, #C2410C)"
+              (click)="goToPricing()">
+        <ion-icon name="star-outline" class="text-lg"></ion-icon>
+        Get Pro Access — from $0.47/day
+        <ion-icon name="arrow-forward-outline" class="text-base"></ion-icon>
+      </button>
+
+      <!-- Secondary -->
+      <button type="button"
+              class="w-full py-2 text-sm font-medium text-[#9CA3AF] dark:text-cream/35
+                     hover:text-[#6B7280] dark:hover:text-cream/55
+                     transition-colors cursor-pointer"
+              (click)="dismiss()">
+        Maybe later
+      </button>
+
+    </div>
+  </div>
+
+}
