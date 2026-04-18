@@ -1,5 +1,5 @@
 <!-- NAV — floating glass pill -->
-<nav id="site-nav" class="fixed top-4 left-4 right-4 z-50">
+<nav id="site-nav" class="sticky top-4 left-4 right-4 z-50">
   <div class="max-w-[1220px] mx-auto">
     <div class="nav-pill flex items-center justify-between gap-6
                 bg-white/90 dark:bg-white/5
@@ -15,7 +15,7 @@
           <img src="assets/icon/icon.png" class="w-full h-full bg-cover rounded-lg " alt="HomeSketch AI logo">
         </span>
         <span class="text-[15px] font-extrabold tracking-tight text-forest dark:text-white">
-          Homesketch <span class="text-primary">AI</span>
+          HomeSketch  <span class="text-primary">AI</span>
         </span>
       </a>
 
@@ -43,9 +43,26 @@
       <!-- Actions -->
       <div class="flex items-center gap-2 shrink-0">
 
+        <!-- Hamburger — mobile only -->
+        <button (click)="toggleMenu()"
+                class="md:hidden w-9 h-9 rounded-xl flex items-center justify-center
+                       bg-forest/6 dark:bg-white/6
+                       border border-forest/10 dark:border-white/10
+                       text-forest/60 dark:text-white/60
+                       hover:text-primary dark:hover:text-primary
+                       hover:border-primary/30 dark:hover:border-primary/30
+                       transition-all duration-200 cursor-pointer"
+                aria-label="Open menu">
+          @if (menuOpen()) {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          } @else {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          }
+        </button>
+
         <!-- Theme toggle -->
         <button (click)="toggleTheme()"
-                class="w-9 h-9 rounded-xl flex items-center justify-center
+                class="hidden md:flex w-9 h-9 rounded-xl items-center justify-center
                        bg-forest/6 dark:bg-white/6
                        border border-forest/10 dark:border-white/10
                        text-forest/60 dark:text-white/60
@@ -73,14 +90,12 @@
         @if (currentUser()) {
           <!-- Logged-in: avatar + Open Studio -->
           <a routerLink="/tabs/home"
-             class="flex items-center gap-2 group
+             class="hidden md:flex items-center gap-2 group
                     bg-forest/6 dark:bg-white/6
                     border border-forest/10 dark:border-white/10
                     hover:border-primary/40 dark:hover:border-primary/40
                     rounded-xl pl-1.5 pr-3.5 py-1.5
                     transition-all duration-200">
-
-            <!-- Avatar or initials -->
             @if (currentUser()?.imageUrl) {
               <img [src]="currentUser()!.imageUrl"
                    class="w-7 h-7 rounded-lg object-cover shrink-0"
@@ -92,7 +107,6 @@
                 {{ (currentUser()?.firstname || currentUser()?.name || currentUser()?.email || '?')[0].toUpperCase() }}
               </span>
             }
-
             <span class="hidden sm:block text-[13px] font-semibold text-forest dark:text-white
                          group-hover:text-primary dark:group-hover:text-primary transition-colors">
               Studio
@@ -108,11 +122,11 @@
         } @else {
           <!-- Guest: Sign in + Start Free -->
           <a routerLink="/auth/login"
-             class="hidden sm:block text-[13px] font-medium text-forest/50 dark:text-white/50 hover:text-forest dark:hover:text-white px-3 py-1.5 transition-colors duration-200">
+             class="hidden md:block text-[13px] font-medium text-forest/50 dark:text-white/50 hover:text-forest dark:hover:text-white px-3 py-1.5 transition-colors duration-200">
             Sign in
           </a>
           <a href="javascript:void(0)" (click)="goToApp()"
-             class="relative overflow-hidden bg-primary text-white text-[13px] font-bold px-4 py-2 rounded-xl transition-all duration-200 shadow-[0_0_16px_rgba(232,152,58,0.35)] hover:shadow-[0_0_28px_rgba(232,152,58,0.6)] hover:scale-[1.03] hover:bg-primary-shade">
+             class="hidden md:block relative overflow-hidden bg-primary text-white text-[13px] font-bold px-4 py-2 rounded-xl transition-all duration-200 shadow-[0_0_16px_rgba(232,152,58,0.35)] hover:shadow-[0_0_28px_rgba(232,152,58,0.6)] hover:scale-[1.03] hover:bg-primary-shade">
             Start Free
           </a>
         }
@@ -120,6 +134,101 @@
     </div>
   </div>
 </nav>
+
+<!-- MOBILE SIDEBAR -->
+@if (menuOpen()) {
+  <div class="fixed inset-0 z-[60] md:hidden" (click)="closeMenu()">
+    <div class="sidebar-backdrop absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+    <div class="sidebar-drawer absolute right-0 top-0 bottom-0 w-[300px] bg-white dark:bg-[#0F1117] shadow-2xl flex flex-col"
+         (click)="$event.stopPropagation()">
+
+      <!-- Header -->
+      <div class="flex items-center justify-between px-5 h-[64px] border-b border-cream-dark dark:border-white/8">
+        <a routerLink="/" (click)="closeMenu()" class="flex items-center gap-2.5">
+          <span class="w-7 h-7 rounded-lg bg-white flex items-center justify-center shadow-[0_0_12px_rgba(232,152,58,0.5)]">
+            <img src="assets/icon/icon.png" class="w-full h-full bg-cover rounded-lg" alt="logo">
+          </span>
+          <span class="text-[15px] font-extrabold tracking-tight text-forest dark:text-white">
+            HomeSketch  <span class="text-primary">AI</span>
+          </span>
+        </a>
+        <button (click)="closeMenu()"
+                class="w-9 h-9 rounded-xl flex items-center justify-center bg-forest/6 dark:bg-white/6 border border-forest/10 dark:border-white/10 text-forest/60 dark:text-white/60 cursor-pointer">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Nav links -->
+      <div class="flex-1 overflow-y-auto px-3 py-5 flex flex-col gap-0.5">
+        <a href="#features" (click)="closeMenu()"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-[15px] font-medium text-forest/70 dark:text-white/60 hover:bg-forest/5 dark:hover:bg-white/5 hover:text-forest dark:hover:text-white transition-all">
+          Features
+        </a>
+        <a href="#styles" (click)="closeMenu()"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-[15px] font-medium text-forest/70 dark:text-white/60 hover:bg-forest/5 dark:hover:bg-white/5 hover:text-forest dark:hover:text-white transition-all">
+          Styles
+        </a>
+        <a href="#how-it-works" (click)="closeMenu()"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-[15px] font-medium text-forest/70 dark:text-white/60 hover:bg-forest/5 dark:hover:bg-white/5 hover:text-forest dark:hover:text-white transition-all">
+          How It Works
+        </a>
+        <a href="#transform" (click)="closeMenu()"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-[15px] font-medium text-forest/70 dark:text-white/60 hover:bg-forest/5 dark:hover:bg-white/5 hover:text-forest dark:hover:text-white transition-all">
+          Gallery
+        </a>
+        <a routerLink="/tabs/subscription" (click)="closeMenu()"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-[15px] font-semibold text-forest dark:text-white hover:bg-forest/5 dark:hover:bg-white/5 transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Pricing
+        </a>
+        <a href="#apps" (click)="closeMenu()"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-[15px] font-medium text-forest/70 dark:text-white/60 hover:bg-forest/5 dark:hover:bg-white/5 hover:text-forest dark:hover:text-white transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          Apps
+        </a>
+
+        <!-- Theme toggle row -->
+        <button (click)="toggleTheme()"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-medium text-forest/60 dark:text-white/50 hover:bg-forest/5 dark:hover:bg-white/5 transition-all w-full text-left cursor-pointer mt-2">
+          @if (isDark()) {
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            Light Mode
+          } @else {
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Dark Mode
+          }
+        </button>
+      </div>
+
+      <!-- Footer actions -->
+      <div class="px-4 pb-8 pt-5 border-t border-cream-dark dark:border-white/8 flex flex-col gap-3">
+        @if (currentUser()) {
+          <a routerLink="/tabs/home" (click)="closeMenu()"
+             class="flex items-center gap-3 bg-forest/6 dark:bg-white/6 border border-forest/10 dark:border-white/10 rounded-xl px-4 py-3 transition-all hover:border-primary/40">
+            @if (currentUser()?.imageUrl) {
+              <img [src]="currentUser()!.imageUrl" class="w-8 h-8 rounded-lg object-cover shrink-0" alt="avatar">
+            } @else {
+              <span class="w-8 h-8 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center text-primary text-[12px] font-black shrink-0">
+                {{ (currentUser()?.firstname || currentUser()?.name || currentUser()?.email || '?')[0].toUpperCase() }}
+              </span>
+            }
+            <span class="text-[14px] font-semibold text-forest dark:text-white">Open Studio</span>
+            <svg class="ml-auto text-forest/30 dark:text-white/30" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        } @else {
+          <a routerLink="/auth/login" (click)="closeMenu()"
+             class="w-full text-center py-3 rounded-xl border border-forest/15 dark:border-white/15 text-[14px] font-medium text-forest/70 dark:text-white/60 hover:bg-forest/5 dark:hover:bg-white/5 transition-all">
+            Sign in
+          </a>
+          <a href="javascript:void(0)" (click)="goToApp(); closeMenu()"
+             class="w-full text-center py-3 rounded-xl bg-primary text-white text-[14px] font-bold shadow-[0_0_16px_rgba(232,152,58,0.35)] hover:bg-primary-shade transition-all">
+            Start Free
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+}
 
 
 <!-- HERO -->
@@ -587,168 +696,143 @@
 </section>
 
 
-<!-- APPS — Download on mobile -->
-<section id="apps" class="py-24 px-4 sm:px-6 bg-cream dark:bg-[#07080E] transition-colors duration-300 overflow-hidden">
+<!-- APPS — Android only -->
+<section id="apps" class="py-24 px-4 sm:px-6 bg-forest dark:bg-[#0A0B12] transition-colors duration-300 overflow-hidden border-t border-white/8 dark:border-white/5">
   <div class="max-w-[1220px] mx-auto">
 
-    <!-- Header -->
-    <div class="text-center mb-14">
-      <div class="inline-flex items-center gap-2
-                  bg-forest/6 dark:bg-white/6
-                  border border-forest/10 dark:border-white/10
-                  text-forest/60 dark:text-white/60
-                  text-[11px] font-semibold tracking-widest uppercase
-                  px-4 py-2 rounded-full mb-6"
-           data-reveal>
-        Mobile App
-      </div>
-      <h2 class="text-[36px] sm:text-[48px] font-extrabold text-forest dark:text-white leading-[1.1] tracking-tight mb-4"
-          data-reveal data-delay="1">
-        Design on the&nbsp;<span class="gradient-text">go</span>
-      </h2>
-      <p class="text-forest/50 dark:text-white/40 text-[16px] leading-relaxed max-w-[440px] mx-auto"
-         data-reveal data-delay="2">
-        Take Homesketch AI anywhere — redesign any room from your phone in seconds.
-      </p>
-    </div>
+    <div class="relative rounded-[32px] overflow-hidden
+                bg-forest-light dark:bg-[#0F1117]
+                border border-white/8 dark:border-white/6">
 
-    <!-- Store cards -->
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-6" data-reveal data-delay="3">
+      <!-- Background glow orbs -->
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/3 translate-x-1/4"></div>
+      <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#01875f]/15 rounded-full blur-[80px] pointer-events-none"></div>
 
-      <!-- App Store -->
-      <div class="group relative flex flex-col items-center gap-5
-                  bg-white/70 dark:bg-white/4
-                  border border-forest/8 dark:border-white/8
-                  backdrop-blur-xl rounded-2xl p-8
-                  hover:border-primary/30 dark:hover:border-primary/30
-                  hover:shadow-[0_8px_32px_rgba(232,152,58,0.12)]
-                  transition-all duration-300 w-full max-w-[280px] cursor-pointer">
-        <!-- Store label -->
-        <div class="absolute -top-3 left-1/2 -translate-x-1/2
-                    bg-forest dark:bg-white text-white dark:text-forest
-                    text-[10px] font-bold tracking-widest uppercase
-                    px-3 py-1 rounded-full whitespace-nowrap">
-          App Store
-        </div>
+      <div class="relative z-10 grid lg:grid-cols-2 gap-0">
 
-        <!-- QR code (replace src with your actual QR image) -->
-        <div class="w-[148px] h-[148px] rounded-xl bg-white border border-forest/10 flex items-center justify-center p-2.5 mt-2">
-          <img src="assets/qrcode_web.png" alt="App Store QR Code"
-               class="w-full h-full object-contain rounded"
-               onerror="this.replaceWith(document.getElementById('qr-apple-fallback').content.cloneNode(true))">
-        </div>
-        <!-- Fallback template -->
-        <template id="qr-apple-fallback">
-          <svg width="120" height="120" viewBox="0 0 80 80" fill="#1B3220">
-            <rect x="4" y="4" width="26" height="26" rx="2"/>
-            <rect x="10" y="10" width="14" height="14" rx="1" fill="white"/>
-            <rect x="14" y="14" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="4" width="26" height="26" rx="2"/>
-            <rect x="56" y="10" width="14" height="14" rx="1" fill="white"/>
-            <rect x="60" y="14" width="6" height="6" rx="0.5"/>
-            <rect x="4" y="50" width="26" height="26" rx="2"/>
-            <rect x="10" y="56" width="14" height="14" rx="1" fill="white"/>
-            <rect x="14" y="60" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="4"  width="6" height="6" rx="0.5"/>
-            <rect x="46" y="4"  width="6" height="6" rx="0.5"/>
-            <rect x="38" y="12" width="6" height="6" rx="0.5"/>
-            <rect x="46" y="20" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="38" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="38" width="6" height="6" rx="0.5"/>
-            <rect x="62" y="38" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="50" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="50" width="6" height="6" rx="0.5"/>
-            <rect x="62" y="62" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="62" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="62" width="6" height="6" rx="0.5"/>
-          </svg>
-        </template>
+        <!-- LEFT: Copy + CTA -->
+        <div class="flex flex-col justify-center px-8 sm:px-12 lg:px-14 py-14 lg:py-16">
 
-        <p class="text-[12px] text-forest/40 dark:text-white/30 font-medium">Scan to download</p>
 
-        <!-- Apple badge button -->
-        <a href="javascript:void(0)"
-           class="flex items-center gap-2.5 w-full
-                  bg-forest dark:bg-white text-white dark:text-forest
-                  rounded-xl px-4 py-3 cursor-pointer
-                  hover:opacity-90 transition-opacity duration-200">
-          <svg width="17" height="20" viewBox="0 0 24 29" fill="currentColor">
-            <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.44 9.05 7.16c1.34.07 2.28.77 3.06.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.3 2.99-2.51 4.23zM12.03 7.1C11.88 4.9 13.67 3.06 15.74 3c.28 2.51-2.27 4.35-3.71 4.1z"/>
-          </svg>
-          <div class="text-left">
-            <div class="text-[10px] font-medium opacity-70 leading-none mb-0.5">Download on the</div>
-            <div class="text-[14px] font-bold leading-none">App Store</div>
+          <h2 class="text-[36px] sm:text-[44px] lg:text-[52px] font-black text-white leading-[1.05] tracking-tight mb-5"
+              data-reveal data-delay="1">
+            Design rooms<br>
+            <span class="gradient-text">on the go</span>
+          </h2>
+
+          <p class="text-white/45 text-[15px] leading-relaxed mb-8 max-w-[380px]"
+             data-reveal data-delay="2">
+            Take HomeSketch AI everywhere. Redesign any room from your Android phone in seconds — no laptop needed.
+          </p>
+
+          <!-- Feature pills -->
+          <div class="flex flex-wrap gap-2 mb-10" data-reveal data-delay="3">
+            @for (feat of [
+              { icon: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z', label: 'Lightning Fast' },
+              { icon: 'M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z', label: 'Any Room' },
+              { icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z', label: 'Secure & Private' },
+              { icon: 'M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z', label: '20+ Styles' }
+            ]; track feat.label) {
+              <span class="inline-flex items-center gap-1.5 bg-white/8 border border-white/10 text-white/65 text-[12px] font-semibold px-3 py-1.5 rounded-full">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path [attr.d]="feat.icon"/></svg>
+                {{ feat.label }}
+              </span>
+            }
           </div>
-        </a>
-      </div>
 
-      <!-- Google Play -->
-      <div class="group relative flex flex-col items-center gap-5
-                  bg-white/70 dark:bg-white/4
-                  border border-forest/8 dark:border-white/8
-                  backdrop-blur-xl rounded-2xl p-8
-                  hover:border-primary/30 dark:hover:border-primary/30
-                  hover:shadow-[0_8px_32px_rgba(232,152,58,0.12)]
-                  transition-all duration-300 w-full max-w-[280px] cursor-pointer">
-        <!-- Store label -->
-        <div class="absolute -top-3 left-1/2 -translate-x-1/2
-                    bg-primary text-white
-                    text-[10px] font-bold tracking-widest uppercase
-                    px-3 py-1 rounded-full whitespace-nowrap">
-          Google Play
-        </div>
-
-        <!-- QR code (replace src with your actual QR image) -->
-        <div class="w-[148px] h-[148px] rounded-xl bg-white border border-forest/10 flex items-center justify-center p-2.5 mt-2">
-          <img src="assets/qr-code-playstore.png" alt="Google Play QR Code"
-               class="w-full h-full object-contain rounded"
-               onerror="this.replaceWith(document.getElementById('qr-play-fallback').content.cloneNode(true))">
-        </div>
-        <!-- Fallback template -->
-        <template id="qr-play-fallback">
-          <svg width="120" height="120" viewBox="0 0 80 80" fill="#1B3220">
-            <rect x="4" y="4" width="26" height="26" rx="2"/>
-            <rect x="10" y="10" width="14" height="14" rx="1" fill="white"/>
-            <rect x="14" y="14" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="4" width="26" height="26" rx="2"/>
-            <rect x="56" y="10" width="14" height="14" rx="1" fill="white"/>
-            <rect x="60" y="14" width="6" height="6" rx="0.5"/>
-            <rect x="4" y="50" width="26" height="26" rx="2"/>
-            <rect x="10" y="56" width="14" height="14" rx="1" fill="white"/>
-            <rect x="14" y="60" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="4"  width="6" height="6" rx="0.5"/>
-            <rect x="46" y="12" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="20" width="6" height="6" rx="0.5"/>
-            <rect x="46" y="4"  width="6" height="6" rx="0.5"/>
-            <rect x="38" y="38" width="6" height="6" rx="0.5"/>
-            <rect x="62" y="38" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="46" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="54" width="6" height="6" rx="0.5"/>
-            <rect x="62" y="54" width="6" height="6" rx="0.5"/>
-            <rect x="50" y="62" width="6" height="6" rx="0.5"/>
-            <rect x="38" y="62" width="6" height="6" rx="0.5"/>
-            <rect x="62" y="46" width="6" height="6" rx="0.5"/>
-          </svg>
-        </template>
-
-        <p class="text-[12px] text-forest/40 dark:text-white/30 font-medium">Scan to download</p>
-
-        <!-- Google Play badge button -->
-        <a href="https://play.google.com/store/apps/details?id=homesketchai.app"
-           class="flex items-center gap-2.5 w-full
-                  bg-forest dark:bg-white text-white dark:text-forest
-                  rounded-xl px-4 py-3 cursor-pointer
-                  hover:opacity-90 transition-opacity duration-200">
-          <svg width="17" height="19" viewBox="0 0 24 27" fill="currentColor">
-            <path d="M1.5.7L13.5 12.5.1 26.4C.04 26.1 0 25.8 0 25.5V1.5C0 1.2.05.94.15.7L1.5.7zm14.6 12.2l3.1 3.1-14.1 8.1L1.5 23.9 16.1 12.9zm5.9 3.4c.7.4 1.4 1 1.4 1.9s-.7 1.5-1.4 1.9l-2.3 1.3-3.3-3.2 3.3-3.3 2.3 1.4zM5.1.7l14.1 8.1-3.1 3.1L1.5 1.1 5.1.7z"/>
-          </svg>
-          <div class="text-left">
-            <div class="text-[10px] font-medium opacity-70 leading-none mb-0.5">Get it on</div>
-            <div class="text-[14px] font-bold leading-none">Google Play</div>
+          <!-- Download button -->
+          <div class="flex flex-col sm:flex-row items-start gap-4" data-reveal data-delay="4">
+            <a href="https://play.google.com/store/apps/details?id=homesketchai.app"
+               target="_blank" rel="noopener"
+               class="group relative inline-flex items-center gap-3
+                      bg-[#01875f] hover:bg-[#017a57]
+                      text-white font-bold text-[15px]
+                      px-6 py-4 rounded-2xl
+                      shadow-[0_0_28px_rgba(1,135,95,0.4)]
+                      hover:shadow-[0_0_44px_rgba(1,135,95,0.6)]
+                      transition-all duration-300 hover:scale-[1.03] overflow-hidden cursor-pointer">
+              <span class="absolute inset-0 btn-shimmer"></span>
+              <img src="assets/playstore-svgrepo-com.svg" alt="" class="relative z-10 shrink-0 w-6 h-6 object-contain brightness-[100] invert">
+              <div class="relative z-10 text-left">
+                <div class="text-[10px] font-medium opacity-75 leading-none mb-0.5">Get it on</div>
+                <div class="text-[16px] font-black leading-none">Google Play</div>
+              </div>
+              <svg class="relative z-10 ml-1 group-hover:translate-x-1 transition-transform duration-200 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
           </div>
-        </a>
-      </div>
 
+          <!-- Social proof -->
+          <div class="flex items-center gap-4 mt-8" data-reveal data-delay="5">
+            <div class="flex gap-0.5">
+              @for (i of [1,2,3,4,5]; track i) {
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#E8983A"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17 5.8 21.3l2.4-7.4L2 9.4h7.6L12 2z"/></svg>
+              }
+            </div>
+            <span class="text-white/35 text-[12px] font-medium">4.8 · 50k+ downloads</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: QR + phone visual -->
+        <div class="flex flex-col items-center justify-center px-8 py-12 lg:py-16 border-t lg:border-t-0 lg:border-l border-white/8">
+
+          <!-- QR card -->
+          <div class="relative" data-reveal data-delay="2">
+            <!-- Glow behind QR -->
+            <div class="absolute inset-0 bg-primary/20 rounded-3xl blur-2xl scale-110 pointer-events-none"></div>
+
+            <div class="relative bg-white/95 dark:bg-white rounded-[24px] p-6 shadow-[0_24px_60px_rgba(0,0,0,0.4)] w-[220px]">
+              <!-- QR image -->
+              <div class="w-full aspect-square rounded-xl overflow-hidden mb-4 bg-white flex items-center justify-center">
+                <img src="assets/qr-code-playstore.png" alt="Scan to download on Google Play"
+                     class="w-full h-full object-contain"
+                     onerror="this.replaceWith(document.getElementById('qr-play-redesign').content.cloneNode(true))">
+              </div>
+              <template id="qr-play-redesign">
+                <svg width="172" height="172" viewBox="0 0 80 80" fill="#1B3220">
+                  <rect x="4" y="4" width="26" height="26" rx="2"/>
+                  <rect x="10" y="10" width="14" height="14" rx="1" fill="white"/>
+                  <rect x="14" y="14" width="6" height="6" rx="0.5"/>
+                  <rect x="50" y="4" width="26" height="26" rx="2"/>
+                  <rect x="56" y="10" width="14" height="14" rx="1" fill="white"/>
+                  <rect x="60" y="14" width="6" height="6" rx="0.5"/>
+                  <rect x="4" y="50" width="26" height="26" rx="2"/>
+                  <rect x="10" y="56" width="14" height="14" rx="1" fill="white"/>
+                  <rect x="14" y="60" width="6" height="6" rx="0.5"/>
+                  <rect x="38" y="4" width="6" height="6" rx="0.5"/>
+                  <rect x="46" y="12" width="6" height="6" rx="0.5"/>
+                  <rect x="38" y="20" width="6" height="6" rx="0.5"/>
+                  <rect x="46" y="4" width="6" height="6" rx="0.5"/>
+                  <rect x="38" y="38" width="6" height="6" rx="0.5"/>
+                  <rect x="62" y="38" width="6" height="6" rx="0.5"/>
+                  <rect x="50" y="46" width="6" height="6" rx="0.5"/>
+                  <rect x="38" y="54" width="6" height="6" rx="0.5"/>
+                  <rect x="62" y="54" width="6" height="6" rx="0.5"/>
+                  <rect x="50" y="62" width="6" height="6" rx="0.5"/>
+                  <rect x="38" y="62" width="6" height="6" rx="0.5"/>
+                  <rect x="62" y="46" width="6" height="6" rx="0.5"/>
+                </svg>
+              </template>
+
+              <!-- Label -->
+              <div class="flex items-center justify-center gap-1.5">
+                <img src="assets/playstore-svgrepo-com.svg" alt="" class="w-3 h-3 object-contain" style="filter: invert(37%) sepia(89%) saturate(429%) hue-rotate(121deg) brightness(88%) contrast(95%)">
+                <span class="text-[11px] font-bold text-forest/70">Scan to download</span>
+              </div>
+            </div>
+
+            <!-- Floating badge -->
+            <div class="absolute -top-3 -right-3 bg-primary text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-[0_4px_20px_rgba(232,152,58,0.5)] whitespace-nowrap">
+              Free
+            </div>
+          </div>
+
+          <!-- Instructions -->
+          <p class="text-white/30 text-[12px] text-center mt-6 max-w-[180px] leading-relaxed">
+            Point your Android camera at the QR code to download instantly
+          </p>
+        </div>
+
+      </div>
     </div>
   </div>
 </section>
@@ -764,7 +848,7 @@
           <span class="w-7 h-7 rounded-lg bg-white flex items-center justify-center shadow-[0_0_12px_rgba(232,152,58,0.4)]">
             <img src="assets/icon/icon.png" class="w-full h-full bg-cover rounded-lg " alt="HomeSketch AI logo">
           </span>
-          <span class="text-[15px] font-extrabold text-white tracking-tight">Homesketch <span class="text-primary">AI</span></span>
+          <span class="text-[15px] font-extrabold text-white tracking-tight">HomeSketch  <span class="text-primary">AI</span></span>
         </div>
         <p class="text-white/30 text-[13px] leading-relaxed max-w-[200px]">AI-powered interior design for everyone. Beautiful homes, in seconds.</p>
         <div class="flex gap-2.5 mt-6">
@@ -832,7 +916,7 @@
 
     </div>
     <div class="pt-8 border-t border-white/8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-white/20 text-[12px]">© 2025 Homesketch AI. All rights reserved.</p>
+      <p class="text-white/20 text-[12px]">© 2025 HomeSketch  AI. All rights reserved.</p>
       <p class="text-white/20 text-[12px]">Available in English · Français · العربية</p>
     </div>
   </div>

@@ -54,6 +54,14 @@ export class LoginPage {
     return null;
   }
 
+  loginWithGoogle(): void {
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    if (returnUrl) {
+      localStorage.setItem('auth_return_url', returnUrl);
+    }
+    this.auth.loginWithGoogle();
+  }
+
   onSubmit(): void {
     this.form.markAllAsTouched();
     if (this.form.invalid || this.isLoading()) return;

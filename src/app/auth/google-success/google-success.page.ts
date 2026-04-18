@@ -47,7 +47,9 @@ export class GoogleSuccessPage implements OnInit {
         // No parent listening (direct navigation) — handle normally
         localStorage.removeItem('google_auth_token');
         await this.auth.handleGoogleToken(token);
-        this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+        const returnUrl = localStorage.getItem('auth_return_url') || '/tabs/home';
+        localStorage.removeItem('auth_return_url');
+        this.router.navigateByUrl(returnUrl, { replaceUrl: true });
       }
     } else {
       this.router.navigateByUrl('/auth/login', { replaceUrl: true });

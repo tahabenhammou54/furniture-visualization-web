@@ -5,6 +5,7 @@ import {
   PLATFORM_ID,
   Inject,
   ChangeDetectionStrategy,
+  ElementRef,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
@@ -45,7 +46,8 @@ import { AuthService } from '../services/auth.service';
       background-size: 200% 100%;
       background-position: -200% center;
     }
-    .btn-glow:hover .btn-shimmer {
+    .btn-glow:hover .btn-shimmer,
+    a:hover .btn-shimmer {
       animation: shimmerBtn 0.55s ease-in-out;
     }
 
@@ -204,6 +206,24 @@ import { AuthService } from '../services/auth.service';
       0%   { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
+    @keyframes sidebarIn {
+      from { transform: translateX(100%); }
+      to   { transform: translateX(0); }
+    }
+    @keyframes backdropIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .sidebar-backdrop { animation: backdropIn 0.22s ease-out both; }
+    .sidebar-drawer   { animation: sidebarIn 0.28s cubic-bezier(0.16,1,0.3,1) both; }
+
+    /* ── FAB ping ──────────────────────────────────── */
+    .fab-ping { animation: fabPing 1.8s cubic-bezier(0,0,0.2,1) infinite; }
+    @keyframes fabPing {
+      0%    { transform: scale(1);   opacity: 0.6; }
+      70%   { transform: scale(1.9); opacity: 0;   }
+      100%  { transform: scale(1.9); opacity: 0;   }
+    }
   `],
 })
 export class LandingPage implements AfterViewInit {
@@ -308,6 +328,20 @@ export class LandingPage implements AfterViewInit {
     'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z M2 9h4v12H2z M4 6a2 2 0 100-4 2 2 0 000 4z',
   ];
 
+  /* ── Mobile menu ────────────────────────────────── */
+  menuOpen = signal(false);
+
+  toggleMenu() {
+    const next = !this.menuOpen();
+    this.menuOpen.set(next);
+    this.el.nativeElement.style.overflow = next ? 'hidden' : '';
+  }
+
+  closeMenu() {
+    this.menuOpen.set(false);
+    this.el.nativeElement.style.overflow = '';
+  }
+
   /* ── App entry loading ──────────────────────────── */
   isLoading = signal(false);
 
@@ -324,6 +358,7 @@ export class LandingPage implements AfterViewInit {
     private router: Router,
     private seo: SeoService,
     public auth: AuthService,
+    private el: ElementRef,
   ) {}
 
   ngAfterViewInit() {
