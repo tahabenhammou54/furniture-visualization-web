@@ -238,6 +238,272 @@
   :host-context(.ion-palette-dark) & { color: #F5EFE0; }
 }
 
+// ── Sketch Mode ─────────────────────────────────────────────
+.sketch-panel { display: flex; flex-direction: column; gap: 12px; }
+
+.sketch-header-row {
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.sketch-info-wrap {
+  position: relative; flex-shrink: 0; display: flex; align-items: center;
+}
+.sketch-info-icon {
+  font-size: 18px; color: #8A8A8A; cursor: pointer;
+  :host-context(.ion-palette-dark) & { color: rgba(245,239,224,0.45); }
+  &:hover { color: var(--ion-color-primary, #E8983A); }
+}
+.sketch-tooltip {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 50;
+  width: 240px; padding: 10px 13px; border-radius: 12px;
+  background: #1A1A1A; color: #F5EFE0;
+  font-size: 12px; line-height: 1.55; font-weight: 400;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  pointer-events: none;
+  :host-context(.ion-palette-dark) & { background: #2A2A2A; border: 1px solid rgba(255,255,255,0.1); }
+  &::before {
+    content: ''; position: absolute; top: -5px; right: 10px;
+    width: 10px; height: 10px; background: #1A1A1A;
+    transform: rotate(45deg); border-radius: 2px;
+    :host-context(.ion-palette-dark) & { background: #2A2A2A; }
+  }
+}
+
+.sketch-strip {
+  display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+  -ms-overflow-style: none; scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+.sketch-add-btn {
+  flex-shrink: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; width: 72px; height: 72px; border-radius: 14px;
+  border: 2px dashed rgba(232,152,58,0.45); background: rgba(232,152,58,0.06);
+  color: var(--ion-color-primary, #E8983A); font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+  ion-icon { font-size: 22px; }
+  &:hover { background: rgba(232,152,58,0.12); border-color: var(--ion-color-primary, #E8983A); }
+}
+.sketch-thumb {
+  position: relative; flex-shrink: 0; width: 72px; height: 72px;
+  border-radius: 12px; overflow: hidden;
+  border: 1.5px solid rgba(0,0,0,0.1); cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s;
+  :host-context(.ion-palette-dark) & { border-color: rgba(255,255,255,0.1); }
+  img { width: 100%; height: 100%; object-fit: cover; }
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    .sketch-thumb-add-badge { opacity: 1; }
+  }
+}
+.sketch-thumb-remove {
+  position: absolute; top: 3px; right: 3px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.5); border-radius: 50%;
+  width: 20px; height: 20px; cursor: pointer; z-index: 2;
+}
+.sketch-thumb-add-badge {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(232,152,58,0.55); color: white; font-size: 22px; font-weight: 700;
+  opacity: 0; transition: opacity 0.15s; pointer-events: none;
+}
+
+.sketch-canvas-wrap { display: flex; flex-direction: column; gap: 6px; }
+
+.sketch-zoom-bar {
+  display: flex; align-items: center; gap: 8px; justify-content: flex-end;
+}
+.sketch-zoom-btn {
+  width: 28px; height: 28px; border-radius: 8px; font-size: 18px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.07); color: #1A1A1A; cursor: pointer;
+  :host-context(.ion-palette-dark) & { background: rgba(255,255,255,0.1); color: #F5EFE0; }
+  &:hover { background: rgba(0,0,0,0.12); }
+}
+.sketch-zoom-label {
+  font-size: 12px; font-weight: 600; color: #8A8A8A; min-width: 36px; text-align: center;
+  :host-context(.ion-palette-dark) & { color: rgba(245,239,224,0.45); }
+}
+
+.sketch-viewport {
+  overflow: hidden; border-radius: 16px;
+  border: 1.5px solid rgba(0,0,0,0.09);
+  :host-context(.ion-palette-dark) & { border-color: rgba(255,255,255,0.1); }
+  aspect-ratio: 4/3;
+}
+
+.sketch-canvas {
+  position: relative; width: 100%; aspect-ratio: 4/3;
+  overflow: hidden; background: #E8E0D4;
+  :host-context(.ion-palette-dark) & { background: #1e2f20; }
+}
+.sketch-bg {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  pointer-events: none; user-select: none;
+}
+.sketch-bg-empty {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+}
+.sketch-bg-upload-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 18px 24px; border-radius: 16px;
+  border: 2px dashed rgba(0,0,0,0.15); background: rgba(255,255,255,0.5);
+  color: #8A8A8A; font-size: 12px; font-weight: 600; cursor: pointer;
+  :host-context(.ion-palette-dark) & { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: rgba(245,239,224,0.5); }
+  &:hover { background: rgba(255,255,255,0.7); }
+}
+.sketch-change-bg-btn {
+  position: absolute; top: 8px; left: 8px; z-index: 10;
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(0,0,0,0.45); color: white; font-size: 11px; font-weight: 600;
+  backdrop-filter: blur(4px); cursor: pointer;
+  &:hover { background: rgba(0,0,0,0.65); }
+}
+
+// ── Sketch Item ───────────────────────────────────────────────
+.sketch-item {
+  position: absolute; user-select: none;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.25));
+  transition: filter 0.18s ease;
+  cursor: grab;
+  &:active { cursor: grabbing; }
+
+  &--active {
+    z-index: 20;
+    .sketch-item-inner {
+      outline: 2px solid var(--ion-color-primary, #E8983A);
+      outline-offset: 1px;
+      border-radius: 2px;
+    }
+  }
+  &--dragging {
+    filter: drop-shadow(0 12px 28px rgba(0,0,0,0.45)) !important;
+    z-index: 100;
+    cursor: grabbing;
+    transition: filter 0.18s ease;
+  }
+}
+
+// Clipped image area — overflow:hidden stays here, controls sit outside
+.sketch-item-inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  img {
+    position: absolute;
+    pointer-events: none;
+    display: block;
+  }
+}
+
+// 2D Rotate handle (top center, above the item)
+.sketch-rotate-handle {
+  position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--ion-color-primary, #E8983A); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; cursor: grab; z-index: 8;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  &:active { cursor: grabbing; }
+  &::after {
+    content: ''; position: absolute; bottom: -8px; left: 50%;
+    transform: translateX(-50%); width: 1px; height: 8px;
+    background: var(--ion-color-primary, #E8983A); opacity: 0.6;
+  }
+}
+
+// Canva-style 4-edge crop handles
+.sketch-crop-handle {
+  position: absolute; z-index: 8;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: white;
+  border: 2.5px solid var(--ion-color-primary, #E8983A);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+  transition: transform 0.1s;
+  &:hover { transform: scale(1.2); }
+  &:active { transform: scale(1.1); }
+
+  &--top    { top: -9px;    left: 50%;  transform: translateX(-50%);  cursor: n-resize;
+              &:hover { transform: translateX(-50%) scale(1.25); } }
+  &--bottom { bottom: -9px; left: 50%;  transform: translateX(-50%);  cursor: s-resize;
+              &:hover { transform: translateX(-50%) scale(1.25); } }
+  &--left   { left: -9px;   top: 50%;   transform: translateY(-50%);  cursor: w-resize;
+              &:hover { transform: translateY(-50%) scale(1.25); } }
+  &--right  { right: -9px;  top: 50%;   transform: translateY(-50%);  cursor: e-resize;
+              &:hover { transform: translateY(-50%) scale(1.25); } }
+}
+
+// 3D Y-Rotation handle (below the item)
+.sketch-roty-handle {
+  position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
+  padding: 3px 10px; border-radius: 8px;
+  background: #6366f1; color: white;
+  font-size: 11px; font-weight: 700; cursor: ew-resize;
+  z-index: 8;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+  white-space: nowrap; user-select: none;
+  &::before {
+    content: ''; position: absolute; top: -6px; left: 50%;
+    transform: translateX(-50%); width: 1px; height: 6px;
+    background: #6366f1; opacity: 0.6;
+  }
+}
+
+.sketch-item-actions {
+  position: absolute; top: -30px; right: -4px;
+  display: flex; gap: 4px; z-index: 9;
+}
+.sketch-item-btn {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; cursor: pointer; font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+  &--del  { background: #ef4444; color: white; }
+  &:active { transform: scale(0.88); }
+}
+
+.sketch-resize-handle {
+  position: absolute; bottom: -7px; right: -7px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: white; border: 2px solid var(--ion-color-primary, #E8983A);
+  cursor: se-resize; z-index: 8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.22);
+}
+
+.sketch-empty-hint {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+  p { font-size: 12px; color: rgba(0,0,0,0.3); text-align: center; padding: 0 24px;
+    :host-context(.ion-palette-dark) & { color: rgba(255,255,255,0.2); } }
+}
+
+.sketch-actions-row {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 4px;
+}
+.sketch-capture-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 11px 20px; border-radius: 14px;
+  background: linear-gradient(135deg, #2D9B6E, #1A5C40);
+  color: white; font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(45,155,110,0.3);
+  ion-icon { font-size: 16px; }
+  &:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+  &:not(:disabled):active { transform: scale(0.97); }
+}
+.sketch-captured-badge {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: #16a34a;
+  ion-icon { font-size: 16px; }
+  :host-context(.ion-palette-dark) & { color: #4ade80; }
+}
+.sketch-redo-btn {
+  padding: 8px 14px; border-radius: 100px;
+  border: 1.5px solid rgba(0,0,0,0.12); background: white;
+  font-size: 12px; font-weight: 600; color: #4A4A4A; cursor: pointer;
+  :host-context(.ion-palette-dark) & { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); color: rgba(245,239,224,0.7); }
+  &:disabled { opacity: 0.4; cursor: not-allowed; }
+  &:not(:disabled):hover { border-color: rgba(0,0,0,0.25); }
+}
+
 // ── Before/After Slider ──────────────────────────────────────
 .result-gallery {
   position: relative; aspect-ratio: 4/3; user-select: none; cursor: col-resize; touch-action: none;

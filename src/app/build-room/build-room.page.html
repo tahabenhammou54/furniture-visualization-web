@@ -68,19 +68,196 @@
               <h2 class="step-section-title">{{ 'build.room_space' | t }}</h2>
               <span class="optional-tag">{{ 'optional' | t }}</span>
             </div>
+
+            <!-- Mode toggle: Presets | Upload | Sketch -->
             <div class="flex justify-end mt-2 mb-3">
               <div class="mode-toggle">
                 <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'gallery'" (click)="setRoomMode('gallery')">{{ 'presets' | t }}</button>
                 <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'upload'" (click)="setRoomMode('upload')">{{ 'upload' | t }}</button>
+                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'sketch'" (click)="setRoomMode('sketch')">{{ 'build.sketch_mode' | t }}</button>
               </div>
             </div>
+
             @if (roomInputMode() === 'upload') {
               <app-photo-picker [label]="'build.upload_room' | t"
                 (imageSelected)="onRoomSelected($event)" (imageRemoved)="onRoomRemoved()" />
-            } @else {
+              <p class="hint-text mt-3">{{ 'build.preset_hint' | t }}</p>
+            } @else if (roomInputMode() === 'gallery') {
               <app-room-gallery [selectedRoomId]="selectedRoomId()" (roomSelected)="onPresetRoomSelected($event)" />
+              <p class="hint-text mt-3">{{ 'build.preset_hint' | t }}</p>
+            } @else {
+
+              <!-- ── Sketch Mode ── -->
+              <div class="sketch-panel">
+
+                <!-- Header row: hint + info tooltip -->
+                <div class="sketch-header-row">
+                  <p class="hint-text flex-1">{{ 'build.sketch_hint' | t }}</p>
+                  <div class="sketch-info-wrap"
+                       (mouseenter)="showSketchTooltip.set(true)"
+                       (mouseleave)="showSketchTooltip.set(false)"
+                       (click)="toggleSketchTooltip()">
+                    <ion-icon name="information-circle-outline" class="sketch-info-icon"></ion-icon>
+                    @if (showSketchTooltip()) {
+                      <div class="sketch-tooltip">{{ 'build.sketch_tip' | t }}</div>
+                    }
+                  </div>
+                </div>
+
+                <!-- Furniture library strip -->
+                <div class="sketch-strip">
+                  <button type="button" class="sketch-add-btn" (click)="triggerSketchFurnitureInput()">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                    <span>{{ 'build.add_furniture' | t }}</span>
+                  </button>
+                  @for (lib of furnitureLibrary(); track lib.id) {
+                    <div class="sketch-thumb" (click)="addToCanvas(lib)" title="Click to add to canvas">
+                      <img [src]="lib.url" draggable="false" />
+                      <button type="button" class="sketch-thumb-remove"
+                              (click)="$event.stopPropagation(); removeFurnitureFromLibrary(lib.id)">
+                        <ion-icon name="close-circle" style="font-size:16px;color:#fff;"></ion-icon>
+                      </button>
+                      <div class="sketch-thumb-add-badge">+</div>
+                    </div>
+                  }
+                </div>
+                <input #sketchFurnitureInput type="file" accept="image/jpeg,image/png,image/webp" multiple style="display:none" (change)="onSketchFurnitureFiles($event)" />
+
+                <!-- Canvas area -->
+                <div class="sketch-canvas-wrap">
+                  <!-- Zoom controls -->
+                  <div class="sketch-zoom-bar">
+                    <button type="button" class="sketch-zoom-btn" (click)="zoomOut()">−</button>
+                    <span class="sketch-zoom-label">{{ sketchZoom() * 100 | number:'1.0-0' }}%</span>
+                    <button type="button" class="sketch-zoom-btn" (click)="zoomIn()">+</button>
+                  </div>
+
+                  <!-- Viewport clips the scaled canvas -->
+                  <div class="sketch-viewport">
+                    <div #sketchContainer class="sketch-canvas"
+                         [style.transform]="'scale(' + sketchZoom() + ')'"
+                         [style.transform-origin]="'top left'"
+                         (mousedown)="activeSketchItemId.set(null)">
+
+                      <!-- Room background -->
+                      @if (sketchBgUrl()) {
+                        <img class="sketch-bg" [src]="sketchBgUrl()" draggable="false" />
+                        <button type="button" class="sketch-change-bg-btn" (click)="triggerSketchBgInput()">
+                          {{ 'build.change_bg' | t }}
+                        </button>
+                      } @else {
+                        <div class="sketch-bg-empty">
+                          <button type="button" class="sketch-bg-upload-btn" (click)="triggerSketchBgInput()">
+                            <ion-icon name="image-outline" class="text-2xl mb-1"></ion-icon>
+                            <span>{{ 'build.add_room_bg' | t }}</span>
+                          </button>
+                        </div>
+                      }
+
+                      <!-- Draggable furniture items -->
+                      @for (item of sketchItems(); track item.id) {
+                        <div class="sketch-item"
+                             [class.sketch-item--active]="activeSketchItemId() === item.id"
+                             [class.sketch-item--dragging]="isDraggingItem() && activeSketchItemId() === item.id"
+                             [style.left.%]="item.x"
+                             [style.top.%]="item.y"
+                             [style.width.%]="item.w"
+                             [style.height.%]="item.h"
+                             [style.transform]="itemTransform(item)"
+                             [style.transform-origin]="'center center'"
+                             (mousedown)="startFurnitureDrag($event, item.id)"
+                             (touchstart)="startFurnitureDrag($event, item.id)">
+
+                          <!-- Clipped image area -->
+                          <div class="sketch-item-inner">
+                            <img [src]="item.url" draggable="false"
+                                 [style.left]="imgLeft(item)"
+                                 [style.top]="imgTop(item)"
+                                 [style.width]="imgWidth(item)"
+                                 [style.height]="imgHeight(item)" />
+                          </div>
+
+                          <!-- Resize handle (always visible, bottom-right) -->
+                          <div class="sketch-resize-handle"
+                               (mousedown)="startFurnitureResize($event, item.id)"
+                               (touchstart)="startFurnitureResize($event, item.id)"></div>
+
+                          <!-- Controls (only when active) -->
+                          @if (activeSketchItemId() === item.id) {
+                            <!-- 2D Rotate handle (top center) -->
+                            <div class="sketch-rotate-handle"
+                                 (mousedown)="startFurnitureRotate($event, item.id)"
+                                 (touchstart)="startFurnitureRotate($event, item.id)">↻</div>
+
+                            <!-- Crop handles (4 edge centers) -->
+                            <div class="sketch-crop-handle sketch-crop-handle--top"
+                                 (mousedown)="startCropHandle($event, item.id, 'top')"
+                                 (touchstart)="startCropHandle($event, item.id, 'top')"></div>
+                            <div class="sketch-crop-handle sketch-crop-handle--bottom"
+                                 (mousedown)="startCropHandle($event, item.id, 'bottom')"
+                                 (touchstart)="startCropHandle($event, item.id, 'bottom')"></div>
+                            <div class="sketch-crop-handle sketch-crop-handle--left"
+                                 (mousedown)="startCropHandle($event, item.id, 'left')"
+                                 (touchstart)="startCropHandle($event, item.id, 'left')"></div>
+                            <div class="sketch-crop-handle sketch-crop-handle--right"
+                                 (mousedown)="startCropHandle($event, item.id, 'right')"
+                                 (touchstart)="startCropHandle($event, item.id, 'right')"></div>
+
+                            <!-- 3D Y-Rotation handle (below item) -->
+                            <div class="sketch-roty-handle"
+                                 (mousedown)="startRotateY($event, item.id)"
+                                 (touchstart)="startRotateY($event, item.id)">⟺ 3D</div>
+
+                            <!-- Delete button (top right) -->
+                            <div class="sketch-item-actions">
+                              <button type="button" class="sketch-item-btn sketch-item-btn--del"
+                                      title="Remove from canvas"
+                                      (mousedown)="$event.stopPropagation()"
+                                      (click)="removeSketchFurniture(item.id)">✕</button>
+                            </div>
+                          }
+                        </div>
+                      }
+
+                      @if (sketchItems().length === 0) {
+                        <div class="sketch-empty-hint">
+                          @if (furnitureLibrary().length === 0) {
+                            <p>{{ 'build.sketch_drop_hint' | t }}</p>
+                          } @else {
+                            <p>Click a furniture item above to place it on the canvas</p>
+                          }
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+                <input #sketchBgInput type="file" accept="image/jpeg,image/png,image/webp" style="display:none" (change)="onSketchBgFile($event)" />
+
+                <!-- Capture / status row -->
+                <div class="sketch-actions-row">
+                  @if (roomFile()) {
+                    <div class="sketch-captured-badge">
+                      <ion-icon name="checkmark-circle-outline"></ion-icon>
+                      <span>{{ 'build.sketch_captured' | t }}</span>
+                    </div>
+                    <button type="button" class="sketch-redo-btn"
+                            [disabled]="sketchItems().length === 0 || isCapturing()"
+                            (click)="captureSketch()">
+                      {{ 'build.redo_sketch' | t }}
+                    </button>
+                  } @else {
+                    <button type="button" class="sketch-capture-btn"
+                            [disabled]="sketchItems().length === 0 || isCapturing()"
+                            (click)="captureSketch()">
+                      <ion-icon name="checkmark-circle-outline"></ion-icon>
+                      {{ isCapturing() ? ('build.capturing' | t) : ('build.use_sketch' | t) }}
+                    </button>
+                  }
+                </div>
+
+              </div>
+              <!-- end sketch mode -->
             }
-            <p class="hint-text mt-3">{{ 'build.preset_hint' | t }}</p>
           </div>
         }
 
