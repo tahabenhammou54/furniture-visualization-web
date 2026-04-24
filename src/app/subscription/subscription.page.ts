@@ -4,11 +4,12 @@ import {
   ElementRef,
   NgZone,
   OnDestroy,
+  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
@@ -24,6 +25,7 @@ import {
   lockClosedOutline,
   personOutline,
   alertCircleOutline,
+  refreshOutline,
 } from 'ionicons/icons';
 import { AuthService } from '../services/auth.service';
 import { TranslatePipe } from '../pipes/translate.pipe';
@@ -46,6 +48,8 @@ export interface PlanConfig {
   gradient: string;
 }
 
+const RECURRING: SubscriptionPlan[] = ['weekly', 'monthly', 'yearly'];
+
 @Component({
   selector: 'app-subscription',
   standalone: true,
@@ -53,7 +57,7 @@ export interface PlanConfig {
   templateUrl: './subscription.page.html',
   styleUrls: ['./subscription.page.scss'],
 })
-export class SubscriptionPage implements AfterViewInit, OnDestroy {
+export class SubscriptionPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('paypalContainer') paypalContainerRef!: ElementRef<HTMLDivElement>;
 
   readonly plans: PlanConfig[] = [
@@ -125,6 +129,8 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
 
   selectedPlan = signal<SubscriptionPlan>('yearly');
   loading = signal(false);
+  activating = signal(false);
+  activated = signal(false);
   error = signal<string | null>(null);
 
   private paypalButtons: any = null;
@@ -134,6 +140,7 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     public auth: AuthService,
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
     private ngZone: NgZone,
   ) {
     addIcons({
@@ -147,11 +154,26 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
       lockClosedOutline,
       personOutline,
       alertCircleOutline,
+      refreshOutline,
     });
   }
 
+  ngOnInit(): void {
+    const params = this.route.snapshot.queryParamMap;
+    if (params.get('activated') === 'true') {
+      const subscriptionId = params.get('subscription_id');
+      const plan = params.get('plan') as SubscriptionPlan;
+      if (subscriptionId && plan) {
+        this.handleActivation(subscriptionId, plan);
+      }
+    }
+  }
+
   ngAfterViewInit(): void {
-    this.loadPayPalScript().then(() => this.renderPayPalButtons());
+    // Only load PayPal SDK for lifetime (one-time payment)
+    if (this.selectedPlan() === 'lifetime') {
+      this.loadPayPalScript().then(() => this.renderPayPalButtons());
+    }
   }
 
   ngOnDestroy(): void {
@@ -167,6 +189,10 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     return sub && sub !== 'free';
   }
 
+  get isRecurringPlan(): boolean {
+    return RECURRING.includes(this.selectedPlan() as any);
+  }
+
   navigateToLogin(): void {
     this.router.navigate(['/auth/login'], {
       queryParams: { returnUrl: '/tabs/subscription' },
@@ -176,8 +202,16 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
   select(plan: SubscriptionPlan): void {
     this.selectedPlan.set(plan);
     this.error.set(null);
-    if (this.paypalScriptLoaded) {
-      this.renderPayPalButtons();
+
+    if (plan === 'lifetime') {
+      if (this.paypalScriptLoaded) {
+        // Defer to let Angular render the container first
+        setTimeout(() => this.renderPayPalButtons(), 0);
+      } else {
+        this.loadPayPalScript().then(() => this.renderPayPalButtons());
+      }
+    } else {
+      this.destroyPayPalButtons();
     }
   }
 
@@ -191,9 +225,51 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
     }
   }
 
-  // Called for the free plan only
   continueWithFree(): void {
     this.close();
+  }
+
+  // Redirect flow for weekly / monthly / yearly
+  async subscribeWithPayPal(): Promise<void> {
+    const plan = this.selectedPlan() as SubscriptionPlan;
+    if (!RECURRING.includes(plan as any)) return;
+
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      const res = await firstValueFrom(
+        this.http.post<{ subscriptionId: string; approvalUrl: string }>(
+          `${environment.apiUrl}/subscription/create-subscription`,
+          { plan },
+        ),
+      );
+      window.location.href = res.approvalUrl;
+    } catch (err: any) {
+      this.error.set(err?.error?.message || 'Failed to initiate subscription. Please try again.');
+      this.loading.set(false);
+    }
+  }
+
+  // Called when PayPal redirects back with ?activated=true&subscription_id=...
+  private async handleActivation(subscriptionId: string, plan: SubscriptionPlan): Promise<void> {
+    this.activating.set(true);
+    this.selectedPlan.set(plan);
+    try {
+      await firstValueFrom(
+        this.http.post(
+          `${environment.apiUrl}/subscription/activate-subscription`,
+          { subscriptionId, plan },
+        ),
+      );
+      await this.auth.refreshUser();
+      this.activated.set(true);
+      // Strip query params from URL without navigating away
+      this.router.navigate([], { queryParams: {}, replaceUrl: true });
+    } catch (err: any) {
+      this.error.set(err?.error?.message || 'Failed to activate subscription. Please contact support.');
+    } finally {
+      this.activating.set(false);
+    }
   }
 
   private async loadPayPalScript(): Promise<void> {
@@ -226,24 +302,19 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
       } catch (_) {}
       this.paypalButtons = null;
     }
+    if (this.paypalContainerRef?.nativeElement) {
+      this.paypalContainerRef.nativeElement.innerHTML = '';
+    }
   }
 
   private renderPayPalButtons(): void {
     const plan = this.selectedPlan();
-
-    // For free plan, no PayPal buttons needed
-    if (plan === 'free') {
-      this.destroyPayPalButtons();
-      return;
-    }
+    if (plan !== 'lifetime') return;
 
     const paypal = (window as any)['paypal'];
     if (!paypal || !this.paypalContainerRef?.nativeElement) return;
 
     this.destroyPayPalButtons();
-
-    // Clear container before re-render
-    this.paypalContainerRef.nativeElement.innerHTML = '';
 
     this.paypalButtons = paypal.Buttons({
       style: {
@@ -273,11 +344,9 @@ export class SubscriptionPage implements AfterViewInit, OnDestroy {
               ),
             );
             await this.auth.refreshUser();
-            this.router.navigate(['/tabs/home'], { replaceUrl: true });
+            this.activated.set(true);
           } catch (err: any) {
-            this.error.set(
-              err?.error?.message || 'Payment failed. Please try again.',
-            );
+            this.error.set(err?.error?.message || 'Payment failed. Please try again.');
           } finally {
             this.loading.set(false);
           }
