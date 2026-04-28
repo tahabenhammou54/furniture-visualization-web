@@ -21,7 +21,7 @@ import { AuthService } from '../services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'ion-page' },
   styles: [`
-    :host { display: block; overflow-y: auto; }
+    :host { display: block; overflow-y: auto; contain: none; }
 
     /* ── Gradient text ─────────────────────────────── */
     .gradient-text {
