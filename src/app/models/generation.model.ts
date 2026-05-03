@@ -30,6 +30,7 @@ export interface BuildRoomApiRequest {
   autoComplete: boolean;
   prompt?: string;
   userId: string;
+  fromSketch?: boolean;
 }
 
 export interface GenerateResponse {

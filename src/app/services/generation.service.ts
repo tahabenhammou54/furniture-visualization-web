@@ -52,6 +52,7 @@ export class GenerationService {
     fd.append('autoComplete', String(req.autoComplete));
     if (req.roomImage) fd.append('room', req.roomImage);
     if (req.prompt) fd.append('prompt', req.prompt);
+    if (req.fromSketch) fd.append('fromSketch', 'true');
     req.furnitureItems.forEach((file) => fd.append('furnitureItems', file));
     return this.http.post<GenerateResponse>(`${this.apiUrl}/visualize/build-room`, fd).pipe(this.refreshCredits());
   }

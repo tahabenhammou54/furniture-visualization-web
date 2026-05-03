@@ -23,7 +23,7 @@ import { AuthService } from '../services/auth.service';
 import { AuthModalService } from '../services/auth-modal.service';
 import { ToastService } from '../services/toast.service';
 import { GenerateResponse, PresetRoom, BuildRoomApiRequest } from '../models/generation.model';
-import { RoomStyle, RoomType, ROOM_TYPE_OPTIONS, SelectedFurnitureItem, COLOR_PALETTES } from '../models/build-room.model';
+import { RoomStyle, RoomType, ROOM_TYPE_OPTIONS, ROOM_STYLES, SelectedFurnitureItem, COLOR_PALETTES } from '../models/build-room.model';
 import { PhotoPickerComponent } from '../components/photo-picker/photo-picker.component';
 import { RoomGalleryComponent } from '../components/room-gallery/room-gallery.component';
 import { StyleSelectorComponent } from '../components/style-selector/style-selector.component';
@@ -584,6 +584,13 @@ if (side === 'right') {
           res();
         }, 'image/jpeg', 0.92);
       });
+
+      // Set required-field defaults so generation can proceed without manual wizard steps
+      if (!this.selectedRoomType()) this.selectedRoomType.set('living');
+      if (!this.selectedStyle()) this.selectedStyle.set(ROOM_STYLES[0]);
+
+      // Skip remaining steps — jump straight to result and generate
+      this.onGenerateAndAdvance();
     } finally {
       this.isCapturing.set(false);
     }
@@ -622,6 +629,7 @@ if (side === 'right') {
     const style = this.selectedStyle()!;
     const roomType = this.selectedRoomType()!;
     const items = this.furnitureItems();
+    const isSketch = this.roomInputMode() === 'sketch';
 
     this.isGenerating.set(true);
     this.generationResult.set(null);
@@ -633,6 +641,13 @@ if (side === 'right') {
           return new File([c], item.file.name, { type: c.type });
         })
       );
+
+      const palettePrompt = this._buildColorPalettePrompt();
+      const sketchPrompt = isSketch
+        ? 'IMPORTANT: This image is a room layout sketch created by the user — it contains furniture items manually placed on top of a room background. Detect all furniture pieces visible in the scene and integrate them naturally into the redesigned interior at their approximate positions. Respect the spatial arrangement and placement the user has composed. Do not remove or reposition the furniture items significantly.'
+        : undefined;
+      const combinedPrompt = [sketchPrompt, palettePrompt].filter(Boolean).join(' ') || undefined;
+
       const req: BuildRoomApiRequest = {
         roomImage: this.roomFile() ?? undefined,
         furnitureItems: furnitureFiles,
@@ -641,8 +656,9 @@ if (side === 'right') {
         styleName: style.name,
         stylePrompt: style.prompt,
         autoComplete: this.autoComplete(),
-        prompt: this._buildColorPalettePrompt(),
+        prompt: combinedPrompt,
         userId: this.auth.currentUser?._id || 'anonymous',
+        fromSketch: isSketch || undefined,
       };
       this.generation.buildRoom(req).subscribe({
         next: (res) => {
