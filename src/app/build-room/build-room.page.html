@@ -70,13 +70,22 @@
             </div>
 
             <!-- Mode toggle: Presets | Upload | Sketch -->
-            <div class="flex justify-end mt-2 mb-3">
-              <div class="mode-toggle">
-                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'gallery'" (click)="setRoomMode('gallery')">{{ 'presets' | t }}</button>
-                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'upload'" (click)="setRoomMode('upload')">{{ 'upload' | t }}</button>
-                <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'sketch'" (click)="setRoomMode('sketch')">{{ 'build.sketch_mode' | t }}</button>
-              </div>
-            </div>
+<div class="flex justify-end mt-2 mb-3">
+  <div class="mode-toggle">
+    <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'gallery'" (click)="setRoomMode('gallery')">
+      {{ 'presets' | t }}
+    </button>
+    
+    <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'upload'" (click)="setRoomMode('upload')">
+      {{ 'upload' | t }}
+    </button>
+    
+    <button type="button" class="mode-btn" [class.mode-btn--active]="roomInputMode() === 'sketch'" (click)="setRoomMode('sketch')">
+      {{ 'build.sketch_mode' | t }} 
+      <span class="text-[10px] opacity-70 ml-1 font-normal tracking-wide">NEW</span>
+    </button>
+  </div>
+</div>
 
             @if (roomInputMode() === 'upload') {
               <app-photo-picker [label]="'build.upload_room' | t"
@@ -91,7 +100,7 @@
               <div class="sketch-panel">
 
                 <!-- Header row: hint + info tooltip -->
-                <div class="sketch-header-row">
+                <div class="sketch-header-row w-fit">
                   <p class="hint-text flex-1">{{ 'build.sketch_hint' | t }}</p>
                   <div class="sketch-info-wrap"
                        (mouseenter)="showSketchTooltip.set(true)"
@@ -121,7 +130,11 @@
                     </div>
                   }
                 </div>
-                <input #sketchFurnitureInput type="file" accept="image/jpeg,image/png,image/webp" multiple style="display:none" (change)="onSketchFurnitureFiles($event)" />
+                <!-- Off-screen picker — triggered programmatically via triggerSketchFurnitureInput() -->
+                <div class="sketch-picker-host">
+                  <app-photo-picker #sketchFurniturePicker [multiple]="true"
+                    (imageSelected)="onFurnitureFromPicker($event)"></app-photo-picker>
+                </div>
 
                 <!-- Canvas area -->
                 <div class="sketch-canvas-wrap">
@@ -219,7 +232,7 @@
                         </div>
                       }
 
-                      @if (sketchItems().length === 0) {
+                      <!-- @if (sketchItems().length === 0) {
                         <div class="sketch-empty-hint">
                           @if (furnitureLibrary().length === 0) {
                             <p>{{ 'build.sketch_drop_hint' | t }}</p>
@@ -227,11 +240,15 @@
                             <p>Click a furniture item above to place it on the canvas</p>
                           }
                         </div>
-                      }
+                      } -->
                     </div>
                   </div>
                 </div>
-                <input #sketchBgInput type="file" accept="image/jpeg,image/png,image/webp" style="display:none" (change)="onSketchBgFile($event)" />
+                <!-- Off-screen picker for room background -->
+                <div class="sketch-picker-host">
+                  <app-photo-picker #sketchBgPicker
+                    (imageSelected)="onSketchBgFromPicker($event)"></app-photo-picker>
+                </div>
 
                 <!-- Capture / status row -->
                 <div class="sketch-actions-row">

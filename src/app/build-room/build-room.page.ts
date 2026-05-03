@@ -76,8 +76,8 @@ interface SketchItem {
 export class BuildRoomPage {
   @ViewChild(IonContent, { static: false }) private content!: IonContent;
   @ViewChild('sketchContainer') private sketchContainerRef!: ElementRef<HTMLDivElement>;
-  @ViewChild('sketchFurnitureInput') private sketchFurnitureInputRef!: ElementRef<HTMLInputElement>;
-  @ViewChild('sketchBgInput') private sketchBgInputRef!: ElementRef<HTMLInputElement>;
+  @ViewChild('sketchBgPicker') private sketchBgPickerRef!: PhotoPickerComponent;
+  @ViewChild('sketchFurniturePicker') private sketchFurniturePickerRef!: PhotoPickerComponent;
 
   readonly roomTypeOptions = ROOM_TYPE_OPTIONS;
 
@@ -228,27 +228,18 @@ export class BuildRoomPage {
   onRoomRemoved(): void { this.roomFile.set(null); }
 
   // ── Sketch helpers ───────────────────────────────────────
-  triggerSketchFurnitureInput(): void { this.sketchFurnitureInputRef?.nativeElement.click(); }
-  triggerSketchBgInput(): void        { this.sketchBgInputRef?.nativeElement.click(); }
+  triggerSketchFurnitureInput(): void { this.sketchFurniturePickerRef?.openModal(); }
+  triggerSketchBgInput(): void        { this.sketchBgPickerRef?.openModal(); }
   toggleSketchTooltip(): void         { this.showSketchTooltip.update(v => !v); }
 
-  onSketchBgFile(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (!file) return;
+  onSketchBgFromPicker(file: File): void {
     this.sketchBgFile.set(file);
-    input.value = '';
   }
 
-  onSketchFurnitureFiles(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const files = Array.from(input.files || []);
-    input.value = '';
-    for (const file of files) {
-      const url = URL.createObjectURL(file);
-      const id = Date.now().toString(36) + Math.random().toString(36).slice(2);
-      this.furnitureLibrary.update(items => [...items, { id, file, url }]);
-    }
+  onFurnitureFromPicker(file: File): void {
+    const url = URL.createObjectURL(file);
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2);
+    this.furnitureLibrary.update(items => [...items, { id, file, url }]);
   }
 
   async addToCanvas(libItem: FurnitureLibraryItem): Promise<void> {
