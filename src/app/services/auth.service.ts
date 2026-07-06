@@ -20,12 +20,12 @@ export class AuthService {
   readonly dailyGenerationCount = signal<number>(0);
 
   private static readonly DAILY_LIMITS: Record<string, number> = {
-    free: 2, weekly: 10, monthly: 10, yearly: 10, lifetime: 10,
+    free: 1, weekly: 10, monthly: 10, yearly: 10, lifetime: 10,
   };
 
   readonly dailyLimit = computed(() => {
     const plan = this.currentUser?.subscription || 'free';
-    return AuthService.DAILY_LIMITS[plan] ?? 2;
+    return AuthService.DAILY_LIMITS[plan] ?? 1;
   });
 
   readonly isPro = computed(() => {
